@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10072f">
+  <meta name="description" content="Play Let's Talk — meaningful questions and activities for friends, couples and families.">
+  <title>Gameplay — Let's Talk</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/gameplay.css">
+</head>
+<body class="page page-gameplay page-universe">
+  <!-- CINEMATIC INTRO -->
+  <section class="cinematic-intro" id="cinematic-intro"
+           aria-hidden="true" hidden>
+
+    <div class="intro-atmosphere"></div>
+    <div class="intro-grid"></div>
+    <div class="intro-orb intro-orb-one"></div>
+    <div class="intro-orb intro-orb-two"></div>
+
+    <div class="intro-phone" aria-hidden="true">
+      <div class="phone-speaker"></div>
+      <div class="phone-screen"><span>✦</span></div>
+      <div class="phone-home"></div>
+    </div>
+
+    <div class="intro-copy">
+      <span class="intro-kicker">A MOMENT TO RECONNECT</span>
+      <h1>
+        <span>DROP YOUR PHONE.</span>
+        <span class="intro-gradient">LET'S PLAY.</span>
+      </h1>
+      <p>Less scrolling. More talking.</p>
+    </div>
+
+    <div class="intro-portal" aria-hidden="true">
+      <div class="portal-ring portal-ring-a"></div>
+      <div class="portal-ring portal-ring-b"></div>
+      <div class="portal-ring portal-ring-c"></div>
+      <div class="portal-core"></div>
+      <div class="portal-energy"></div>
+      <span class="portal-symbol">✦</span>
+    </div>
+
+    <div class="intro-energy-lines" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="intro-ready-message" aria-hidden="true">
+      <span>YOUR FIRST</span>
+      <strong>CONVERSATION</strong>
+      <span>STARTS NOW</span>
+    </div>
+
+    <div class="intro-transition-sweep" aria-hidden="true"></div>
+    <div class="intro-particles" id="intro-particles" aria-hidden="true"></div>
+
+    <button class="intro-skip" id="skip-intro-btn" type="button">
+      Skip intro <span aria-hidden="true">→</span>
+    </button>
+  </section>
+
+  <main class="universe-main" id="game-main">
+    <header class="universe-hud">
+      <button class="universe-exit" id="exit-game-btn" type="button" aria-label="Exit game">← <span>Exit</span></button>
+      <div class="hud-brand"><img src="assets/images/lets-talk-logo.png" alt="" /><span>LET'S TALK</span></div>
+      <div class="hud-meta">
+        <span class="topic-pill" id="mode-topic"><span id="mode-topic-icon">♟</span><b>Friends</b></span>
+        <div class="hud-progress" aria-label="Session progress">
+          <span class="hud-progress-label" id="progress-status-left">0 / 10</span>
+          <span class="hud-progress-track" id="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-bar-fill"></i></span>
+          <span class="hud-progress-count" id="progress-status-right">0%</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="turn-strip" aria-label="Current turn">
+      <div class="turn-current">
+        <span class="turn-avatar" aria-hidden="true">✦</span>
+        <div><small>CURRENT TURN</small><strong id="current-player-name">Everyone</strong></div>
+      </div>
+      <span class="turn-hint" id="turn-hint">One device · Everyone plays together</span>
+      <div class="turn-mascot" aria-hidden="true"><img src="assets/images/lets-talk-logo.png" alt=""></div>
+    </section>
+
+    <section class="universe-stage" id="game-stage" aria-live="polite" aria-atomic="true">
+      <canvas class="universe-particles" id="stage-particles" aria-hidden="true"></canvas>
+      <div class="universe-nebula nebula-one"></div><div class="universe-nebula nebula-two"></div>
+      <div class="universe-orbit orbit-one"></div><div class="universe-orbit orbit-two"></div><div class="universe-orbit orbit-three"></div>
+      <div class="universe-core" aria-hidden="true"><span>✦</span></div>
+
+      <!-- Ambient side details: decorative only, no new gameplay mechanics. -->
+      <div class="universe-side-art side-art-left" aria-hidden="true">
+        <span class="side-art-orbit"></span>
+        <span class="side-art-spark spark-one">✦</span>
+        <span class="side-art-spark spark-two">✧</span>
+        <div class="ambient-glass-note note-friends">
+          <span class="ambient-note-icon">♡</span>
+          <span class="ambient-note-copy"><b>GOOD TIMES</b><small>Shared stories</small></span>
+        </div>
+        <div class="ambient-glass-note note-question">
+          <span class="ambient-note-icon">☷</span>
+          <span class="ambient-note-copy"><b>ONE QUESTION</b><small>Many memories</small></span>
+        </div>
+      </div>
+
+      <div class="universe-side-art side-art-right" aria-hidden="true">
+        <span class="side-art-orbit"></span>
+        <span class="side-art-spark spark-one">✧</span>
+        <span class="side-art-spark spark-two">✦</span>
+        <div class="ambient-glass-note note-family">
+          <span class="ambient-note-icon">⌂</span>
+          <span class="ambient-note-copy"><b>FAMILY MOMENTS</b><small>Closer together</small></span>
+        </div>
+        <div class="ambient-glass-note note-heart">
+          <span class="ambient-note-icon">✧</span>
+          <span class="ambient-note-copy"><b>STAY CURIOUS</b><small>Keep talking</small></span>
+        </div>
+      </div>
+
+      <section class="theater-state state-idle" id="state-idle">
+        <p class="state-eyebrow">THE CONVERSATION UNIVERSE</p>
+        <h1>Ready to Connect?</h1>
+        <p class="state-description">Summon an activity from the cosmos and let the conversation flow.</p>
+        <button class="btn btn-primary universe-primary" id="start-turn-btn" type="button">✦ <span>START TURN</span></button>
+      </section>
+
+      <section class="theater-state state-reveal" id="state-reveal" hidden>
+        <p class="state-eyebrow">THE UNIVERSE IS CHOOSING</p>
+        <h2 id="reveal-title">Your next activity is...</h2>
+        <p class="state-description" id="reveal-description">Watch the stars align.</p>
+        <div class="activity-roulette" id="activity-roulette" aria-live="off">
+          <div class="roulette-item" data-roulette="question"><span>☷</span><b>Question Zone</b></div>
+          <div class="roulette-item" data-roulette="fate"><span>◉</span><b>Pick Your Fate</b></div>
+          <div class="roulette-item" data-roulette="event"><span>✧</span><b>Random Event</b></div>
+          <div class="roulette-item" data-roulette="hotseat"><span>◎</span><b>Hot Seat</b></div>
+        </div>
+        <div class="roulette-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+      </section>
+
+      <section class="theater-state activity-view" id="state-activity" hidden>
+        <div class="activity-heading">
+          <span class="activity-kicker" id="activity-kicker">QUESTION ZONE</span>
+          <span class="activity-round" id="activity-round">TURN 1 / 10</span>
+        </div>
+        <div class="activity-content" id="activity-content"></div>
+        <div class="activity-actions" id="activity-actions"></div>
+      </section>
+
+      <section class="theater-state fate-view" id="state-fate" hidden>
+        <div class="activity-heading"><span class="activity-kicker">PICK YOUR FATE</span><span class="activity-round">CHOOSE YOUR EXPERIENCE</span></div>
+        <h2 class="fate-title">Which path will you take?</h2>
+        <p class="state-description">Choose your next experience.</p>
+        <div class="fate-portals">
+          <button class="fate-portal truth-portal" data-fate="truth" type="button"><span class="portal-icon">♡</span><b>TRUTH</b><small>Answer honestly</small></button>
+          <button class="fate-portal challenge-portal" data-fate="challenge" type="button"><span class="portal-icon">♨</span><b>CHALLENGE</b><small>Take on a challenge</small></button>
+          <button class="fate-portal mystery-portal" data-fate="mystery" type="button"><span class="portal-icon">✧</span><b>MYSTERY</b><small>Let fate decide</small></button>
+        </div>
+        <div class="activity-actions"><button class="btn btn-ghost" id="fate-skip-btn" type="button">Skip activity</button></div>
+      </section>
+    </section>
+
+    
+<!-- UNIVERSE FOOTER -->
+<section class="universe-footer">
+
+  <div class="footer-guidance">
+    <div class="footer-guide-icon" aria-hidden="true">
+      <span>✦</span>
+    </div>
+
+    <div class="footer-guide-copy">
+      <strong>Explore the Universe</strong>
+      <span>Learn about the four activities before playing.</span>
+    </div>
+
+    <button
+      class="how-to-play-btn"
+      id="open-rules-btn"
+      type="button"
+      aria-haspopup="dialog"
+      aria-controls="rules-modal"
+    >
+      <span>HOW TO PLAY</span>
+      <span class="guide-arrow" aria-hidden="true">↗</span>
+    </button>
+  </div>
+
+  <div class="session-controls">
+    <button class="btn btn-ghost" id="end-game-btn" type="button">
+      End Game
+    </button>
+  </div>
+
+  <p class="game-feedback" id="game-feedback" aria-live="polite"></p>
+
+</section>
+
+<!-- =====================================================
+     HOW TO PLAY — ACTIVITY GUIDE
+===================================================== -->
+
+<div class="modal-backdrop rules-backdrop" id="rules-modal" hidden>
+
+  <section
+    class="rules-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="rules-title"
+    aria-describedby="rules-description"
+  >
+
+    <!-- HEADER -->
+
+    <header class="rules-header">
+
+      <div class="rules-heading">
+        <span class="rules-eyebrow">
+          YOUR GUIDE TO THE UNIVERSE
+        </span>
+
+        <h2 id="rules-title">How to Play</h2>
+
+        <p id="rules-description">
+          Four activities. One shared device. Endless conversations.
+        </p>
+      </div>
+
+      <button
+        class="rules-close"
+        id="close-rules-btn"
+        type="button"
+        aria-label="Close instructions"
+      >
+        ×
+      </button>
+
+    </header>
+
+    <!-- GENERAL GAMEPLAY FLOW -->
+
+    <section class="rules-flow" aria-label="Gameplay steps">
+
+      <article class="rules-step">
+        <span class="rules-number">01</span>
+
+        <div>
+          <h3>Start a Turn</h3>
+          <p>
+            Press Start Turn to summon a random activity from the Universe.
+          </p>
+        </div>
+      </article>
+
+      <article class="rules-step">
+        <span class="rules-number">02</span>
+
+        <div>
+          <h3>Play Together</h3>
+          <p>
+            Follow the instructions and enjoy the activity face-to-face.
+          </p>
+        </div>
+      </article>
+
+      <article class="rules-step">
+        <span class="rules-number">03</span>
+
+        <div>
+          <h3>Complete or Skip</h3>
+          <p>
+            Complete the activity or skip it to move to the next turn.
+          </p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- SECTION DIVIDER -->
+
+    <div class="rules-divider">
+      <span></span>
+      <p>DISCOVER THE FOUR ACTIVITIES</p>
+      <span></span>
+    </div>
+
+    <!-- ACTIVITY RULES -->
+
+    <section class="rules-grid">
+
+      <!-- QUESTION ZONE -->
+
+      <article class="rule-card rule-question">
+
+        <div class="rule-icon">☷</div>
+
+        <div class="rule-content">
+
+          <div class="rule-title-row">
+            <h3>Question Zone</h3>
+            <span>QUESTIONS</span>
+          </div>
+
+          <p>
+            Discover a question and share your thoughts, memories,
+            and experiences with the group.
+          </p>
+
+          <ul>
+            <li>One question appears at a time.</li>
+            <li>Use Next Question to reveal another unused question.</li>
+            <li>Complete when the conversation is finished.</li>
+          </ul>
+
+        </div>
+      </article>
+
+      <!-- PICK YOUR FATE -->
+
+      <article class="rule-card rule-fate">
+
+        <div class="rule-icon">◉</div>
+
+        <div class="rule-content">
+
+          <div class="rule-title-row">
+            <h3>Pick Your Fate</h3>
+            <span>CHOICES</span>
+          </div>
+
+          <p>
+            Choose a portal and discover your next experience.
+          </p>
+
+          <ul>
+            <li><b>Truth:</b> Answer an honest question.</li>
+            <li><b>Challenge:</b> Complete a fun challenge.</li>
+            <li><b>Mystery:</b> Let the system choose Truth or Challenge.</li>
+          </ul>
+
+        </div>
+      </article>
+
+      <!-- HOT SEAT -->
+
+      <article class="rule-card rule-hotseat">
+
+        <div class="rule-icon">◎</div>
+
+        <div class="rule-content">
+
+          <div class="rule-title-row">
+            <h3>Hot Seat</h3>
+            <span>SPOTLIGHT</span>
+          </div>
+
+          <p>
+            One person takes the spotlight while everyone else
+            asks questions.
+          </p>
+
+          <ul>
+            <li>Choose someone to take the Hot Seat.</li>
+            <li>Take turns asking questions.</li>
+            <li>The selected person may pass on any question.</li>
+          </ul>
+
+        </div>
+      </article>
+
+      <!-- RANDOM EVENT -->
+
+      <article class="rule-card rule-event">
+
+        <div class="rule-icon">✧</div>
+
+        <div class="rule-content">
+
+          <div class="rule-title-row">
+            <h3>Random Event</h3>
+            <span>SURPRISE</span>
+          </div>
+
+          <p>
+            A surprise activity brings a new twist to the conversation.
+          </p>
+
+          <ul>
+            <li><b>Everyone Answers:</b> Everyone answers one question.</li>
+            <li><b>Pick a Player:</b> Choose one person to participate.</li>
+            <li><b>Surprise Question:</b> Reveal an unexpected question.</li>
+            <li><b>Double Challenge:</b> Complete two challenges.</li>
+          </ul>
+
+        </div>
+      </article>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="rules-footer">
+
+      <div class="rules-reminder">
+        <span>✦</span>
+
+        <p>
+          No pressure. No scores. No winners.
+          Respect everyone's comfort and enjoy the conversation.
+        </p>
+      </div>
+
+      <button
+        class="rules-done-btn"
+        id="rules-done-btn"
+        type="button"
+      >
+        GOT IT <span aria-hidden="true">→</span>
+      </button>
+
+    </footer>
+
+  </section>
+
+</div>
+
+
+  <!-- EXIT MODAL -->
+  <div class="modal-backdrop" id="exit-modal" hidden>
+    <section class="confirm-modal glass-panel" role="dialog"
+             aria-modal="true" aria-labelledby="exit-modal-title"
+             aria-describedby="exit-modal-text">
+
+      <span class="modal-icon">↪</span>
+      <h2 id="exit-modal-title">Are you sure you want to exit?</h2>
+      <p id="exit-modal-text">
+        Your current game session will be cleared if you confirm.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="continue-game-btn" type="button">
+          Continue Game
+        </button>
+        <button class="btn btn-danger" id="confirm-exit-btn" type="button">
+          Confirm Exit
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- END GAME MODAL -->
+  <div class="modal-backdrop" id="end-modal" hidden>
+    <section class="confirm-modal glass-panel" role="dialog"
+             aria-modal="true" aria-labelledby="end-modal-title"
+             aria-describedby="end-modal-text">
+
+      <span class="modal-icon modal-icon-pink">✦</span>
+      <h2 id="end-modal-title">End this game?</h2>
+      <p id="end-modal-text">
+        Only completed activities will be counted. Your current activity
+        will not be counted.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="keep-playing-btn" type="button">
+          Keep Playing
+        </button>
+        <button class="btn btn-primary" id="confirm-end-btn" type="button">
+          End Game
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/storage.js" defer></script>
+  <script src="js/session.js" defer></script>
+  <script src="js/gameplay.js" defer></script>
+</body>
+</html>

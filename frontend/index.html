@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10072f">
+  <meta name="description" content="Let's Talk — turn ordinary gatherings into memorable conversations.">
+  <title>Let's Talk — Less Scrolling. More Talking.</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="page page-home">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Let's Talk home">
+        <img src="assets/images/lets-talk-logo.png" alt="Let's Talk logo">
+        <span>LET'S TALK</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="how-to-play.html">How to Play</a>
+      </nav>
+      <div class="header-balance" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <main class="home-main">
+    <section class="home-layout">
+      <div class="home-left">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-icon">✦</span> OFFLINE PARTY GAME</span>
+          <h1>Less scrolling.<br><span> More speaking.</span></h1>
+          <p>Time to put the phone down, pour a cup of coffee, and dive into real, unscripted conversations. Where words actually carry weight, and every chat matters.</p>
+        </div>
+
+        <section class="setup-panel glass-panel" id="game-setup" aria-labelledby="setup-title">
+          <div class="setup-heading-row">
+            <h2 id="setup-title"><span class="section-symbol">◎</span> Choose your conversation</h2>
+            <span class="step-note">STEP 1 OF 2</span>
+          </div>
+          <div class="topic-grid" role="group" aria-label="Choose a topic">
+            <button class="topic-card selected" type="button" data-topic="friends" aria-pressed="true">
+              <span class="topic-icon friends-icon" aria-hidden="true">♟</span>
+              <strong>Friends</strong>
+              <small>Laugh, share stories and reconnect</small>
+              <span class="selected-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="topic-card" type="button" data-topic="family" aria-pressed="false">
+              <span class="topic-icon family-icon" aria-hidden="true">⌂</span>
+              <strong>Family</strong>
+              <small>Discover stories across generations</small>
+              <span class="selected-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+
+          <div class="setup-divider"></div>
+          <div class="setup-heading-row question-count-heading">
+            <h2><span class="section-symbol">▱</span> Choose your session length</h2>
+          </div>
+          <div class="count-selector" role="group" aria-label="Choose question count">
+            <button class="count-option selected" type="button" data-count="10" aria-pressed="true">10</button>
+            <button class="count-option" type="button" data-count="20" aria-pressed="false">20</button>
+            <button class="count-option" type="button" data-count="unlimited" aria-pressed="false">Unlimited</button>
+          </div>
+          <button class="btn btn-primary start-button" id="start-game-btn" type="button">
+            <span class="play-icon" aria-hidden="true">▶</span>
+            <span>Start Playing</span>
+            <span class="arrow-icon" aria-hidden="true">→</span>
+          </button>
+          <p class="setup-feedback" id="setup-feedback" aria-live="polite">Ready for a meaningful conversation.</p>
+        </section>
+      </div>
+
+      <div class="home-brand-art" aria-label="Let's Talk mascot illustration">
+        <div class="brand-aura"></div>
+        <span class="float-star star-one">✦</span>
+        <span class="float-star star-two">✧</span>
+        <span class="float-star star-three">✦</span>
+        <img src="assets/images/lets-talk-logo.png" alt="Let's Talk mascot and logo" class="home-mascot">
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 LET'S TALK. All rights reserved.</span>
+    <span>NEXT-GEN SOCIAL PARTY PLATFORM</span>
+  </footer>
+
+  <script src="js/storage.js" defer></script>
+  <script src="js/session.js" defer></script>
+  <script src="js/homepage.js" defer></script>
+</body>
+</html>

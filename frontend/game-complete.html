@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10072f">
+  <meta name="description" content="Your Let's Talk game summary.">
+  <title>Great Conversations! — Let's Talk</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body class="page page-complete">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Let's Talk home"><img src="assets/images/lets-talk-logo.png" alt="Let's Talk logo"><span>LET'S TALK</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="how-to-play.html">How to Play</a>
+      </nav>
+      <div class="header-balance" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <main class="complete-main">
+    <div class="completion-spark spark-left">✧</div><div class="completion-spark spark-right">✦</div>
+    <section class="completion-content">
+      <div class="completion-logo-wrap"><div class="completion-aura"></div><img class="completion-logo" src="assets/images/lets-talk-logo.png" alt="Let's Talk mascot"></div>
+      <span class="completion-eyebrow">✦ SESSION COMPLETE ✦</span>
+      <h1>Great Conversations!</h1>
+      <p class="completion-message" id="completion-message">You've sparked meaningful conversations with your friends.</p>
+      <div class="completion-actions"><button class="btn btn-primary" id="play-again-btn" type="button"><span>↻</span> PLAY AGAIN</button><a class="btn btn-ghost" id="back-home-btn" href="index.html#game-setup">⌂ BACK TO HOME</a></div>
+      <p class="completion-footnote" id="completion-footnote">The questions may end, but the memories stay.</p>
+    </section>
+  </main>
+  <footer class="site-footer"><span>© 2026 LET'S TALK. All rights reserved.</span><span>NEXT-GEN SOCIAL PARTY PLATFORM</span></footer>
+  <script src="js/storage.js" defer></script>
+  <script src="js/session.js" defer></script>
+  <script src="js/game-complete.js" defer></script>
+</body>
+</html>

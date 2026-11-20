@@ -1,0 +1,78 @@
+{
+  "challenges": [
+    {
+      "id": "challenge-001",
+      "content": "Give your best impression of someone in the group and let everyone guess who it is."
+    },
+    {
+      "id": "challenge-002",
+      "content": "Describe your dream day using only five words."
+    },
+    {
+      "id": "challenge-003",
+      "content": "Tell a short story about an ordinary moment as if it were an epic movie scene."
+    },
+    {
+      "id": "challenge-004",
+      "content": "Let the group choose a harmless word you must naturally use in your next sentence."
+    },
+    {
+      "id": "challenge-005",
+      "content": "Name three things you appreciate about the people here."
+    },
+    {
+      "id": "challenge-006",
+      "content": "Recreate your reaction to the funniest surprise you have experienced."
+    },
+    {
+      "id": "challenge-007",
+      "content": "Speak in a dramatic movie-trailer voice for the next 20 seconds."
+    },
+    {
+      "id": "challenge-008",
+      "content": "Invent a team name and a one-line slogan for this group."
+    },
+    {
+      "id": "challenge-009",
+      "content": "Share a tiny talent or skill you can demonstrate right now."
+    },
+    {
+      "id": "challenge-010",
+      "content": "Tell everyone about a time you laughed at the worst possible moment."
+    }
+  ],
+  "events": [
+    {
+      "id": "event-everyone-001",
+      "type": "everyone",
+      "title": "EVERYONE ANSWERS",
+      "content": "What's one small thing that can instantly make your day better?",
+      "participant": "Everyone"
+    },
+    {
+      "id": "event-player-001",
+      "type": "pick-player",
+      "title": "PICK A PLAYER",
+      "content": "Choose someone in the group. Tell them one thing you appreciate about them.",
+      "participant": "Group chooses one person"
+    },
+    {
+      "id": "event-surprise-001",
+      "type": "surprise",
+      "title": "SURPRISE QUESTION",
+      "content": "What is something you would love to experience at least once in your life?",
+      "participant": "Current turn"
+    },
+    {
+      "id": "event-double-001",
+      "type": "double",
+      "title": "DOUBLE CHALLENGE",
+      "content": "Complete both challenges below.",
+      "participant": "Current turn",
+      "challengeIds": [
+        "challenge-003",
+        "challenge-008"
+      ]
+    }
+  ]
+}
