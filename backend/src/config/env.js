@@ -49,6 +49,8 @@ export function readBackendEnv(source = process.env) {
     source.SUPABASE_PUBLISHABLE_KEY || ""
   ).trim();
 
+  const sentryDsn = String(source.SENTRY_DSN || "").trim();
+
   const allowedOrigins = String(source.ALLOWED_ORIGIN || "")
     .split(",")
     .map((value) => value.trim())
@@ -95,11 +97,27 @@ export function readBackendEnv(source = process.env) {
     }
   }
 
+  // Validate optional Sentry DSN (error monitoring is disabled when empty)
+  // (a DSN embeds its public key as the URL username, so parseHttpUrl is not used here)
+  if (sentryDsn) {
+    let parsedDsn;
+    try {
+      parsedDsn = new URL(sentryDsn);
+    } catch {
+      parsedDsn = null;
+    }
+    if (!parsedDsn || parsedDsn.protocol !== "https:" || !parsedDsn.username ||
+        parsedDsn.password || !/^\/\d+$/.test(parsedDsn.pathname)) {
+      throw new Error("SENTRY_DSN must be a Sentry DSN such as https://<publicKey>@o0.ingest.sentry.io/<projectId>.");
+    }
+  }
+
   return Object.freeze({
     nodeEnv,
     port,
     supabaseUrl,
     publishableKey,
-    allowedOrigins
+    allowedOrigins,
+    sentryDsn
   });
 }

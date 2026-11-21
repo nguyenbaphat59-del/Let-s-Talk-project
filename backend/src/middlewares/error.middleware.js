@@ -5,6 +5,30 @@ export function notFoundMiddleware(req, res, next) {
   next(error);
 }
 
+/**
+ * Creates the centralized error handler.
+ * @param {(error: unknown, context: object) => void} [reportError]
+ *   Optional reporter (e.g. Sentry) called for unexpected failures (HTTP 500)
+ *   and for ApiErrors with status >= 500. It must never throw.
+ */
+export function createErrorMiddleware(reportError = () => {}) {
+  return function errorMiddlewareWithReporter(error, req, res, next) {
+    if (!res.headersSent && (!(error instanceof ApiError) || error.status >= 500) &&
+        error?.type !== "entity.too.large" && error?.type !== "entity.parse.failed") {
+      try {
+        reportError(error, {
+          requestId: req.requestId,
+          method: req.method,
+          path: req.originalUrl
+        });
+      } catch {
+        // Monitoring must never break the API response.
+      }
+    }
+    return errorMiddleware(error, req, res, next);
+  };
+}
+
 export function errorMiddleware(error, req, res, next) {
   if (res.headersSent) return next(error);
 
