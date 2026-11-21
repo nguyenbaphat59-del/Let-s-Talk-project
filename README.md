@@ -357,21 +357,21 @@ Chi tiết và cách kiểm chứng: [`docs/11_Monitoring_and_Analytics.md`](doc
 
 Toàn bộ bảng review (Usability, Aesthetics, User-Friendliness) và nội dung trao đổi nằm trong [`docs/peer-review/reviews-given.md`](docs/peer-review/reviews-given.md).
 
-**Nhóm: [Tên nhóm 1]** — [link project]
+**Nhóm FocuSpace** (Phúc Thịnh, Tuấn Hưng, Đình Nhiên, Tuấn Lộc) — FocuSpace, phòng học ảo pixel art kèm nhạc Lo-fi · https://focuspace-iota.vercel.app
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
-| Usability | | |
-| Aesthetics | | |
-| User-Friendliness | | |
+| Usability | Trang chủ có 2 nút hành động rõ (“Vào phòng”, “Xem thư viện đồ vật”), vào phòng không cần tài khoản. Đồng hồ Pomodoro 25:00 kèm nút “Bắt đầu” nằm cố định góc phải, luôn nhìn thấy khi học. Có ô thông báo ngắn (“2 nguồn âm đang hoạt động”) để biết trạng thái âm thanh. | Trên điện thoại dựng dọc, cả trang Căn phòng bị xoay 90° để thành màn ngang, người dùng phải tự nghiêng máy mà không có lời nhắc. Nên hiện thông báo “Xoay ngang để trải nghiệm tốt hơn” (có nút bỏ qua) hoặc làm bố cục dọc riêng. |
+| Aesthetics | Pixel art đồng nhất từ logo, nút đến khung cảnh. Mỗi phòng có bảng màu riêng (phòng học nâu–cam, phòng ngủ tím, sân vườn xanh) nhưng vẫn cùng một phong cách. Nền tối hợp với nhạc Lo-fi và học buổi tối. | Thanh công cụ trong phòng chỉ có 3 biểu tượng pixel (nốt nhạc, đồ vật, loa). Tên của chúng chỉ hiện khi rê chuột nên trên điện thoại/máy tính bảng người dùng phải đoán. Nên thêm nhãn chữ ngắn dưới biểu tượng ở màn hình cảm ứng. |
+| User-Friendliness | Trang Giới thiệu & Liên hệ có hướng dẫn dùng nhanh, email từng thành viên. Trang chủ nhắc đeo tai nghe để nghe rõ âm thanh trái/phải. Nút có trạng thái `aria-pressed` và nhãn cho trình đọc màn hình. | Trang Thống kê khi chưa đăng nhập chỉ có một dòng chữ và nút Đăng nhập. Nên cho xem biểu đồ mẫu để người dùng thấy lợi ích trước khi tạo tài khoản. Thẻ trong Thư viện hiển thị kích thước pixel (vd. `26×26`), thông tin này không có ý nghĩa với người dùng và có thể bỏ. |
 
-**Nhóm: [Tên nhóm 2]** — [link project]
+**Nhóm PawPass** (Hữu Triết, Duy Huy, Thế Dũng, Thành Đạt, Duy Quang) — PawPass, sổ hộ chiếu thú cưng · https://pawpass-hosothucung-web.vercel.app
 
 | Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
 |---|---|---|
-| Usability | | |
-| Aesthetics | | |
-| User-Friendliness | | |
+| Usability | Form đăng nhập kiểm tra ngay khi bấm: mỗi ô có thông báo riêng bằng tiếng Việt (“Vui lòng nhập email.”, “Email không đúng định dạng.”) và viền đỏ, sửa xong ô nào thì lỗi ô đó biến mất. Các trang không bị tràn ngang trên điện thoại 390 px. | Trang đầu tiên là màn Đăng nhập. Trên điện thoại, phần giới thiệu sản phẩm bị ẩn, khách mới chỉ thấy form mà không biết PawPass làm gì. Nên để trang Giới thiệu làm trang đầu, hoặc thêm 1–2 câu và nút “Tìm hiểu thêm” phía trên form. Các link “Giới thiệu PawPass”, “Liên hệ”, “Đăng ký ngay” chỉ cao khoảng 21–23 px, khó bấm bằng ngón tay (khuyến nghị ≥ 44 px). |
+| Aesthetics | Ý tưởng “hộ chiếu” được thể hiện nhất quán: khung viền nét đứt, con dấu “Đã tiêm · Mũi 2”, thẻ mẫu bé “Mochi”, minh hoạ chó mèo. Tông cam–kem ấm áp, hợp chủ đề thú cưng. | Trên máy tính, màn Đăng nhập có khoảng trống lớn phía dưới. Màn Đăng nhập dùng 2 link chữ thay vì thanh menu như trang Giới thiệu và Liên hệ (có logo + menu ☰), nên chuyển trang thấy không đồng bộ. |
+| User-Friendliness | Trang Giới thiệu đi theo mạch dễ hiểu: vấn đề → tính năng → “Bắt đầu trong 3 bước”. Form Liên hệ có bộ đếm ký tự 0/1000, cảnh báo không ghi thông tin riêng tư, kèm FAQ dạng mở rộng. | Không có “Quên mật khẩu” và nút hiện/ẩn mật khẩu. Lời nhắn Liên hệ được gửi thành Issue công khai trên GitHub nên người không có tài khoản GitHub khó dùng; nên thêm email liên hệ. Có thể thêm tài khoản dùng thử để người xem trải nghiệm trước khi đăng ký. |
 
 ### (b) Xử lý feedback nhận được
 
