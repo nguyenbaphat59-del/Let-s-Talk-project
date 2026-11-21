@@ -9,7 +9,9 @@
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/gameplay.css">
 </head>
 <body class="page page-gameplay page-universe">
@@ -68,7 +70,7 @@
   <main class="universe-main" id="game-main">
     <header class="universe-hud">
       <button class="universe-exit" id="exit-game-btn" type="button" aria-label="Exit game">← <span>Exit</span></button>
-      <div class="hud-brand"><img src="assets/images/lets-talk-logo.png" alt="" /><span>LET'S TALK</span></div>
+      <div class="hud-brand"><img src="assets/images/lets-talk-logo.png" width="1200" height="957" alt="" /><span>LET'S TALK</span></div>
       <div class="hud-meta">
         <span class="topic-pill" id="mode-topic"><span id="mode-topic-icon">♟</span><b>Friends</b></span>
         <div class="hud-progress" aria-label="Session progress">
@@ -85,7 +87,7 @@
         <div><small>CURRENT TURN</small><strong id="current-player-name">Everyone</strong></div>
       </div>
       <span class="turn-hint" id="turn-hint">One device · Everyone plays together</span>
-      <div class="turn-mascot" aria-hidden="true"><img src="assets/images/lets-talk-logo.png" alt=""></div>
+      <div class="turn-mascot" aria-hidden="true"><img src="assets/images/lets-talk-logo.png" width="1200" height="957" alt=""></div>
     </section>
 
     <section class="universe-stage" id="game-stage" aria-live="polite" aria-atomic="true">
