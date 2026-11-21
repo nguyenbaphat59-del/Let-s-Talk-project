@@ -23,7 +23,7 @@ test('API client uses the local Backend port when Frontend runs on port 5500', (
   assert.equal(api.baseUrl, 'http://localhost:1702/api/v1');
 });
 
-const PRODUCTION_API_BASE = 'https://let-s-talk-backend-1k1u.onrender.com/api/v1';
+const PRODUCTION_API_BASE = 'https://let-s-talk-backend-lk1u.onrender.com/api/v1';
 
 test('API client uses the deployed Render Backend base in production', () => {
   const api = createClient({
