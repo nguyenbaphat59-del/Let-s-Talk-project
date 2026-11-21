@@ -42,7 +42,7 @@ LET'S TALK là web app party game giúp bạn bè và gia đình bớt nhìn đi
 | Database | PostgreSQL trên Supabase (5 bảng, Row Level Security, runtime read-only) |
 | Deploy | Backend: Render · Frontend: [Vercel / Netlify / GitHub Pages — điền] |
 | Monitoring | Google Analytics 4 (gtag.js), Sentry (Browser Loader + `@sentry/node`), structured JSON logs |
-| Testing | `node:test` (75 test tự động), validators trong `tools/`, Lighthouse 13 |
+| Testing | `node:test` (74 test tự động), validators trong `tools/`, Lighthouse 13 |
 
 ### Tính năng chính
 
