@@ -19,8 +19,8 @@
     window.location.protocol === 'file:';
 
   window.LT_CONFIG = Object.freeze({
-    gaMeasurementId: '',
-    sentryDsn: '',
+    gaMeasurementId: 'G-187Q24EEMY',
+    sentryDsn: 'https://e07c933ec2e34ec542c161ffc299f552@o4512471399661568.ingest.de.sentry.io/4512471410606160',
     environment: isLocal ? 'development' : 'production',
     release: 'lets-talk-frontend@1.0.0',
     // Local previews do not send analytics unless explicitly enabled.
