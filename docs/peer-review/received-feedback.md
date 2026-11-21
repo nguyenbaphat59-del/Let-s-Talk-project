@@ -25,3 +25,20 @@ The improvements included:
 After presenting the second prototype, the lecturer considered the revised direction acceptable.
 
 This feedback confirmed that the changes addressed the main concerns raised during the first review. The team therefore continued developing the project based on the approved prototype direction.
+
+## 4. Feedback Log (Task 5b — Report Template format)
+
+> Add every feedback item received from the lecturer and from the reviewing teams. Implemented items should link the commit/PR and include before/after screenshots (`docs/peer-review/screenshots/`). Items that are not implemented must state the reason.
+
+| # | Feedback | Source | Decision | Reason / Commit |
+|---|---|---|---|---|
+| 1 | The user interface of Prototype 1 is too simple and not engaging. | Lecturer (Prototype 1 review) | ✅ Implemented | Prototype 2 redesigned the visual layer (glass panels, gradients, mascot artwork, animations). Commit `738ed76` |
+| 2 | The gameplay is too simple and not exciting enough. | Lecturer (Prototype 1 review) | ✅ Implemented | Four automatic activity families (Question Zone, Pick Your Fate, Random Event, Hot Seat), a cinematic intro and a roulette reveal (PRD v1.4). Commits `738ed76`, `a6bc8c3` |
+| 3 | [Feedback from team …] | [Team name] | [✅ Implemented / ❌ Not implemented] | [Commit link or reason] |
+| 4 | [Feedback from team …] | [Team name] | | |
+
+### Decision rules agreed by the team
+
+- Feedback that improves usability or accessibility without changing the approved gameplay rules is implemented first.
+- Feedback that conflicts with the PRD (e.g. adding accounts, scores or online multiplayer, which PRD §1.3 rules out) is not implemented, and the reason is recorded above.
+- Each implemented item gets its own issue, branch (`fix/peer-feedback-<n>`) and PR that references the issue.
