@@ -11,6 +11,10 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(here, "../.env") });
 
 const env = readBackendEnv();
+console.log(
+  "[CORS] Configured allowed origins:",
+  env.allowedOrigins
+);
 const supabase = createSupabaseClient(env);
 const repository = new SupabaseContentRepository(supabase);
 const gameplayService = new GameplayService(repository);
