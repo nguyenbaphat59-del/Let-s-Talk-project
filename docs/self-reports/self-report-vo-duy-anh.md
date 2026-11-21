@@ -1,15 +1,15 @@
 # Self-Report — Final Project
 
-> **Bản nháp do Leader chuẩn bị theo vai trò M4.** Thành viên phụ trách cần: (1) đổi tên file thành `self-report-<MSSV>.md`; (2) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (3) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (4) commit bằng tài khoản GitHub của mình; (5) xoá các dòng `>` trước khi nộp.
+> **Bản nháp do Leader chuẩn bị theo vai trò M2.** Võ Duy Anh cần: (1) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (2) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (3) commit file bằng tài khoản GitHub của mình; (4) xoá các dòng `>` trước khi nộp.
 
 ## 1. Thông tin cá nhân
 
 | | |
 |---|---|
-| Họ tên | [Họ tên] |
-| MSSV | [MSSV] |
+| Họ tên | Võ Duy Anh |
+| GitHub | https://github.com/tuananhvo588-design |
 | Nhóm | [Tên nhóm] |
-| Vai trò trong nhóm | M4 — QA, Optimization & Monitoring |
+| Vai trò trong nhóm | M2 — Frontend Developer (UI/UX) |
 
 ## 2. Công việc theo Task
 
@@ -17,7 +17,7 @@
 
 - **Tuần:** Tuần 1 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Viết tài liệu đặc tả Step 2: PRD, Solution Architecture, Database Schema, API, Test Plan (commit `1b904d8`)
+  - Thiết kế wireframe 5 trang trên Figma, review với nhóm trước khi code (`docs/wireframes/`)
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -26,7 +26,10 @@
 
 - **Tuần:** Tuần 1–2 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Kiểm thử giao diện trên 3 nhóm thiết bị và các tương tác chính
+  - Xây dựng prototype 5 trang HTML/CSS/JS (commit `738ed76`)
+  - Design system: tokens, glass panel, button, animation (`frontend/css/site.css`, `gameplay.css`, `docs/DESIGN-SYSTEM.md`)
+  - Responsive mobile/tablet/desktop với hơn 40 media query; hỗ trợ reduced-motion
+  - Tương tác: chọn chủ đề/độ dài, intro, roulette, Pick Your Fate, modal Exit/End/Rules
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -35,7 +38,7 @@
 
 - **Tuần:** Tuần 2 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Kiểm thử API và dữ liệu động; sửa test API client sau khi chuyển sang Render (branch `fix/frontend-api-tests`)
+  - Phối hợp M3 hiển thị dữ liệu động trên Home và Gameplay
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -44,9 +47,7 @@
 
 - **Tuần:** Tuần 2–3 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Lighthouse audit lần 1 (`docs/optimization/lighthouse/`)
-  - Tối ưu: font không chặn render, khai báo kích thước ảnh, ưu tiên ảnh LCP; đo lại và ghi kết quả trước/sau (branch `perf/lighthouse-optimization`)
-  - Google Analytics 4 (17 sự kiện gameplay) và Sentry Frontend kèm wrapper ghi lỗi API, 10 test (`frontend/js/analytics.js`, `monitoring.js`, `docs/11_Monitoring_and_Analytics.md`)
+  - Review để bản tối ưu Lighthouse không làm thay đổi giao diện (so sánh ảnh trước/sau)
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -55,7 +56,8 @@
 
 - **Tuần:** Tuần 3 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Review nhóm #2 cùng M3
+  - Review nhóm #1 cùng M1
+  - Thực hiện các thay đổi UI từ feedback nhận được
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10

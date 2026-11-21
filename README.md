@@ -1,6 +1,6 @@
 # LET'S TALK — Final Project Report
 
-> Web Design and Development · Final Project. README này theo **Report Template** của môn học. Các ô `[...]` là thông tin nhóm cần điền trước khi nộp. Tài liệu kỹ thuật chi tiết (kiến trúc, API, luật gameplay) nằm ở **Phụ lục A** cuối file và trong `docs/`.
+> Web Design and Development · Final Project. README này theo **Report Template** của môn học. Các ô `[...]` còn lại cần điền trước khi nộp. Tài liệu kỹ thuật chi tiết (kiến trúc, API, luật gameplay) nằm ở **Phụ lục A** cuối file và trong `docs/`.
 
 ## Thông Tin Nhóm
 
@@ -16,12 +16,12 @@
 
 ### Thành viên nhóm
 
-| Họ tên | MSSV | Vai trò |
+| Họ tên | GitHub | Vai trò |
 |---|---|---|
-| [Họ tên] | [MSSV] | M1 — Leader / Project Manager & Documentation |
-| [Họ tên] | [MSSV] | M2 — Frontend Developer (UI/UX) |
-| [Họ tên] | [MSSV] | M3 — Backend & Database Developer |
-| [Họ tên] | [MSSV] | M4 — QA, Optimization & Monitoring |
+| Nguyễn Thành Long | [`NguyenThanhLong-dev`](https://github.com/NguyenThanhLong-dev) | M1 — Leader / Project Manager & Documentation |
+| Võ Duy Anh | [`tuananhvo588-design`](https://github.com/tuananhvo588-design) | M2 — Frontend Developer (UI/UX) |
+| Nguyễn Bá Phát | [`nguyenbaphat59-del`](https://github.com/nguyenbaphat59-del) | M3 — Backend & Database Developer |
+| Trần Văn Huy | (chưa có — đang tạo) | M4 — QA, Optimization & Monitoring |
 
 Chi tiết trách nhiệm: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 
@@ -118,10 +118,10 @@ Nhóm họp và thống nhất 4 vai trò, ma trận RACI và quyền sở hữu
 
 | Thành viên | Vai trò | Phụ trách chính |
 |---|---|---|
-| M1 [Họ tên] | Leader / PM & Docs | Kế hoạch, GitHub workflow, README, điều phối peer review, video |
-| M2 [Họ tên] | Frontend | Wireframe, 5 trang HTML/CSS, responsive, tương tác JS |
-| M3 [Họ tên] | Backend & Database | Schema/ERD, seed 880 nội dung, Express API, tích hợp, deploy Render |
-| M4 [Họ tên] | QA, Optimization & Monitoring | Đặc tả và test, Lighthouse, GA4, Sentry, kiểm thử đa thiết bị |
+| M1 Nguyễn Thành Long | Leader / PM & Docs | Đặc tả (PRD, kiến trúc), kế hoạch, GitHub workflow, README, điều phối peer review, video |
+| M2 Võ Duy Anh | Frontend | Wireframe, 5 trang HTML/CSS, responsive, tương tác JS |
+| M3 Nguyễn Bá Phát | Backend & Database | Schema/ERD, seed 880 nội dung, Express API, tích hợp, deploy Render |
+| M4 Trần Văn Huy | QA, Optimization & Monitoring | Test, Lighthouse, GA4, Sentry, kiểm thử đa thiết bị |
 
 Chi tiết: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 
@@ -333,7 +333,7 @@ Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *f
 **Google Analytics**
 
 - [x] Đã tích hợp GA4 (`frontend/js/analytics.js`, tải sau `load`, tắt trên localhost)
-- **Measurement ID:** [G-XXXXXXXXXX] (điền vào `frontend/js/config.js`)
+- **Measurement ID:** [G-XXXXXXXXXX] (điền vào `frontend/js/config.js`) · Web data stream ID: `1638866491`
 - **Tích hợp:** `page_view` tự động, cộng với 17 sự kiện gameplay (`game_start`, `activity_drawn` theo `activity_family`, `fate_choice`, `activity_complete`/`activity_skip`, `game_complete`, `api_error`, …) lấy từ ID nút và kết quả API, không sửa logic game và không gửi dữ liệu cá nhân.
 - **Screenshot dashboard:** [GA Realtime / DebugView → `docs/optimization/monitoring/`]
 
@@ -394,12 +394,12 @@ Nhật ký đầy đủ và nguyên tắc ra quyết định: [`docs/peer-review
 
 ## Self-Reports
 
-| Họ tên | MSSV | Link Self-Report |
-|---|---|---|
-| [Họ tên] | [MSSV] | [self-report-M1.md → đổi thành self-report-MSSV.md](docs/self-reports/self-report-M1.md) |
-| [Họ tên] | [MSSV] | [self-report-M2.md → đổi thành self-report-MSSV.md](docs/self-reports/self-report-M2.md) |
-| [Họ tên] | [MSSV] | [self-report-M3.md → đổi thành self-report-MSSV.md](docs/self-reports/self-report-M3.md) |
-| [Họ tên] | [MSSV] | [self-report-M4.md → đổi thành self-report-MSSV.md](docs/self-reports/self-report-M4.md) |
+| Họ tên | Link Self-Report |
+|---|---|
+| Nguyễn Thành Long | [self-report-nguyen-thanh-long.md](docs/self-reports/self-report-nguyen-thanh-long.md) |
+| Võ Duy Anh | [self-report-vo-duy-anh.md](docs/self-reports/self-report-vo-duy-anh.md) |
+| Nguyễn Bá Phát | [self-report-nguyen-ba-phat.md](docs/self-reports/self-report-nguyen-ba-phat.md) |
+| Trần Văn Huy | [self-report-tran-van-huy.md](docs/self-reports/self-report-tran-van-huy.md) |
 
 ---
 

@@ -17,7 +17,7 @@ Cách review được đề xuất: mỗi người tự làm 3 tác vụ chính 
 ## 1. Nhóm: [Tên nhóm]
 
 - **Project:** [Tên dự án] — [link deploy / GitHub]
-- **Người review:** M1 [Họ tên], M2 [Họ tên]
+- **Người review:** M1 Nguyễn Thành Long, M2 Võ Duy Anh
 - **Ngày review:** [DD/MM/YYYY]
 - **Thiết bị / trình duyệt đã thử:** [ví dụ: iPhone 13 Safari, Chrome desktop 1440px]
 
@@ -34,7 +34,7 @@ Cách review được đề xuất: mỗi người tự làm 3 tác vụ chính 
 ## 2. Nhóm: [Tên nhóm]
 
 - **Project:** [Tên dự án] — [link deploy / GitHub]
-- **Người review:** M3 [Họ tên], M4 [Họ tên]
+- **Người review:** M3 Nguyễn Bá Phát, M4 Trần Văn Huy
 - **Ngày review:** [DD/MM/YYYY]
 - **Thiết bị / trình duyệt đã thử:**
 

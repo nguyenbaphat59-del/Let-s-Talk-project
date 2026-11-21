@@ -2,6 +2,8 @@
 
 > Kế hoạch 3 tuần theo Final Project Brief. Ngày đã diễn ra lấy từ lịch sử commit trên GitHub. Các ô `[...]` là mốc nhóm cần chốt (ngày nộp, ngày review chéo).
 
+**Thành viên:** M1 Nguyễn Thành Long · M2 Võ Duy Anh · M3 Nguyễn Bá Phát · M4 Trần Văn Huy
+
 ## 1. Phạm vi (Scope)
 
 **Sản phẩm:** LET'S TALK — web app party game cho bạn bè / gia đình ngồi cùng nhau trên một thiết bị. Người chơi chọn chủ đề (Friends / Family) và độ dài (10 / 20 / Unlimited), sau đó hệ thống chọn ngẫu nhiên 1 trong 4 hoạt động (Question Zone, Pick Your Fate, Random Event, Hot Seat) từ 880 nội dung lưu trong PostgreSQL.
@@ -28,7 +30,7 @@
 | D7 | GA4 + Sentry + logging | `docs/11_Monitoring_and_Analytics.md` | M4 |
 | D8 | Peer review (cho 2 nhóm + nhận feedback) | `docs/peer-review/` | M1 + cả nhóm |
 | D9 | README theo Report Template | `README.md` | M1 |
-| D10 | Self-report × 4 | `docs/self-reports/self-report-[MSSV].md` | từng thành viên |
+| D10 | Self-report × 4 | `docs/self-reports/self-report-<họ-tên>.md` | từng thành viên |
 | D11 | Video demo YouTube (≤ 10 phút, ≥ 720p, unlisted/public) | link trong README | M1 |
 
 ## 3. Milestones
@@ -51,7 +53,7 @@ Mỗi dòng tương ứng một GitHub Issue (script tạo issue: `tools/github/
 |---|---|---|---|---|---|
 | — | Wireframe 5 trang (Figma), review trước khi code | M2 | — | 1 | ✅ |
 | — | Prototype frontend 5 trang + responsive | M2 | `feature/member-2-frontend-logic` | 1 | ✅ |
-| — | PRD, Solution Architecture, Database Schema, API docs | M4 + M3 | — | 1 | ✅ |
+| — | PRD, Solution Architecture, Database Schema, API docs | M1 + M3 | — | 1 | ✅ |
 | — | Schema + seed 880 nội dung + RLS read-only | M3 | — | 1–2 | ✅ |
 | — | Express API + gameplay service + tests | M3 | `test-backend` | 2 | ✅ |
 | — | Tích hợp Frontend ↔ API, session Local Storage v2 | M3 | `integration/laptop-sync` | 2 | ✅ |
@@ -68,7 +70,7 @@ Mỗi dòng tương ứng một GitHub Issue (script tạo issue: `tools/github/
 | #I | Review UI/UX nhóm khác #2 | M3, M4 | `docs/peer-review-given` | 3 | ⏳ |
 | #J | Ghi nhận và xử lý feedback nhận được | M2 (+ owner module liên quan) | `fix/peer-feedback-*` | 3 | ⏳ |
 | #K | README theo Report Template + screenshots | M1 | `docs/final-report` | 3 | ✅ khung — cần điền thông tin nhóm, ảnh |
-| #L | Self-report (4 file) | mỗi thành viên | `docs/self-report-[MSSV]` | 3 | ⏳ bản nháp sẵn |
+| #L | Self-report (4 file) | mỗi thành viên | `docs/self-report-<họ-tên>` | 3 | ⏳ bản nháp sẵn |
 | #M | Video demo + upload YouTube | M1 | — | 3 | ⏳ |
 
 `#A…#M` là ký hiệu tạm, sẽ được thay bằng số issue thật sau khi chạy script.

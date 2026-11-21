@@ -1,6 +1,6 @@
 # LET'S TALK — Phân công vai trò và trách nhiệm (Task 1a)
 
-> Biên bản họp phân vai của nhóm. Các ô `[...]` là thông tin nhóm cần điền (họ tên, MSSV, ngày họp). Cột “GitHub (dự kiến)” được suy ra từ lịch sử commit hiện có; cả nhóm cần xác nhận lại trong buổi họp.
+> Biên bản họp phân vai của nhóm. Ô `[...]` còn lại là ngày họp, nhóm cần điền.
 
 ## 1. Thông tin buổi họp
 
@@ -14,12 +14,12 @@
 
 ## 2. Vai trò
 
-| # | Họ tên | MSSV | GitHub (dự kiến) | Vai trò | Trách nhiệm chính |
-|---|---|---|---|---|---|
-| M1 | [Họ tên] | [MSSV] | [username] | **Team Leader / Project Manager & Documentation** | Lập kế hoạch và milestone; quản lý repo, branch, issue và review PR; viết README (Report Template); điều phối peer review; dựng video demo |
-| M2 | [Họ tên] | [MSSV] | `tuananhvo588-design` | **Frontend Developer (UI/UX)** | Wireframe; xây dựng 5 trang HTML/CSS; responsive mobile/tablet/desktop; tương tác JS (setup, modal, animation, gameplay UI); áp dụng các góp ý UI/UX |
-| M3 | [Họ tên] | [MSSV] | `nguyenbaphat59-del` | **Backend & Database Developer** | Thiết kế schema/ERD Supabase PostgreSQL; seed 880 nội dung; Express REST API `/api/v1`; tích hợp Frontend ↔ API; deploy Backend (Render) |
-| M4 | [Họ tên] | [MSSV] | `NguyenThanhLong-dev` | **QA, Optimization & Monitoring** | Tài liệu đặc tả (PRD, API, test plan); unit/integration test; Lighthouse audit và tối ưu; Google Analytics 4 và Sentry; kiểm thử đa thiết bị |
+| # | Họ tên | GitHub | Vai trò | Trách nhiệm chính |
+|---|---|---|---|---|
+| M1 | Nguyễn Thành Long | [`NguyenThanhLong-dev`](https://github.com/NguyenThanhLong-dev) | **Team Leader / Project Manager & Documentation** | Tài liệu đặc tả (PRD, kiến trúc, test plan); lập kế hoạch và milestone; quản lý repo, branch, issue và review PR; viết README (Report Template); điều phối peer review; dựng video demo |
+| M2 | Võ Duy Anh | [`tuananhvo588-design`](https://github.com/tuananhvo588-design) | **Frontend Developer (UI/UX)** | Wireframe; xây dựng 5 trang HTML/CSS; responsive mobile/tablet/desktop; tương tác JS (setup, modal, animation, gameplay UI); áp dụng các góp ý UI/UX |
+| M3 | Nguyễn Bá Phát | [`nguyenbaphat59-del`](https://github.com/nguyenbaphat59-del) | **Backend & Database Developer** | Thiết kế schema/ERD Supabase PostgreSQL; seed 880 nội dung; Express REST API `/api/v1`; tích hợp Frontend ↔ API; deploy Backend (Render) |
+| M4 | Trần Văn Huy | (chưa có — đang tạo) | **QA, Optimization & Monitoring** | Unit/integration test; Lighthouse audit và tối ưu; Google Analytics 4 và Sentry; kiểm thử đa thiết bị |
 
 Ghi chú: các tài liệu kỹ thuật cũ dùng nhãn “Member 1 / Member 3” (ví dụ `09_STEP3_BACKEND_COMPLETION_REPORT.md` ghi *Member 3 — Backend Development*). Bảng trên giữ nguyên quy ước số thứ tự đó: M3 là Backend.
 
@@ -62,7 +62,7 @@ R = thực hiện, A = chịu trách nhiệm cuối cùng / duyệt, C = tham v�
 | `docs/optimization/**`, `docs/11_Monitoring_and_Analytics.md` | M4 | M1 |
 | `README.md`, `docs/01_*`, `docs/02_*`, `CONTRIBUTING.md`, `.github/**` | M1 | cả nhóm |
 | `docs/peer-review/**` | M1 điều phối, cả nhóm viết | M2 |
-| `docs/self-reports/self-report-[MSSV].md` | từng thành viên | — |
+| `docs/self-reports/self-report-<họ-tên>.md` | từng thành viên | — |
 
 ## 5. Quy tắc làm việc đã thống nhất
 

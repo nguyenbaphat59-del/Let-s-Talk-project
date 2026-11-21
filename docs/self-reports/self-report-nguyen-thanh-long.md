@@ -1,15 +1,15 @@
 # Self-Report — Final Project
 
-> **Bản nháp do Leader chuẩn bị theo vai trò M2.** Thành viên phụ trách cần: (1) đổi tên file thành `self-report-<MSSV>.md`; (2) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (3) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (4) commit bằng tài khoản GitHub của mình; (5) xoá các dòng `>` trước khi nộp.
+> **Bản nháp do Leader chuẩn bị theo vai trò M1.** Nguyễn Thành Long cần: (1) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (2) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (3) commit file bằng tài khoản GitHub của mình; (4) xoá các dòng `>` trước khi nộp.
 
 ## 1. Thông tin cá nhân
 
 | | |
 |---|---|
-| Họ tên | [Họ tên] |
-| MSSV | [MSSV] |
+| Họ tên | Nguyễn Thành Long |
+| GitHub | https://github.com/NguyenThanhLong-dev |
 | Nhóm | [Tên nhóm] |
-| Vai trò trong nhóm | M2 — Frontend Developer (UI/UX) |
+| Vai trò trong nhóm | M1 — Leader / Project Manager & Documentation |
 
 ## 2. Công việc theo Task
 
@@ -17,7 +17,10 @@
 
 - **Tuần:** Tuần 1 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Thiết kế wireframe 5 trang trên Figma, review với nhóm trước khi code (`docs/wireframes/`)
+  - Viết tài liệu đặc tả Step 2: PRD, Solution Architecture, Database Schema, API, Test Plan (commit `1b904d8`)
+  - Tổ chức buổi họp phân vai, lập ma trận RACI và phân quyền theo thư mục (`docs/01_Team_Roles.md`)
+  - Lập project plan, milestone và phân công theo issue (`docs/02_Project_Plan.md`)
+  - Thiết lập quy trình GitHub: quy ước branch/commit/PR, PR & issue templates, script tạo issue (`CONTRIBUTING.md`, `.github/`, `tools/github/create-issues.sh`)
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -26,10 +29,7 @@
 
 - **Tuần:** Tuần 1–2 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Xây dựng prototype 5 trang HTML/CSS/JS (commit `738ed76`)
-  - Design system: tokens, glass panel, button, animation (`frontend/css/site.css`, `gameplay.css`, `docs/DESIGN-SYSTEM.md`)
-  - Responsive mobile/tablet/desktop với hơn 40 media query; hỗ trợ reduced-motion
-  - Tương tác: chọn chủ đề/độ dài, intro, roulette, Pick Your Fate, modal Exit/End/Rules
+  - Review PR giao diện, kiểm tra điều hướng giữa 5 trang
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -38,7 +38,7 @@
 
 - **Tuần:** Tuần 2 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Phối hợp M3 hiển thị dữ liệu động trên Home và Gameplay
+  - Review schema/ERD trước khi triển khai
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -47,7 +47,7 @@
 
 - **Tuần:** Tuần 2–3 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Review để bản tối ưu Lighthouse không làm thay đổi giao diện (so sánh ảnh trước/sau)
+  - Review báo cáo Lighthouse và tài liệu monitoring
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10
@@ -56,8 +56,9 @@
 
 - **Tuần:** Tuần 3 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Review nhóm #1 cùng M1
-  - Thực hiện các thay đổi UI từ feedback nhận được
+  - Điều phối review 2 nhóm khác, trực tiếp review nhóm #1 cùng M2 (`docs/peer-review/reviews-given.md`)
+  - Tổng hợp feedback nhận được (`docs/peer-review/received-feedback.md`)
+  - Viết README theo Report Template, dựng video demo
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10

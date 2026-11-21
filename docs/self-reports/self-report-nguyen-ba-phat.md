@@ -1,13 +1,13 @@
 # Self-Report — Final Project
 
-> **Bản nháp do Leader chuẩn bị theo vai trò M3.** Thành viên phụ trách cần: (1) đổi tên file thành `self-report-<MSSV>.md`; (2) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (3) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (4) commit bằng tài khoản GitHub của mình; (5) xoá các dòng `>` trước khi nộp.
+> **Bản nháp do Leader chuẩn bị theo vai trò M3.** Nguyễn Bá Phát cần: (1) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (2) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (3) commit file bằng tài khoản GitHub của mình; (4) xoá các dòng `>` trước khi nộp.
 
 ## 1. Thông tin cá nhân
 
 | | |
 |---|---|
-| Họ tên | [Họ tên] |
-| MSSV | [MSSV] |
+| Họ tên | Nguyễn Bá Phát |
+| GitHub | https://github.com/nguyenbaphat59-del |
 | Nhóm | [Tên nhóm] |
 | Vai trò trong nhóm | M3 — Backend & Database Developer |
 
