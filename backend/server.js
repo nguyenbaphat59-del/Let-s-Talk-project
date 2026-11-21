@@ -6,11 +6,18 @@ import { createSupabaseClient } from "./src/config/supabase.js";
 import { SupabaseContentRepository } from "./src/repositories/supabase-content.repository.js";
 import { GameplayService } from "./src/services/gameplay.service.js";
 import { createApp } from "./src/app.js";
+import { initMonitoring } from "./src/config/monitoring.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(here, "../.env") });
 
 const env = readBackendEnv();
+const monitoring = await initMonitoring({
+  dsn: env.sentryDsn,
+  environment: env.nodeEnv,
+  release: `lets-talk-backend@${process.env.npm_package_version || "1.0.0"}`
+});
+console.log(`[MONITORING] Sentry error monitoring ${monitoring.enabled ? "enabled" : "disabled (SENTRY_DSN not set)"}.`);
 console.log(
   "[CORS] Configured allowed origins:",
   env.allowedOrigins
@@ -22,7 +29,8 @@ const gameplayService = new GameplayService(repository);
 const app = createApp({
   gameplayService,
   nodeEnv: env.nodeEnv,
-  allowedOrigins: env.allowedOrigins
+  allowedOrigins: env.allowedOrigins,
+  reportError: monitoring.reportError
 });
 
 export default app;
