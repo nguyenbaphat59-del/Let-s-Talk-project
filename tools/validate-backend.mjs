@@ -28,7 +28,7 @@ check('Backend includes Supabase JS client', Boolean(backendPackage.dependencies
 check('Backend does not depend on service-role/secret key', !Object.keys(backendPackage.dependencies || {}).some((name) => /service.role|secret.key/i.test(name)));
 
 const apiClient = fs.readFileSync(path.join(root, 'frontend/js/api.js'), 'utf8');
-check('Frontend API calls use a relative production API base', apiClient.includes("let defaultBase = '/api/v1'"));
+check('Frontend API calls use an HTTPS production API base (Render Backend)', /const PRODUCTION_API_BASE =\s*'https:\/\/[^']+\/api\/v1'/.test(apiClient) && apiClient.includes('let defaultBase = PRODUCTION_API_BASE'));
 check('Frontend does not contain a Supabase SDK import', !/from\s+['"]@supabase\/supabase-js/.test(apiClient));
 
 const backendSource = fs.readdirSync(path.join(root, 'backend'), { recursive: true })

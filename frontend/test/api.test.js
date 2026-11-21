@@ -23,12 +23,14 @@ test('API client uses the local Backend port when Frontend runs on port 5500', (
   assert.equal(api.baseUrl, 'http://localhost:1702/api/v1');
 });
 
-test('API client uses the relative same-origin base in production', () => {
+const PRODUCTION_API_BASE = 'https://let-s-talk-backend-1k1u.onrender.com/api/v1';
+
+test('API client uses the deployed Render Backend base in production', () => {
   const api = createClient({
     location: { protocol: 'https:', port: '', origin: 'https://lets-talk.example' },
     fetchImpl: async () => { throw new Error('not expected'); }
   });
-  assert.equal(api.baseUrl, '/api/v1');
+  assert.equal(api.baseUrl, PRODUCTION_API_BASE);
 });
 
 test('API client supports an explicit API base URL override', () => {
@@ -50,7 +52,7 @@ test('API client encodes topic path and returns the standard data envelope', asy
     }
   });
   const result = await api.getCatalog('friends');
-  assert.equal(requestUrl, '/api/v1/topics/friends/catalog');
+  assert.equal(requestUrl, `${PRODUCTION_API_BASE}/topics/friends/catalog`);
   assert.equal(result.topic.code, 'friends');
 });
 
