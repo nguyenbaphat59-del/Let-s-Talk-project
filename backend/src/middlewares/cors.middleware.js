@@ -1,20 +1,40 @@
+
 import cors from "cors";
 
-export function createCorsMiddleware({ nodeEnv, allowedOrigins = [] }) {
+export function createCorsMiddleware({ allowedOrigins = [] } = {}) {
   const allowlist = new Set(allowedOrigins);
+
   return cors({
     origin(origin, callback) {
-      // Requests without Origin (same-origin/server-to-server) are allowed.
-      if (!origin || (nodeEnv !== "production" && allowlist.has(origin))) {
+      // Allow requests without an Origin header.
+      // Examples: server-to-server requests and command-line tools.
+      if (!origin) {
         return callback(null, true);
       }
-      // No ACAO header: the browser rejects unapproved cross-origin access.
+
+      // Allow requests only from explicitly configured origins.
+      // This applies to both development and production.
+      if (allowlist.has(origin)) {
+        return callback(null, true);
+      }
+
+      // Reject unapproved cross-origin requests.
       return callback(null, false);
     },
+
     methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "X-Request-Id"],
-    exposedHeaders: ["X-Request-Id"],
+
+    allowedHeaders: [
+      "Content-Type",
+      "X-Request-Id"
+    ],
+
+    exposedHeaders: [
+      "X-Request-Id"
+    ],
+
     credentials: false,
+
     maxAge: 600
   });
 }
