@@ -4,7 +4,6 @@
   "services": {
     "frontend": {
       "root": "frontend/",
-      "framework": "other"
     },
     "backend": {
       "root": "backend/",
