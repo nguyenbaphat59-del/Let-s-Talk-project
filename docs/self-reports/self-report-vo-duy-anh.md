@@ -17,7 +17,7 @@
 
 - **Tuần:** Tuần 1 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Thiết kế wireframe 5 trang trên Figma, review với nhóm trước khi code (`docs/wireframes/`)
+  - Thống nhất bố cục các trang với nhóm qua Prototype 1 → 2
 - **Bằng chứng đóng góp:** [link commit / PR / issue / screenshot]
 - **Khó khăn gặp phải:** 
 - **Tự đánh giá:** [ ]/10

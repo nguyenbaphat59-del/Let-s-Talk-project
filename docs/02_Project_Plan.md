@@ -16,6 +16,7 @@
 - Ghi dữ liệu từ client vào DB: runtime chỉ SELECT bằng publishable key; nội dung được quản lý bằng SQL seed/migration (`database/seeds/`).
 - Tailwind CSS: giao diện đã được giảng viên duyệt ở Prototype 2 dùng CSS thuần với design tokens (`docs/DESIGN-SYSTEM.md`); nhóm quyết định không chuyển đổi để tránh rủi ro thay đổi UI.
 - Thay đổi file ảnh (nén / đổi định dạng logo).
+- Wireframe: không đưa vào bài nộp (quyết định của nhóm).
 
 ## 2. Deliverables
 
@@ -23,7 +24,6 @@
 |---|---|---|---|
 | D1 | Source code (frontend, backend, database) | GitHub repo | M2, M3 |
 | D2 | Phân vai, project plan, quy trình GitHub | `docs/01_Team_Roles.md`, `docs/02_Project_Plan.md`, `CONTRIBUTING.md` | M1 |
-| D3 | Wireframe (Figma) | `docs/wireframes/` | M2 |
 | D4 | Schema / ERD | `docs/03_Database_Schema.md`, `database/schema.sql` | M3 |
 | D5 | API contract | `docs/04_API_Documentation.md`, `docs/openapi.yaml` | M3 |
 | D6 | Lighthouse trước/sau | `docs/optimization/lighthouse/` | M4 |
@@ -37,7 +37,7 @@
 
 | # | Milestone | Deadline | Trạng thái | Bằng chứng |
 |---|---|---|---|---|
-| 1 | Phân vai, wireframe hoàn chỉnh, Prototype 1 → 2 được giảng viên duyệt | Tuần 1 | ✅ Đúng hạn | `docs/peer-review/received-feedback.md`, commit `738ed76` (20/11/2026) |
+| 1 | Phân vai, Prototype 1 → 2 được giảng viên duyệt | Tuần 1 | ✅ Đúng hạn | `docs/peer-review/received-feedback.md`, commit `738ed76` (20/11/2026) |
 | 2 | Setup GitHub + database schema (Supabase) | Tuần 1 | ✅ Đúng hạn | commit `11469aa`, `1b904d8`, `database/schema.sql` |
 | 3 | Giao diện cơ bản (5 trang, responsive) | Tuần 1–2 | ✅ Đúng hạn | commit `738ed76` |
 | 4 | Tích hợp database + API + trang động | Tuần 2 | ✅ Đúng hạn | PR #3 (`a6bc8c3`), backend deploy Render (`a064c96`) |
@@ -51,7 +51,6 @@ Mỗi dòng tương ứng một GitHub Issue (script tạo issue: `tools/github/
 
 | Issue | Công việc | Owner | Branch | Tuần | Trạng thái |
 |---|---|---|---|---|---|
-| — | Wireframe 5 trang (Figma), review trước khi code | M2 | — | 1 | ✅ |
 | — | Prototype frontend 5 trang + responsive | M2 | `feature/member-2-frontend-logic` | 1 | ✅ |
 | — | PRD, Solution Architecture, Database Schema, API docs | M1 + M3 | — | 1 | ✅ |
 | — | Schema + seed 880 nội dung + RLS read-only | M3 | — | 1–2 | ✅ |
@@ -65,7 +64,6 @@ Mỗi dòng tương ứng một GitHub Issue (script tạo issue: `tools/github/
 | #D | GA4 events + Sentry Frontend | M4 | `feature/analytics-monitoring` | 3 | ✅ PR chờ merge |
 | #E | Tạo GA4 property + 2 Sentry project, điền ID/DSN, chụp dashboard | M4 | `chore/monitoring-ids` | 3 | ⏳ |
 | #F | Phân vai, project plan, CONTRIBUTING, issue/PR template | M1 | `docs/project-management` | 3 | ✅ PR chờ merge |
-| #G | Xuất wireframe Figma (PNG) vào `docs/wireframes/` | M2 | `docs/wireframes` | 3 | ⏳ |
 | #H | Review UI/UX nhóm khác #1 | M1, M2 | `docs/peer-review-given` | 3 | ⏳ |
 | #I | Review UI/UX nhóm khác #2 | M3, M4 | `docs/peer-review-given` | 3 | ⏳ |
 | #J | Ghi nhận và xử lý feedback nhận được | M2 (+ owner module liên quan) | `fix/peer-feedback-*` | 3 | ⏳ |

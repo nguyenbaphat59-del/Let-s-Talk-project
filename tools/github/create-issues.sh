@@ -61,11 +61,6 @@ Owner: M4"
 issue "docs: team roles, project plan, CONTRIBUTING, issue/PR templates" "task-1,docs" \
 "Branch: \`docs/project-management\` · Owner: M1"
 
-issue "docs(wireframes): export Figma wireframes for all 5 pages" "task-1,docs,deliverable" \
-"Export PNG frames (desktop + mobile) into docs/wireframes/ and add the Figma link to README.
-
-Owner: M2"
-
 issue "peer-review: UI/UX review for team #1" "task-5,peer-review" \
 "Fill section 1 of docs/peer-review/reviews-given.md (Usability, Aesthetics, User-friendliness) and discuss it with the team.
 

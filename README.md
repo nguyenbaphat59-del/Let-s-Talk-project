@@ -119,7 +119,7 @@ Nhóm họp và thống nhất 4 vai trò, ma trận RACI và quyền sở hữu
 | Thành viên | Vai trò | Phụ trách chính |
 |---|---|---|
 | M1 Nguyễn Thành Long | Leader / PM & Docs | Đặc tả (PRD, kiến trúc), kế hoạch, GitHub workflow, README, điều phối peer review, video |
-| M2 Võ Duy Anh | Frontend | Wireframe, 5 trang HTML/CSS, responsive, tương tác JS |
+| M2 Võ Duy Anh | Frontend | 5 trang HTML/CSS, responsive, tương tác JS |
 | M3 Nguyễn Bá Phát | Backend & Database | Schema/ERD, seed 880 nội dung, Express API, tích hợp, deploy Render |
 | M4 Trần Văn Huy | QA, Optimization & Monitoring | Test, Lighthouse, GA4, Sentry, kiểm thử đa thiết bị |
 
@@ -127,20 +127,13 @@ Chi tiết: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 
 ### (b) Wireframe
 
-- **Công cụ:** Figma — [link Figma]
-- **Các trang đã thiết kế:**
-  - [ ] Homepage + Game Setup
-  - [ ] About
-  - [ ] How to Play
-  - [ ] Gameplay (idle, roulette, activity, các modal)
-  - [ ] Game Complete
-- **Ảnh xuất:** `docs/wireframes/` (checklist và quy ước đặt tên trong [`docs/wireframes/README.md`](docs/wireframes/README.md)).
+Không nộp trong bài này: nhóm không đưa wireframe vào phần nộp. Bố cục các trang được thống nhất qua Prototype 1 và Prototype 2 (đã được giảng viên duyệt, xem Task 5b) và được mô tả trong [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md).
 
 ### (c) Project Plan
 
 | Milestone | Deadline | Trạng thái |
 |---|---|---|
-| Wireframe + Prototype 1 → 2 (giảng viên duyệt) | Tuần 1 | Đúng hạn |
+| Prototype 1 → 2 (giảng viên duyệt) | Tuần 1 | Đúng hạn |
 | Setup GitHub + database schema | Tuần 1 | Đúng hạn |
 | Giao diện cơ bản (5 trang, responsive) | Tuần 1–2 | Đúng hạn |
 | Tích hợp database + API + trang động | Tuần 2 | Đúng hạn |
