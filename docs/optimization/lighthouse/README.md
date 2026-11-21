@@ -5,7 +5,7 @@
 
 This report presents the Lighthouse audit results of the LET'S TALK web application.
 
-The purpose of the audit is to evaluate the website's performance, accessibility, best practices, and search engine optimization (SEO) in both Desktop and Mobile environments.
+The purpose of the audit is to evaluate the website's Performance, Accessibility, Best Practices, and SEO in both Desktop and Mobile environments.
 
 The audits were conducted locally using Google Chrome DevTools Lighthouse.
 
@@ -20,42 +20,16 @@ The audits were conducted locally using Google Chrome DevTools Lighthouse.
 | Testing Environments | Desktop and Mobile |
 | Audit Mode | Navigation |
 
-## 3. Lighthouse Results
+## 3. Latest Lighthouse Results
 
 ### 3.1 Desktop Audit
 
 | Category | Score |
 |---|---:|
-| Performance | 93 |
+| Performance | 94 |
 | Accessibility | 100 |
 | Best Practices | 100 |
 | SEO | 100 |
-
-#### Performance Metrics
-
-| Metric | Result |
-|---|---:|
-| First Contentful Paint (FCP) | 1.0 s |
-| Largest Contentful Paint (LCP) | 1.6 s |
-| Total Blocking Time (TBT) | 0 ms |
-| Cumulative Layout Shift (CLS) | 0.003 |
-
-#### Identified Performance Issues
-
-| Issue | Estimated Potential Savings |
-|---|---:|
-| Improve image delivery | 1,051 KiB |
-| Render-blocking requests | 660 ms |
-| Reduce unused CSS | 69 KiB |
-| Minify CSS | 7 KiB |
-| Minify JavaScript | 4 KiB |
-| Document request latency | 3 KiB |
-
-Other findings:
-- LCP request discovery.
-- Network dependency tree.
-- Image elements without explicit width and height attributes.
-- One non-composited animation element.
 
 ### 3.2 Mobile Audit
 
@@ -66,16 +40,67 @@ Other findings:
 | Best Practices | 100 |
 | SEO | 100 |
 
-#### Performance Metrics
+## 4. Desktop and Mobile Comparison
 
-| Metric | Result |
+| Category | Desktop | Mobile |
+|---|---:|---:|
+| Performance | 94 | 71 |
+| Accessibility | 100 | 100 |
+| Best Practices | 100 | 100 |
+| SEO | 100 | 100 |
+
+The latest results show that Desktop achieved a Performance score of 94, while Mobile achieved 71.
+
+Both environments achieved perfect scores in Accessibility, Best Practices, and SEO.
+
+The difference in Performance scores indicates that the mobile experience has more room for improvement in loading performance.
+
+## 5. Detailed Performance Metrics
+
+The following detailed metrics were captured in the earlier audit screenshots.
+
+### 5.1 Desktop Metrics
+
+| Metric | Recorded Result |
+|---|---:|
+| First Contentful Paint (FCP) | 1.0 s |
+| Largest Contentful Paint (LCP) | 1.6 s |
+| Total Blocking Time (TBT) | 0 ms |
+| Cumulative Layout Shift (CLS) | 0.003 |
+
+### 5.2 Mobile Metrics
+
+| Metric | Recorded Result |
 |---|---:|
 | First Contentful Paint (FCP) | 2.9 s |
 | Largest Contentful Paint (LCP) | 7.9 s |
 | Total Blocking Time (TBT) | 0 ms |
 | Cumulative Layout Shift (CLS) | 0 |
 
-#### Identified Performance Issues
+Note: These detailed metrics are retained from the previously captured audit screenshots. The latest screenshots confirm the category scores but do not display updated detailed metrics.
+
+## 6. Identified Performance Issues
+
+The detailed audit screenshots identified the following potential optimization opportunities.
+
+### 6.1 Desktop Findings
+
+| Issue | Estimated Potential Savings |
+|---|---:|
+| Improve image delivery | 1,051 KiB |
+| Render-blocking requests | 660 ms |
+| Reduce unused CSS | 69 KiB |
+| Minify CSS | 7 KiB |
+| Minify JavaScript | 4 KiB |
+| Document request latency | 3 KiB |
+
+Additional findings:
+- LCP request discovery.
+- Network dependency tree.
+- Image elements without explicit width and height attributes.
+- One non-composited animation element.
+
+### 6.2 Mobile Findings
 
 | Issue | Estimated Potential Savings |
 |---|---:|
@@ -86,7 +111,7 @@ Other findings:
 | Minify JavaScript | 4 KiB |
 | Document request latency | 3 KiB |
 
-Other findings:
+Additional findings:
 - LCP request discovery.
 - Network dependency tree.
 - Image elements without explicit width and height attributes.
@@ -94,72 +119,46 @@ Other findings:
 - Optimize DOM size.
 - One non-composited animation element.
 
-## 4. Desktop and Mobile Comparison
+These values are Lighthouse estimates and diagnostic findings, not measured optimization results.
 
-### 4.1 Lighthouse Scores
+## 7. Evaluation
 
-| Category | Desktop | Mobile |
-|---|---:|---:|
-| Performance | 93 | 71 |
-| Accessibility | 100 | 100 |
-| Best Practices | 100 | 100 |
-| SEO | 100 | 100 |
+### 7.1 Performance
 
-### 4.2 Performance Metrics Comparison
+The latest Desktop audit achieved a Performance score of 94, while Mobile achieved 71.
 
-| Metric | Desktop | Mobile |
-|---|---:|---:|
-| FCP | 1.0 s | 2.9 s |
-| LCP | 1.6 s | 7.9 s |
-| TBT | 0 ms | 0 ms |
-| CLS | 0.003 | 0 |
+The earlier detailed audit identified image delivery, render-blocking requests, and unused CSS as potential areas for improvement.
 
-The results show a noticeable difference in loading performance between Desktop and Mobile.
+The Mobile audit also recorded a Largest Contentful Paint of 7.9 seconds, indicating that mobile loading performance deserves further attention.
 
-Mobile has a higher FCP and LCP, indicating that the page takes longer to display its initial content and largest content element under the tested mobile conditions.
-
-Both environments recorded a Total Blocking Time of 0 ms and very low Cumulative Layout Shift values.
-
-## 5. Evaluation
-
-### 5.1 Performance
-
-The Desktop audit achieved a Performance score of 93, while Mobile achieved 71.
-
-The most notable issue is the Mobile Largest Contentful Paint of 7.9 seconds.
-
-Both audits identified image delivery and render-blocking requests as potential optimization opportunities.
-
-These findings suggest that image loading and resource delivery are important areas for future performance improvements.
-
-### 5.2 Accessibility
+### 7.2 Accessibility
 
 Both Desktop and Mobile achieved a score of 100.
 
-This indicates that the tested pages passed the accessibility checks included in these Lighthouse audits.
+This indicates that the tested pages passed the accessibility checks included in the Lighthouse audits.
 
-### 5.3 Best Practices
+### 7.3 Best Practices
 
 Both environments achieved a score of 100, indicating that the tested pages passed the evaluated Lighthouse best-practice checks.
 
-### 5.4 SEO
+### 7.4 SEO
 
 Both environments achieved a score of 100, indicating that the tested pages passed the evaluated Lighthouse SEO checks.
 
-## 6. Optimization Decision
+## 8. Optimization Decision
 
-Based on the audit results, the team identified several performance optimization opportunities, particularly in image delivery, render-blocking resources, and CSS usage.
+The team reviewed the Lighthouse findings and identified several opportunities to improve performance, particularly image delivery and render-blocking resources.
 
-For this evaluation, the team decided to document the current Lighthouse results without making additional performance modifications.
+For this evaluation, the team decided to record the current audit results without making additional performance modifications.
 
-Therefore, the scores in this report represent the current audit results and should not be interpreted as post-optimization improvements.
+Therefore, this report documents the current Lighthouse assessment and does not claim that performance optimization improvements have been implemented.
 
-## 7. Conclusion
+## 9. Conclusion
 
-The Lighthouse audit provided an overview of the current quality of the LET'S TALK web application across Desktop and Mobile environments.
+The latest Lighthouse results show that LET'S TALK achieved strong scores in Accessibility, Best Practices, and SEO across both Desktop and Mobile environments.
 
-The application achieved perfect scores in Accessibility, Best Practices, and SEO in both environments.
+The latest Performance scores were 94 on Desktop and 71 on Mobile.
 
-The Performance scores were 93 on Desktop and 71 on Mobile. The Mobile LCP of 7.9 seconds indicates that loading performance on mobile devices remains an area for potential improvement.
+Although the website achieved a strong Desktop Performance score, mobile loading performance remains an area for potential improvement.
 
-The audit results and screenshots are retained as supporting evidence for the project's optimization evaluation.
+The audit screenshots are retained in the project repository as supporting evidence for the optimization evaluation.
