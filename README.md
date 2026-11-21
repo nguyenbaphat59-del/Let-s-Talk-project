@@ -9,7 +9,7 @@
 | Tên nhóm | [Tên nhóm] |
 | Tên dự án | LET'S TALK — Less Scrolling. More Talking. |
 | GitHub Repository | https://github.com/nguyenbaphat59-del/Let-s-Talk-project |
-| Website (Frontend) | [URL frontend đã deploy] |
+| Website (Frontend) | https://let-s-talk-project-frontend.vercel.app |
 | Backend API | https://let-s-talk-backend-lk1u.onrender.com/api/v1/health |
 | Video Demo | [Link YouTube] |
 | Ngày nộp | [DD/MM/YYYY] |
@@ -40,7 +40,7 @@ LET'S TALK là web app party game giúp bạn bè và gia đình bớt nhìn đi
 | Frontend | HTML5, CSS3 (design system riêng: CSS custom properties, glassmorphism, keyframe animations), Vanilla JavaScript (ES2020, không framework), Local Storage |
 | Backend | Node.js 20+, Express 5, `helmet`, `express-rate-limit`, `cors`, `@supabase/supabase-js` |
 | Database | PostgreSQL trên Supabase (5 bảng, Row Level Security, runtime read-only) |
-| Deploy | Backend: Render · Frontend: [Vercel / Netlify / GitHub Pages — điền] |
+| Deploy | Backend: Render · Frontend: Vercel |
 | Monitoring | Google Analytics 4 (gtag.js), Sentry (Browser Loader + `@sentry/node`), structured JSON logs |
 | Testing | `node:test` (74 test tự động), validators trong `tools/`, Lighthouse 13 |
 
