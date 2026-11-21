@@ -4,6 +4,8 @@
 **Review date:** 21 November 2026  
 **Review basis:** uploaded repository ZIP `lets-talk-local(20261121-021349).zip`, uploaded production SQL files, Wireframe Master Specification v1.0, PRD v1.2, Solution Architecture draft, and confirmed decisions/screenshots shared in this conversation.
 
+> **Historical checkpoint:** This review records the Step 2 state before Member 3 implementation. The later source implementation and current verification status are recorded in `09_STEP3_BACKEND_COMPLETION_REPORT.md`; do not interpret the Step 2 “not yet implemented” statements below as the current repository state.
+
 ## 1. Executive result
 
 Step 2 has been consolidated into one consistent design baseline. The prototype remains the visual/interaction reference, not the authority for production business rules where its current code conflicts with later decisions.
@@ -60,20 +62,20 @@ The original `npm run check` was run on the uploaded source. All JavaScript synt
 
 | ID | Finding in current prototype | Required final behavior | Step 3 fix |
 |---|---|---|---|
-| GAP-01 | `gameplay.js` randomly chooses `question`, `fate`, `event`, `hotseat` | Roulette selects only Question Zone, Pick Your Fate, Random Event | Remove Hot Seat from automatic random list; add manual Hot Seat control |
+| GAP-01 | Prototype activity selection was not backed by the production content/API model | Roulette selects Question Zone, Pick Your Fate, Random Event, and Hot Seat when each is eligible | Backend selects uniformly across the four eligible families and the UI reveals the returned result |
 | GAP-02 | `pickUnused()` falls back to the original full list when no unused item remains | No content reuse | Return explicit exhaustion; never select from the full list after pool exhaustion |
 | GAP-03 | `session.js` stores one question sequence and one shuffle pool | 9 separate production pools with per-pool used IDs | Replace question-only session engine with v2 multi-pool state |
 | GAP-04 | Finite progression ends when `currentQuestionIndex` reaches the configured index, regardless of skips | Finite 10/20 is a target of completed activity units | End only when completedUnits reaches target; skip increments skipped/processed only |
 | GAP-05 | Truth and some Surprise/Event activities use current question-bank question or generic local examples | Each activity consumes its own DB group/type | Connect all activity types to API pools |
 | GAP-06 | Double Challenge is built using fixed challenge IDs in local JSON | Two distinct items from the dedicated DB group | Fetch 2 unused Double Challenge items from Backend |
 | GAP-07 | Pick a Player uses a generic event example | 20 question + 20 challenge pool/topic, resolved 50/50 | Implement dedicated type-specific pools and no participant assignment |
-| GAP-08 | Hot Seat is inside roulette | Hot Seat is manual-only | Add a manual trigger in Idle; keep it out of roulette |
+| GAP-08 | Earlier prototype roulette and Hot Seat behavior were inconsistent | Hot Seat is the fourth automatic main family; the group verbally chooses the participant | Use the dedicated `hot_seat` pool in the same automatic selection flow; no manual-only button |
 | GAP-09 | Current HUD shows turn-like progress and completed percentage; labels can be interpreted as target turns | Display completed target and skipped/processed counts distinctly | Update progress labels and counter derivation |
 | GAP-10 | Session uses old schemaVersion 1 question sequence | Multi-pool session schemaVersion 2 | Explicitly reject/offer restart for incompatible old session; do not silently migrate |
 | GAP-11 | Existing pages use local JSON logic and no production API integration | Same-origin `/api/v1` calls; Supabase remains behind Backend | Add Backend and API integration in Step 3 |
 | GAP-12 | `README.md` lists several CSS files that are not present and describes prototype only | Accurate repository map and target architecture boundary | README updated in this package |
 
-These changes must be made behind the current UI in Step 3. They are not authorization to redesign or rewrite the frontend visual layer.
+The current v1.4 gameplay decision supersedes the earlier three-family/manual-only Hot Seat requirement. These changes update selection logic and roulette content while preserving the approved visual language.
 
 ## 4. Final decisions — no longer open
 
@@ -81,13 +83,13 @@ These changes must be made behind the current UI in Step 3. They are not authori
 |---|---|---|
 | DEC-01 | Initial topics | Friends and Family only. Love was in an older PRD direction but is absent from the current prototype and the 880-item DB; do not add it. |
 | DEC-02 | Session choices | 10, 20, Unlimited; latest prototype and user-approved baseline supersede older 10/20/30. |
-| DEC-03 | Automatic families | Three: Question Zone, Pick Your Fate, Random Event. Hot Seat is manual-only, reflecting latest owner clarification. |
+| DEC-03 | Automatic families | Four: Question Zone, Pick Your Fate, Random Event, and Hot Seat. Select uniformly among eligible families; Hot Seat is excluded only when its pool is exhausted. This v1.4 decision supersedes the earlier three-family/manual-only baseline. |
 | DEC-04 | Hot Seat Pass | Finalized as Skip: consumes one processed turn, adds one skipped, does not add completed. This resolves PRD v1.2 OD-01. |
 | DEC-05 | Finite progression | 10/20 means completed activity units, not number of attempts. A skip does not fill the target. |
 | DEC-06 | Randomization | Uniform only among currently eligible options. No reuse to keep a nominal percentage. |
 | DEC-07 | Mystery eligibility | Available only while both Truth and Challenge pools contain unused items; otherwise disable it rather than skew 50/50. |
 | DEC-08 | Pick a Player eligibility | Available only while both its question and challenge pools have unused content so 50/50 remains valid. The group chooses the person. |
-| DEC-09 | Unlimited exhaustion | If all auto-random families are exhausted but Hot Seat remains, offer manual Hot Seat or End Game. Finish on all pools exhausted or End Game. |
+| DEC-09 | Unlimited exhaustion | Hot Seat participates in automatic selection. Finish with `content_exhausted` only when all four main-family paths are ineligible, or when the user chooses End Game. |
 | DEC-10 | Completion UI | Minimal agreed design: logo, SESSION COMPLETE, Great Conversations!, short celebratory subtitle, Play Again, Back to Home, closing line. No metrics panel or Choose Another Topic CTA. |
 | DEC-11 | Session storage | Local Storage only; no DB session/usage tables. Backend remains stateless. |
 | DEC-12 | Architecture | HTML/CSS/Vanilla JS + Express/Node + Supabase PostgreSQL + one GitHub repo + one Vercel Project with two Services (Beta deployment spike first). |
@@ -161,4 +163,4 @@ The Supabase project still shows a default project name in the screenshot. This 
 
 The unchecked items are explicitly Step 3 or optional strict re-validation tasks; they do not leave the Step 2 documents ambiguous.
 
-**Final assessment: Step 2 documentation/design is complete. The deployed database baseline is operational and manually verified. Proceed to Step 3 planning/implementation only from this versioned baseline.**
+**Final assessment: Step 2 documentation/design is complete. The deployed database baseline is operational and manually verified. Step 3 source implementation and its current test evidence are recorded in `09_STEP3_BACKEND_COMPLETION_REPORT.md`; live Supabase checks and deployment remain external gates.**

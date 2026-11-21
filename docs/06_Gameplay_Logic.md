@@ -1,8 +1,8 @@
 # LET'S TALK — Gameplay and Content-Selection Logic
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Status:** Approved target specification  
-**Source of truth:** PRD v1.3 + API v1.0 + deployed content groups
+**Source of truth:** PRD v1.4 + API v1.1 + deployed content groups
 
 ## 1. Pool map
 
@@ -38,13 +38,12 @@ Never fall back from an empty unused list to the full list. Never source a promp
 
 ## 3. Automatic main-family selection
 
-The automatic candidate set is exactly:
+The automatic candidate set contains exactly four main families:
 
 - Question Zone
 - Pick Your Fate
 - Random Event
-
-Hot Seat is manual and is not in this candidate set.
+- Hot Seat
 
 Eligibility:
 
@@ -53,19 +52,20 @@ Eligibility:
 | Question Zone | QZ has at least 1 unused question |
 | Pick Your Fate | Truth or Challenge direct choice has at least 1 unused item; see Mystery eligibility below |
 | Random Event | At least 1 Random Event subtype is eligible |
+| Hot Seat | Hot Seat pool has at least 1 unused question |
 
 Algorithm:
 
 ```text
-eligible = [QZ, PickYourFate, RandomEvent] filtered by eligibility
+eligible = [QZ, PickYourFate, RandomEvent, HotSeat] filtered by eligibility
 if eligible is empty:
-    return NO_ELIGIBLE_ACTIVITY + manualHotSeatAvailable flag
+    return NO_ELIGIBLE_ACTIVITY
 else:
     selected = secureUniformChoice(eligible)
     return resolve/prepare(selected)
 ```
 
-Probability is 1/3 each when all three are eligible. If one or more are unavailable, each remaining candidate gets equal probability. Do not preserve 1/3 by selecting exhausted families or reusing content.
+Probability is 1/4 (25%) each when all four are eligible. If one or more are unavailable, each remaining candidate gets equal probability. Do not preserve a fixed percentage by selecting exhausted families or reusing content.
 
 ## 4. Pick Your Fate
 
@@ -113,11 +113,13 @@ Pick a Player is not eligible when one of its two type pools is empty. This pres
 
 Double Challenge returns two distinct content IDs in one response. If only one unused challenge remains, it is excluded; it does not return a one-item partial challenge.
 
-## 6. Manual Hot Seat
+## 6. Hot Seat
 
-Hot Seat is invoked only by the dedicated manual control in Gameplay Idle. Backend retrieves one unused Hot Seat question. The group verbally chooses the participant, and the participant may answer or Pass. No participant ID or player roster is captured.
+Hot Seat participates in the same automatic main-family selection as Question Zone, Pick Your Fate, and Random Event. It is eligible when at least one unused question remains in the selected topic's `hot_seat` pool. When selected, Backend retrieves one unused Hot Seat question and returns it with `activityFamily = hot_seat`, `trigger = automatic`, and the participant instruction.
 
-Pass is Skip: `skippedUnits += 1`, `processedTurns += 1`, `completedUnits` unchanged. The prompt ID remains consumed; do not return it later in the session.
+The group verbally chooses who takes the Hot Seat. No participant ID or player roster is captured, and the application never assigns a person. The participant may answer or Pass.
+
+Pass is Skip: `skippedUnits += 1`, `processedTurns += 1`, `completedUnits` unchanged. The prompt ID remains consumed; do not return it later in the session. If the pool is empty, exclude Hot Seat from the automatic candidate set.
 
 ## 7. Question Zone Next Question
 
@@ -146,7 +148,7 @@ Finite mode:
 ```text
 if completedUnits >= progressionTarget:
     finish(reason = target_reached)
-else if no usable activity remains (including manual Hot Seat):
+else if no usable activity remains across all four automatic families:
     finish(reason = content_exhausted)
 else:
     return to ready
@@ -159,10 +161,8 @@ Unlimited mode:
 ```text
 if user confirms End Game:
     finish(reason = ended_early)
-else if at least one automatic family is eligible:
+else if at least one of the four automatic families is eligible:
     remain active
-else if Hot Seat pool has unused prompts:
-    remain active and offer manual Hot Seat or End Game
 else:
     finish(reason = content_exhausted)
 ```
@@ -178,7 +178,7 @@ No fixed completion percentage is displayed in Unlimited.
 | Mystery not possible | `mystery.enabled=false` | Disable Mystery; do not silently skew probability |
 | Double Challenge has <2 prompts | Exclude subtype / 409 if stale | Do not start partial event |
 | Pick a Player missing one type | Exclude subtype / 409 if stale | Explain unavailable if requested from stale UI |
-| No automatic family, Hot Seat remains | `409 NO_ELIGIBLE_ACTIVITY` with flag | Offer manual Hot Seat or End Game |
+| Hot Seat pool empty but another family remains | Exclude Hot Seat from candidates | Continue with the remaining eligible families |
 | All pools empty | `409 NO_ELIGIBLE_ACTIVITY` | End as content exhausted |
 | API unavailable | `503`/network error | Keep session unchanged, show Retry |
 | Storage write fails | Local error | Do not unlock or progress activity |
@@ -191,4 +191,4 @@ No fixed completion percentage is displayed in Unlimited.
 - Statistical tests should use large samples and tolerance bounds; never expect exactly 50% or 25% in a small sample.
 - Add deterministic tests for 0/1/2/3/4 candidate and exhaustion edge cases.
 
-**Gameplay Logic status: Complete for Step 2.**
+**Gameplay Logic status: Updated for the v1.4 four-family selection rule.**

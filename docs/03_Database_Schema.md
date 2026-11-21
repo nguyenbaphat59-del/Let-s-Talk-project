@@ -95,9 +95,9 @@ Stable mapping:
 | 1 | `question_zone` | Main automatic family |
 | 2 | `pick_your_fate` | Truth and Challenge selection family |
 | 3 | `random_event` | Four Random Event sub-activities |
-| 4 | `hot_seat` | Manually activated activity |
+| 4 | `hot_seat` | Fourth automatic main activity family |
 
-The Hot Seat row remains in the catalog taxonomy even though it is not included in automatic roulette.
+The Hot Seat gameplay-mode row maps to the existing `hot_seat` content group. No schema or seed change is required for automatic selection.
 
 ### 3.3 `content_groups`
 
@@ -222,7 +222,7 @@ The project owner executed the schema and seed SQL in Supabase and shared query 
 | anon SELECT | true on all 5 | Verified |
 | anon INSERT/UPDATE/DELETE | false on all 5 | Verified |
 
-The repeatable `database/validation/validate_inventory.sql` script is included and should be run as a final release/CI database validation. The owner’s manual aggregate and group-by queries already confirmed the displayed inventory; the full assertion script has not been confirmed as run. No live HTTP/Data API connectivity test has been run because the Express API is not yet implemented.
+The repeatable `database/validation/validate_inventory.sql` script is included and should be run as a final release/CI database validation. The owner’s manual aggregate and group-by queries confirmed the displayed inventory; the full assertion script has not been confirmed as run. The Express API and a read-only Supabase inventory checker have since been implemented in Step 3. Live Data API connectivity and the strict SQL assertion script still require the owner's Supabase environment and have not been claimed as executed in this workspace.
 
 ## 7. SQL execution order and operations
 
