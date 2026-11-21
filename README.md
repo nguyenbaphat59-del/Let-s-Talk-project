@@ -10,7 +10,7 @@
 | Tên dự án | LET'S TALK — Less Scrolling. More Talking. |
 | GitHub Repository | https://github.com/nguyenbaphat59-del/Let-s-Talk-project |
 | Website (Frontend) | [URL frontend đã deploy] |
-| Backend API | https://let-s-talk-backend-1k1u.onrender.com/api/v1/health |
+| Backend API | https://let-s-talk-backend-lk1u.onrender.com/api/v1/health |
 | Video Demo | [Link YouTube] |
 | Ngày nộp | [DD/MM/YYYY] |
 

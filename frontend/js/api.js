@@ -5,7 +5,7 @@
 
   // Production Backend hosted on Render.
   const PRODUCTION_API_BASE =
-    'https://let-s-talk-backend-1k1u.onrender.com/api/v1';
+    'https://let-s-talk-backend-lk1u.onrender.com/api/v1';
 
   // Local Backend configuration.
   const LOCAL_API_BASE = (() => {
