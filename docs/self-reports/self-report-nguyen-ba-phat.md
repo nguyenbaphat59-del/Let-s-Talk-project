@@ -6,7 +6,7 @@
 |---|---|
 | Họ tên | Nguyễn Bá Phát |
 | GitHub | https://github.com/nguyenbaphat59-del |
-| Nhóm | [Tên nhóm] |
+| Nhóm | Nhóm 3 |
 | Vai trò trong nhóm | M3 — Backend & Database Developer |
 
 ## 2. Công việc theo Task
