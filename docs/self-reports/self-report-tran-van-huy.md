@@ -1,7 +1,5 @@
 # Self-Report — Final Project
 
-> **Bản nháp do Leader chuẩn bị theo vai trò M4.** Trần Văn Huy cần: (1) sửa danh sách công việc cho đúng phần mình đã làm, thêm link commit/PR/issue của chính mình; (2) tự viết phần Khó khăn, Tóm tắt và tự chấm điểm; (3) commit file bằng tài khoản GitHub của mình; (4) xoá các dòng `>` trước khi nộp.
-
 ## 1. Thông tin cá nhân
 
 | | |
