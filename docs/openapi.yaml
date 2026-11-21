@@ -1,0 +1,310 @@
+openapi: 3.1.0
+info:
+  title: LET'S TALK API
+  version: 1.0.0
+  description: >-
+    Stateless content-selection API for the LET'S TALK single-device party game.
+    Active sessions and used content IDs are owned by the browser Local Storage.
+servers:
+  - url: /api/v1
+    description: Same-origin API base path
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Backend is alive
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/HealthResponse' }
+  /topics:
+    get:
+      summary: List active topics and session length choices
+      operationId: getTopics
+      responses:
+        '200':
+          description: Topic catalog
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TopicsResponse' }
+  /topics/{topicCode}/catalog:
+    get:
+      summary: Get active content inventory for one topic
+      operationId: getTopicCatalog
+      parameters:
+        - name: topicCode
+          in: path
+          required: true
+          schema: { $ref: '#/components/schemas/TopicCode' }
+      responses:
+        '200':
+          description: Active pool counts
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CatalogResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/Unavailable' }
+  /gameplay/next-activity:
+    post:
+      summary: Select next automatic activity or manually request Hot Seat
+      operationId: getNextActivity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [topicCode, trigger, usedContentIdsByPool]
+              properties:
+                topicCode: { $ref: '#/components/schemas/TopicCode' }
+                trigger:
+                  type: string
+                  enum: [automatic, hot_seat_manual]
+                usedContentIdsByPool: { $ref: '#/components/schemas/UsedContentIdsByPool' }
+      responses:
+        '200':
+          description: Selected activity/family
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ActivityResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '503': { $ref: '#/components/responses/Unavailable' }
+  /gameplay/resolve-fate:
+    post:
+      summary: Resolve Truth, Challenge, or Mystery
+      operationId: resolveFate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [topicCode, choice, usedContentIdsByPool]
+              properties:
+                topicCode: { $ref: '#/components/schemas/TopicCode' }
+                choice:
+                  type: string
+                  enum: [truth, challenge, mystery]
+                usedContentIdsByPool: { $ref: '#/components/schemas/UsedContentIdsByPool' }
+      responses:
+        '200':
+          description: Resolved fate prompt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ContentSelectionResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '503': { $ref: '#/components/responses/Unavailable' }
+  /gameplay/question-zone/next:
+    post:
+      summary: Replace active Question Zone prompt without progressing the session
+      operationId: getNextQuestionZonePrompt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [topicCode, usedContentIdsByPool]
+              properties:
+                topicCode: { $ref: '#/components/schemas/TopicCode' }
+                usedContentIdsByPool: { $ref: '#/components/schemas/UsedContentIdsByPool' }
+      responses:
+        '200':
+          description: New Question Zone prompt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ContentSelectionResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '503': { $ref: '#/components/responses/Unavailable' }
+components:
+  schemas:
+    TopicCode:
+      type: string
+      enum: [friends, family]
+    ContentType:
+      type: string
+      enum: [question, challenge]
+    ContentItem:
+      type: object
+      required: [id, contentType, text]
+      properties:
+        id: { type: string, format: uuid }
+        contentType: { $ref: '#/components/schemas/ContentType' }
+        text: { type: string, minLength: 1 }
+    UsedContentIdsByPool:
+      type: object
+      additionalProperties: false
+      properties:
+        question_zone: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        truth: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        challenge: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        double_challenge: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        everyone_answers: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        surprise_question: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        pick_a_player_question: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        pick_a_player_challenge: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+        hot_seat: { type: array, items: { type: string, format: uuid }, uniqueItems: true }
+      description: At most 880 UUIDs total; each ID must be unique globally and belong to its declared topic/group/type pool.
+    Meta:
+      type: object
+      required: [requestId]
+      properties:
+        requestId: { type: string, format: uuid }
+    HealthResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          properties:
+            status: { const: ok }
+            service: { const: lets-talk-api }
+        meta: { $ref: '#/components/schemas/Meta' }
+    TopicsResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          properties:
+            topics:
+              type: array
+              items:
+                type: object
+                required: [code, name]
+                properties:
+                  code: { $ref: '#/components/schemas/TopicCode' }
+                  name: { type: string }
+            sessionLengths:
+              type: array
+              items:
+                oneOf:
+                  - { type: integer, enum: [10, 20] }
+                  - { type: string, const: unlimited }
+        meta: { $ref: '#/components/schemas/Meta' }
+    CatalogResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [topic, pools]
+          properties:
+            topic:
+              type: object
+              required: [code, name]
+              properties:
+                code: { $ref: '#/components/schemas/TopicCode' }
+                name: { type: string }
+            pools:
+              type: object
+              additionalProperties:
+                type: object
+                required: [contentType, available]
+                properties:
+                  contentType: { $ref: '#/components/schemas/ContentType' }
+                  available: { type: integer, minimum: 0 }
+        meta: { $ref: '#/components/schemas/Meta' }
+    ContentSelectionResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [content, usedPool]
+          properties:
+            activityFamily: { type: string }
+            eventCode: { type: string }
+            resolvedChoice: { type: string }
+            selectedContentType: { $ref: '#/components/schemas/ContentType' }
+            content:
+              oneOf:
+                - { $ref: '#/components/schemas/ContentItem' }
+                - type: array
+                  minItems: 2
+                  maxItems: 2
+                  items: { $ref: '#/components/schemas/ContentItem' }
+            usedPool: { type: string }
+            participantInstruction: { type: string }
+        meta: { $ref: '#/components/schemas/Meta' }
+    ActivityResponse:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: object
+          required: [activityFamily]
+          properties:
+            activityFamily:
+              type: string
+              enum: [question_zone, pick_your_fate, random_event, hot_seat]
+            trigger: { type: string, enum: [automatic, manual] }
+            requiresChoice: { type: boolean }
+            choices: { type: object, additionalProperties: true }
+            eventCode: { type: string }
+            selectedContentType: { $ref: '#/components/schemas/ContentType' }
+            content:
+              oneOf:
+                - { $ref: '#/components/schemas/ContentItem' }
+                - type: array
+                  minItems: 2
+                  maxItems: 2
+                  items: { $ref: '#/components/schemas/ContentItem' }
+            usedPool: { type: string }
+            participantInstruction: { type: string }
+        meta: { $ref: '#/components/schemas/Meta' }
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, requestId]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            details: { type: object, additionalProperties: true }
+            requestId: { type: string, format: uuid }
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiError' }
+    NotFound:
+      description: Topic or route not found
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiError' }
+    Conflict:
+      description: A requested pool/state is unavailable or exhausted
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiError' }
+    PayloadTooLarge:
+      description: Request body exceeds the configured size limit
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiError' }
+    RateLimited:
+      description: Public request rate limit exceeded
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiError' }
+    Unavailable:
+      description: Supabase content service unavailable
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ApiError' }
