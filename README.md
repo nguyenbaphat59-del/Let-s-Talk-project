@@ -6,22 +6,22 @@
 
 | Thông tin | Chi tiết |
 |---|---|
-| Tên nhóm | [Tên nhóm] |
+| Tên nhóm | Nhóm 3 |
 | Tên dự án | LET'S TALK — Less Scrolling. More Talking. |
 | GitHub Repository | https://github.com/nguyenbaphat59-del/Let-s-Talk-project |
 | Website (Frontend) | https://let-s-talk-project-frontend.vercel.app |
 | Backend API | https://let-s-talk-backend-lk1u.onrender.com/api/v1/health |
-| Video Demo | [Link YouTube] |
-| Ngày nộp | [DD/MM/YYYY] |
+| Video Demo | https://youtu.be/CBGHQs0oH-E |
+| Ngày nộp | [22/11/2026] |
 
 ### Thành viên nhóm
 
 | Họ tên | GitHub | Vai trò |
 |---|---|---|
-| Nguyễn Thành Long | [`NguyenThanhLong-dev`](https://github.com/NguyenThanhLong-dev) | M1 — Leader / Project Manager & Documentation |
-| Võ Duy Anh | [`tuananhvo588-design`](https://github.com/tuananhvo588-design) | M2 — Frontend Developer (UI/UX) |
-| Nguyễn Bá Phát | [`nguyenbaphat59-del`](https://github.com/nguyenbaphat59-del) | M3 — Backend & Database Developer |
-| Trần Văn Huy | (chưa có — đang tạo) | M4 — QA, Optimization & Monitoring |
+| Nguyễn Thành Long | [`NguyenThanhLong-dev`] | M1 — Leader / Project Manager & Documentation |
+| Võ Duy Anh | [`tuananhvo588-design`] | M2 — Frontend Developer (UI/UX) |
+| Nguyễn Bá Phát | [`nguyenbaphat59-del`] | M3 — Backend & Database Developer |
+| Trần Văn Huy | [VanHuyTran0oooo] | M4 — QA, Optimization & Monitoring |
 
 Chi tiết trách nhiệm: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 
@@ -143,10 +143,10 @@ Chi tiết: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 | Wireframe + Prototype 1 → 2 (giảng viên duyệt) | Tuần 1 | Đúng hạn |
 | Setup GitHub + database schema | Tuần 1 | Đúng hạn |
 | Giao diện cơ bản (5 trang, responsive) | Tuần 1–2 | Đúng hạn |
-| Tích hợp database + API + trang động | Tuần 2 | Đúng hạn |
+| Tích hợp database + API + trang động | Tuần 2 | Trễ hạn |
 | Tối ưu & monitoring | Tuần 3 | Hoàn thành code; chờ điền GA ID / Sentry DSN |
-| Peer review | Tuần 3 — [DD/MM] | [Trạng thái] |
-| Nộp bài | [DD/MM/YYYY] | [Trạng thái] |
+| Peer review | Tuần 3 — [20/11] | Đã hoàn thành |
+| Nộp bài | [22/11/2026] | Đã nộp |
 
 Scope, deliverables, phân công chi tiết theo issue và rủi ro: [`docs/02_Project_Plan.md`](docs/02_Project_Plan.md).
 
@@ -356,22 +356,6 @@ Chi tiết và cách kiểm chứng: [`docs/11_Monitoring_and_Analytics.md`](doc
 ### (a) Feedback cho nhóm khác
 
 Toàn bộ bảng review (Usability, Aesthetics, User-Friendliness) và nội dung trao đổi nằm trong [`docs/peer-review/reviews-given.md`](docs/peer-review/reviews-given.md).
-
-**Nhóm: [Tên nhóm 1]** — [link project]
-
-| Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
-|---|---|---|
-| Usability | | |
-| Aesthetics | | |
-| User-Friendliness | | |
-
-**Nhóm: [Tên nhóm 2]** — [link project]
-
-| Khía cạnh | Điểm mạnh | Gợi ý cải thiện |
-|---|---|---|
-| Usability | | |
-| Aesthetics | | |
-| User-Friendliness | | |
 
 ### (b) Xử lý feedback nhận được
 
