@@ -1,0 +1,43 @@
+{
+  "source_file": "Pasted text(20261120-145914).txt",
+  "source_rows": 880,
+  "source_group_counts": {
+    "friends-qz": 100,
+    "friends-truth": 50,
+    "friends-ch": 50,
+    "friends-dc": 50,
+    "friends-ea": 50,
+    "friends-sq": 50,
+    "friends-pp": 40,
+    "friends-hs": 50,
+    "family-qz": 100,
+    "family-truth": 50,
+    "family-ch": 50,
+    "family-dc": 50,
+    "family-ea": 50,
+    "family-sq": 50,
+    "family-pp": 40,
+    "family-hs": 50
+  },
+  "rewritten_exact_duplicates": {
+    "friends-ea-010": "What is a moment when someone in this group surprised you with an unexpected act of kindness?",
+    "friends-dc-015": "One player invents a ridiculous product; the other gives a 15-second sales pitch for it.",
+    "family-ch-035": "Teach the group a simple hand gesture that could become your family's secret greeting.",
+    "friends-dc-014": "One player acts out a familiar daily task in slow motion while the other narrates it like a sports event.",
+    "family-ch-010": "Keep a straight face while another player tells a deliberately silly two-sentence story.",
+    "family-ea-003": "Which family gathering had the most unexpected or memorable moment?",
+    "family-pp-005": "Who in the family would you choose to help you solve a difficult problem?",
+    "family-pp-017": "Who in the family would be most excited to try an unfamiliar activity?",
+    "family-hs-005": "Which family custom or ritual would you most like to pass on to the next generation?",
+    "family-hs-002": "What is a value you learned from a relative that still guides your choices?"
+  },
+  "normalized_duplicates_after_revision": 0,
+  "content_type_totals": {
+    "questions": 640,
+    "challenges": 240
+  },
+  "topic_totals": {
+    "friends": 440,
+    "family": 440
+  }
+}

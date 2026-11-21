@@ -1,0 +1,21 @@
+{
+  "name": "lets-talk-project",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "node frontend/server.mjs",
+    "dev:backend": "npm --workspace @lets-talk/backend run dev",
+    "start:backend": "npm --workspace @lets-talk/backend run start",
+    "test": "npm --workspace @lets-talk/backend test && node --test frontend/test/*.test.js",
+    "validate": "node tools/validate-project.mjs",
+    "validate:step2": "node tools/validate-step2.mjs",
+    "validate:backend": "node tools/validate-backend.mjs",
+    "check": "node --check backend/server.js && node --check backend/src/app.js && node --check frontend/js/api.js && node --check frontend/js/storage.js && node --check frontend/js/session.js && node --check frontend/js/homepage.js && node --check frontend/js/gameplay.js && node --check frontend/js/game-complete.js && npm test && npm run validate && npm run validate:step2 && npm run validate:backend",
+    "test:offline": "npm --workspace @lets-talk/backend run test:offline && node --test frontend/test/*.test.js",
+    "check:offline": "node --check backend/server.js && node --check backend/src/app.js && node --check frontend/js/api.js && node --check frontend/js/storage.js && node --check frontend/js/session.js && node --check frontend/js/homepage.js && node --check frontend/js/gameplay.js && node --check frontend/js/game-complete.js && npm run test:offline && npm run validate && npm run validate:step2 && npm run validate:backend"
+  }
+}
