@@ -41,7 +41,7 @@ LET'S TALK là web app party game giúp bạn bè và gia đình bớt nhìn đi
 | Backend | Node.js 20+, Express 5, `helmet`, `express-rate-limit`, `cors`, `@supabase/supabase-js` |
 | Database | PostgreSQL trên Supabase (5 bảng, Row Level Security, runtime read-only) |
 | Deploy | Backend: Render · Frontend: [Vercel / Netlify / GitHub Pages — điền] |
-| Monitoring | Google Analytics 4 (gtag.js), Sentry (Browser Loader + `@sentry/node`), structured JSON logs |
+| Monitoring | Google Analytics 4 (gtag.js), Sentry (Browser SDK tự host + `@sentry/node`), structured JSON logs |
 | Testing | `node:test` (74 test tự động), validators trong `tools/`, Lighthouse 13 |
 
 ### Tính năng chính
@@ -314,7 +314,7 @@ Dữ liệu thay đổi theo lựa chọn của người dùng (chủ đề, Tru
 | Render-blocking: stylesheet Google Fonts chặn lần vẽ đầu | Preload + áp dụng bất đồng bộ (`media="print" onload`), có `<noscript>` fallback |
 | Ảnh không khai báo `width`/`height` | Thêm kích thước gốc `1200×957` cho logo; CSS vẫn quyết định kích thước hiển thị nên layout không đổi |
 | LCP request discovery (thiếu `fetchpriority=high`) | `<link rel="preload" as="image" fetchpriority="high">` cho ảnh LCP |
-| Script analytics/monitoring có thể làm chậm tải | `gtag.js` chỉ tải sau sự kiện `load`; Sentry Loader là script nhỏ, bất đồng bộ; mọi script dùng `defer` |
+| Script analytics/monitoring có thể làm chậm tải | `gtag.js` chỉ tải sau sự kiện `load`; Sentry SDK tự host tải `async`, không chặn hiển thị; mọi script dùng `defer` |
 | Improve image delivery (~1 MB logo PNG) | **Chưa xử lý.** Nhóm quyết định không thay đổi file ảnh trong đợt này (xem hạn chế bên dưới) |
 
 **Sau khi tối ưu** (đo lại cùng phương pháp, Lighthouse 13 headless, `bash tools/lighthouse-audit.sh`):
@@ -339,7 +339,7 @@ Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *f
 
 **Sentry**
 
-- [x] Đã tích hợp Sentry — Frontend (Loader Script) và Backend (`@sentry/node`)
+- [x] Đã tích hợp Sentry — Frontend (Browser SDK tự host, `frontend/js/vendor/sentry.min.js`) và Backend (`@sentry/node`)
 - **DSN / cấu hình:** Frontend `LT_CONFIG.sentryDsn` · Backend biến môi trường `SENTRY_DSN` (tuỳ chọn, được kiểm tra khi khởi động)
 - **Loại lỗi được theo dõi:**
   - Frontend: uncaught exception, unhandled promise rejection (kể cả lỗi xảy ra trước khi SDK tải xong), lỗi API (mất mạng, 5xx, response không đọc được, mã 4xx bất thường) kèm `endpoint`, `status`, `code` và `requestId`

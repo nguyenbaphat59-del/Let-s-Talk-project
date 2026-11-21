@@ -8,7 +8,7 @@
 | Concern | Tool | Where | File(s) |
 |---|---|---|---|
 | User behaviour | Google Analytics 4 (`gtag.js`) | Browser, all 5 pages | `frontend/js/analytics.js` |
-| Frontend errors | Sentry Browser SDK (Loader Script) | Browser, all 5 pages | `frontend/js/monitoring.js` |
+| Frontend errors | Sentry Browser SDK (self-hosted, `frontend/js/vendor/sentry.min.js`) | Browser, all 5 pages | `frontend/js/monitoring.js` |
 | Backend errors | Sentry Node SDK (`@sentry/node`) | Express API | `backend/src/config/monitoring.js`, `backend/src/middlewares/error.middleware.js` |
 | Request logs | Structured JSON access log | Express API (Render logs) | `backend/src/middlewares/request-logger.middleware.js` |
 | Public IDs | Runtime config | Browser | `frontend/js/config.js` |
@@ -32,7 +32,7 @@ Analytics is off on `localhost` previews so development clicks do not pollute re
 2. Settings → Projects → `lets-talk-frontend` → Client Keys (DSN) → copy the DSN.
 3. Put it in `frontend/js/config.js` → `sentryDsn`.
 
-The DSN is a public identifier designed to be embedded in browser code. `monitoring.js` derives the Loader Script URL (`https://js.sentry-cdn.com/<publicKey>.min.js`) from it.
+The DSN is a public identifier designed to be embedded in browser code. `monitoring.js` loads the self-hosted SDK `js/vendor/sentry.min.js` asynchronously and initialises it with this DSN. (The Sentry Loader Script was used first, but it reported *"The Sentry loader you are trying to use isn't working anymore"* for this project; see `tools/sentry-bundle/README.md`.)
 
 ### 2.3 Sentry — Backend
 
@@ -100,10 +100,10 @@ How it is implemented: one capture-phase click listener maps the existing button
 
 | Check | How |
 |---|---|
-| Automated | `npm test` — `backend/test/monitoring.test.js` (DSN validation, reporter called with requestId on 5xx, never on 4xx, reporter failure is isolated, access-log format) and `frontend/test/monitoring.test.js` (Loader URL from DSN, invalid DSN, wrapper keeps results and errors unchanged, buffering before SDK ready, GA disabled without ID or on localhost, event queueing). |
+| Automated | `npm test` — `backend/test/monitoring.test.js` (DSN validation, reporter called with requestId on 5xx, never on 4xx, reporter failure is isolated, access-log format) and `frontend/test/monitoring.test.js` (SDK loaded only when a DSN is set, invalid DSN, wrapper keeps results and errors unchanged, buffering before SDK ready, GA disabled without ID or on localhost, event queueing). |
 | Frontend error | With the DSN set, open the deployed site → DevTools console → `setTimeout(() => { throw new Error('Sentry test') })` → the issue appears in Sentry. |
 | API error | Stop the Backend (or block the API URL in DevTools → Network request blocking) and click Start Playing → a `NETWORK_ERROR` issue is recorded with `endpoint = getCatalog`. |
 | GA | Play one short session on the deployed site → GA Realtime shows `game_start`, `activity_drawn` and `game_complete`. |
-| Lighthouse | `gtag.js` is requested only after the `load` event, and the Sentry loader is a small async script, so neither blocks rendering. |
+| Lighthouse | `gtag.js` is requested only after the `load` event, and the Sentry SDK is loaded with `async`, so neither blocks rendering. |
 
 Screenshots of the GA Realtime/DebugView report and of a Sentry issue should be added to `docs/optimization/monitoring/` for the final report.
