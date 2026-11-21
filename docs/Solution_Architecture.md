@@ -1,12 +1,12 @@
 # LET'S TALK — Solution Architecture
 
-**Version:** 1.3  
-**Status:** Approved target architecture for Step 3 planning  
+**Version:** 1.4  
+**Status:** Approved architecture; source implementation delivered in Step 3  
 **Date:** 21 November 2026  
 **Architecture style:** Three-tier application with a modular-monolith Backend  
-**Requirements baseline:** `LETS_TALK_PRD.md` v1.3
+**Requirements baseline:** `LETS_TALK_PRD.md` v1.4
 
-> This is the target design. The current ZIP still contains a static frontend prototype, not the production Express API. Supabase schema and content have been deployed by the project owner and verified with SQL queries. No production API or Vercel deployment is claimed to exist yet.
+> This document records the approved architecture. Step 3 has delivered the Express API source, Supabase read-only repository, and Frontend API/session integration. The owner has verified the local Supabase read path; Vercel production deployment remains outstanding and is not claimed as completed.
 
 ## 1. Architecture goals and constraints
 
@@ -127,13 +127,10 @@ Persistent catalog/content only: topics, gameplay modes, topic-specific content 
 
 1. Frontend sends topic code, trigger=`automatic`, and used content IDs by pool to `POST /api/v1/gameplay/next-activity`.
 2. Backend checks current availability by dedicated content pool.
-3. Backend uniformly selects among eligible automatic families: Question Zone, Pick Your Fate, Random Event. Hot Seat is deliberately excluded.
-4. Backend returns either a QZ prompt, a Pick Your Fate choice state, or a resolved Random Event sub-activity and its prompt(s).
+3. Backend uniformly selects among eligible main families: Question Zone, Pick Your Fate, Random Event, and Hot Seat. When all four are eligible, each has a 25% probability.
+4. Backend returns a QZ prompt, a Pick Your Fate choice state, a resolved Random Event, or one Hot Seat question.
 5. Frontend persists newly used IDs and the full current activity, then animates/reveals that exact selection.
-
-### 5.3 Manual Hot Seat
-
-Frontend sends trigger=`hot_seat_manual`. Backend checks the dedicated Hot Seat pool and returns one unused question. The application never chooses a participant.
+6. For Hot Seat, the group verbally chooses the participant; the application never assigns a person. Pass is processed as Skip.
 
 ### 5.4 Local progression
 
@@ -265,8 +262,8 @@ The exact state shape and migration rules are specified in `05_Session_Managemen
 
 | Decision | Final architecture behavior |
 |---|---|
-| Automatic main families | Question Zone, Pick Your Fate, Random Event; equal among eligible |
-| Hot Seat | Manual trigger only; never in roulette |
+| Automatic main families | Question Zone, Pick Your Fate, Random Event, Hot Seat; equal among eligible |
+| Hot Seat | Fourth automatic family; excluded only when its pool is exhausted |
 | Pick Your Fate | Truth, Challenge, Mystery; Mystery 50/50 only when both pools eligible |
 | Random Event | Double Challenge, Everyone Answers, Surprise Question, Pick a Player; equal among eligible |
 | Pick a Player | Question/Challenge 50/50; group chooses participant |
@@ -300,7 +297,7 @@ Do not place production API code in `server.mjs`. Do not let the static server b
 | ADR-08 | Browser Local Storage holds active session and usage snapshot | Confirmed |
 | ADR-09 | Backend stateless; no DB session tables | Confirmed |
 | ADR-10 | Runtime key is publishable/anon-scoped with SELECT-only grants + RLS | Verified in Supabase |
-| ADR-11 | Hot Seat manually activated, not auto-random | Confirmed latest decision |
+| ADR-11 | Hot Seat is the fourth automatic main family; group chooses participant verbally | Confirmed owner update on 21 Nov 2026; supersedes earlier manual-only decision |
 | ADR-12 | Completion screen minimal: logo/title/subtitle/Play Again/Back to Home/closing line | Confirmed latest decision |
 
 ## 13. Risks and mitigation
@@ -308,7 +305,7 @@ Do not place production API code in `server.mjs`. Do not let the static server b
 | Risk | Impact | Mitigation |
 |---|---|---|
 | Vercel Services Beta changes/limitations | Deployment may require reconfiguration | Minimal deployment spike before committing to production |
-| Prototype code is question-only in session engine | Incorrect production gameplay if reused unchanged | Refactor session/gameplay services behind same UI in Step 3 |
+| Prototype code was question-only in session engine | Incorrect production gameplay if reused unchanged | Addressed in Step 3 by replacing the runtime JSON/question-only engine with API-backed nine-pool session logic |
 | Local Storage edited/cleared | Session can be manipulated/lost | Validate schema and content IDs; explain recovery; no false anti-cheat promise |
 | Public unauthenticated API | Abuse/rate exhaustion | Rate limit, body validation, minimal grants, monitoring |
 | Content is English while users may be multilingual | Audience fit | Human playtest and later localization; do not auto-translate current bank |
@@ -334,4 +331,4 @@ Architecture is ready for Step 3 planning when:
 - Supabase publishable/secret key migration (updated 18 November 2026): https://supabase.com/docs/guides/getting-started/migrating-to-new-api-keys
 - Supabase Data API security / grants and RLS (updated 19 November 2026): https://supabase.com/docs/guides/api/securing-your-api
 
-**Architecture v1.3 status: Complete for Step 2, subject to the documented Vercel deployment spike.**
+**Architecture v1.3 status: Approved and implemented at source level in Step 3. Live Supabase verification and the Vercel Services deployment spike remain external release gates. See `09_STEP3_BACKEND_COMPLETION_REPORT.md`.**

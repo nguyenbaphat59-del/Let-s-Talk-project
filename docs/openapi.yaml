@@ -49,7 +49,7 @@ paths:
         '503': { $ref: '#/components/responses/Unavailable' }
   /gameplay/next-activity:
     post:
-      summary: Select next automatic activity or manually request Hot Seat
+      summary: Select the next activity from the four-family automatic roulette
       operationId: getNextActivity
       requestBody:
         required: true
@@ -62,7 +62,7 @@ paths:
                 topicCode: { $ref: '#/components/schemas/TopicCode' }
                 trigger:
                   type: string
-                  enum: [automatic, hot_seat_manual]
+                  enum: [automatic]
                 usedContentIdsByPool: { $ref: '#/components/schemas/UsedContentIdsByPool' }
       responses:
         '200':
@@ -250,7 +250,7 @@ components:
             activityFamily:
               type: string
               enum: [question_zone, pick_your_fate, random_event, hot_seat]
-            trigger: { type: string, enum: [automatic, manual] }
+            trigger: { type: string, enum: [automatic] }
             requiresChoice: { type: boolean }
             choices: { type: object, additionalProperties: true }
             eventCode: { type: string }

@@ -126,7 +126,7 @@
       <section class="theater-state state-idle" id="state-idle">
         <p class="state-eyebrow">THE CONVERSATION UNIVERSE</p>
         <h1>Ready to Connect?</h1>
-        <p class="state-description">Summon an activity from the cosmos and let the conversation flow.</p>
+        <p class="state-description">The Universe randomly chooses one of four activities. Let the conversation flow.</p>
         <button class="btn btn-primary universe-primary" id="start-turn-btn" type="button">✦ <span>START TURN</span></button>
       </section>
 
@@ -135,10 +135,10 @@
         <h2 id="reveal-title">Your next activity is...</h2>
         <p class="state-description" id="reveal-description">Watch the stars align.</p>
         <div class="activity-roulette" id="activity-roulette" aria-live="off">
-          <div class="roulette-item" data-roulette="question"><span>☷</span><b>Question Zone</b></div>
-          <div class="roulette-item" data-roulette="fate"><span>◉</span><b>Pick Your Fate</b></div>
-          <div class="roulette-item" data-roulette="event"><span>✧</span><b>Random Event</b></div>
-          <div class="roulette-item" data-roulette="hotseat"><span>◎</span><b>Hot Seat</b></div>
+          <div class="roulette-item" data-roulette="question_zone"><span>☷</span><b>Question Zone</b></div>
+          <div class="roulette-item" data-roulette="pick_your_fate"><span>◉</span><b>Pick Your Fate</b></div>
+          <div class="roulette-item" data-roulette="random_event"><span>✧</span><b>Random Event</b></div>
+          <div class="roulette-item" data-roulette="hot_seat"><span>◎</span><b>Hot Seat</b></div>
         </div>
         <div class="roulette-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
       </section>
@@ -365,9 +365,9 @@
           </p>
 
           <ul>
-            <li>Choose someone to take the Hot Seat.</li>
-            <li>Take turns asking questions.</li>
-            <li>The selected person may pass on any question.</li>
+            <li>Hot Seat can appear as one of the four randomly selected activities.</li>
+            <li>The group verbally chooses who takes the spotlight; the app never assigns a person.</li>
+            <li>Everyone else takes turns asking questions, and the selected person may pass.</li>
           </ul>
 
         </div>
@@ -478,6 +478,7 @@
   </div>
 
   <script src="js/storage.js" defer></script>
+  <script src="js/api.js" defer></script>
   <script src="js/session.js" defer></script>
   <script src="js/gameplay.js" defer></script>
 </body>

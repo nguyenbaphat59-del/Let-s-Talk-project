@@ -1,9 +1,9 @@
 # LET'S TALK — Product Requirements Document (PRD)
 
-**Version:** 1.3  
-**Status:** Step 2 baseline — consolidated and ready for implementation planning  
+**Version:** 1.4  
+**Status:** Updated product baseline — Hot Seat is the fourth automatic family  
 **Date:** 21 November 2026  
-**Supersedes:** PRD v1.2 for current requirements  
+**Supersedes:** PRD v1.3 for the Hot Seat selection rule; all other approved requirements remain in force  
 **Primary references:** latest frontend prototype ZIP, Wireframe Master Specification v1.0, confirmed project decisions, deployed Supabase schema/content evidence.
 
 > This document defines the product behavior to implement. The existing frontend is a visual and interaction prototype; its current JavaScript behavior is not automatically the final business logic. The source PRD v1.2 is retained as `LETS_TALK_PRD_v1.2_ARCHIVE.md` for traceability. Where this document records an explicit decision, it supersedes conflicting prototype or older-document behavior.
@@ -105,7 +105,7 @@ If no eligible content remains before the target is reached, the session ends as
 
 ### 3.4 Unlimited session
 
-Unlimited has no configured target and no fixed completion percentage. It continues until the user chooses End Game or no usable content remains in any activity path. When all automatic activities are exhausted but Hot Seat still has available prompts, the idle state must offer manual Hot Seat or End Game. The session is exhausted only when all automatic activity paths and the manual Hot Seat pool are unavailable.
+Unlimited has no configured target and no fixed completion percentage. It continues until the user chooses End Game or no usable content remains in any of the four automatic activity families. Hot Seat participates in the same automatic eligibility and exhaustion rules as the other families.
 
 ### 3.5 Exit and End Game are different
 
@@ -118,13 +118,14 @@ Unlimited has no configured target and no fixed completion percentage. It contin
 
 ### 4.1 Automatic activity selection
 
-The random reveal/roulette automatically chooses among **three** families only:
+The random reveal/roulette automatically chooses among **four** main families:
 
 1. Question Zone
 2. Pick Your Fate
 3. Random Event
+4. Hot Seat
 
-When all three are eligible, each has an equal probability of 1/3. If one family is exhausted or cannot currently provide valid content, exclude it and choose uniformly from the remaining eligible families. **Hot Seat is not in the roulette.** It is activated manually from a separate Hot Seat control in the Gameplay idle state.
+Each eligible family has equal probability. When all four are eligible, each has a 25% probability. If a family is exhausted or cannot currently provide valid content, exclude it and choose uniformly from the remaining eligible families. Hot Seat is not given a special manual-only route; it is selected through the same automatic roulette as the other three families.
 
 The roulette animation is presentation only. The Backend chooses the result; the animation must settle on that exact result and must not independently re-randomize.
 
@@ -169,14 +170,15 @@ When all four are eligible, each has an equal probability of 25%. When some are 
 
 **Pick a Player:** choose Question vs Challenge with equal 50/50 probability. The group chooses the person; the application never selects or assigns a player. This event is not eligible if either of its two content-type pools is empty, because the specified 50/50 ratio can no longer be maintained.
 
-### 4.5 Hot Seat — manual only
+### 4.5 Hot Seat — fourth automatic family
 
-- The user starts Hot Seat manually from the Gameplay idle state; it is never selected by the automatic roulette.
-- The group verbally chooses who sits in the Hot Seat. No name or participant identity is entered into the application.
-- Retrieve one unused question from the selected topic’s `hot_seat` group.
+- Hot Seat is included in the automatic roulette alongside Question Zone, Pick Your Fate, and Random Event.
+- Hot Seat is eligible when the selected topic has at least one unused question in the `hot_seat` pool.
+- When selected, retrieve one unused question from the selected topic’s `hot_seat` group.
+- The group verbally chooses who sits in the Hot Seat. No name or participant identity is entered into the application; the app never assigns a person.
 - The selected participant may answer or Pass.
 - Pass is finalized as Skip: one processed turn and one skipped count, no completed increment. The same prompt is not repeated.
-- If Hot Seat has no unused question, disable the manual control and show a neutral exhaustion message.
+- When the Hot Seat pool is exhausted, exclude Hot Seat from the automatic candidate set. It must not be reused or silently replaced.
 
 ## 5. Content model and inventory
 
@@ -218,8 +220,8 @@ Homepage → choose Friends/Family → choose 10/20/Unlimited → Start Playing 
 ### 6.3 Automatic turn
 Gameplay Idle → Start Turn → Backend selects one eligible automatic family → roulette reveals that family → if Pick Your Fate, user chooses Truth/Challenge/Mystery → prompt appears → Complete or Skip → persist state → next Idle or Game Completion.
 
-### 6.4 Hot Seat turn
-Gameplay Idle → Hot Seat (manual) → group verbally chooses participant → Hot Seat prompt → Answer/Complete or Pass/Skip → persist state → next Idle or Game Completion.
+### 6.4 Hot Seat selection and turn
+Gameplay Idle → Start Turn → Backend includes Hot Seat in the same four-family automatic selection → roulette reveals Hot Seat if selected → group verbally chooses participant → Hot Seat prompt → Answer/Complete or Pass/Skip → persist state → next Idle or Game Completion. Hot Seat is not launched through a separate manual control.
 
 ### 6.5 Restore
 Reload/reopen → validate active Local Storage session → restore the same valid current activity and counters. Do not silently start a new session or silently discard corrupted state. For invalid/old schema, explain that the saved game cannot be restored and require the user to choose Start New Game.
@@ -236,10 +238,10 @@ Use the current prototype’s hero, navigation, brand art, topic cards, session-
 Include product introduction, problem/disconnect, solution, mission, Meet Mimi/brand identity, and a clear Go to Game Setup action. Keep a dedicated About visual background and readable text contrast.
 
 ### 7.3 How to Play
-Explain the face-to-face shared-device context, topic/session-length setup, Start Turn, the three automatic families and manual Hot Seat, Truth/Challenge/Mystery, all four Random Event sub-activities, Next Question, Complete, Skip, Hot Seat Pass, Exit, End Game, exhaustion, and completion/replay. Must describe the actual final rules in this document, not the prototype’s outdated random Hot Seat behavior.
+Explain the face-to-face shared-device context, topic/session-length setup, Start Turn, all four automatic families including Hot Seat, Truth/Challenge/Mystery, all four Random Event sub-activities, Next Question, Complete, Skip, Hot Seat Pass, Exit, End Game, exhaustion, and completion/replay.
 
 ### 7.4 Gameplay
-Preserve cinematic intro, skip-intro control, Universe/reveal visual, activity theater, HUD, Rules modal, Exit modal, and End Game modal. Add a distinct manual Hot Seat control in Idle without redesigning the visual language. Make automatic roulette visually show only Question Zone, Pick Your Fate, and Random Event. Prompt text is the primary visual element.
+Preserve cinematic intro, skip-intro control, Universe/reveal visual, activity theater, HUD, Rules modal, Exit modal, and End Game modal. Make the automatic roulette show all four main families, including Hot Seat, without redesigning the visual language. Prompt text is the primary visual element.
 
 Progress display must distinguish completed units from skipped/processed turns. For finite sessions, show `Completed x/10` or `Completed x/20` and separately show skipped/processed counts. Do not label a processed-turn index as completed progress. For Unlimited, show counts without a fixed percentage.
 
@@ -267,8 +269,8 @@ Do not add a session-statistics panel, scores, winners, or a Choose Another Topi
 | FR-05 | Validate setup and catalog availability before starting | P0 |
 | FR-06 | Persist active session in Local Storage | P0 |
 | FR-07 | Restore a valid active session after reload | P0 |
-| FR-08 | Select QZ/PYF/Random Event uniformly among eligible families | P0 |
-| FR-09 | Keep Hot Seat out of roulette and expose manual activation | P0 |
+| FR-08 | Select QZ/PYF/Random Event/Hot Seat uniformly among eligible main families | P0 |
+| FR-09 | Include Hot Seat in the automatic roulette and exclude it when its pool is exhausted | P0 |
 | FR-10 | Retrieve an unused QZ prompt from the correct topic/group | P0 |
 | FR-11 | Next Question changes only the QZ prompt and usage list | P0 |
 | FR-12 | Retrieve Truth from its dedicated question group | P0 |
@@ -279,7 +281,7 @@ Do not add a session-statistics panel, scores, winners, or a Choose Another Topi
 | FR-17 | Everyone Answers returns one dedicated question | P0 |
 | FR-18 | Surprise Question returns one dedicated question | P0 |
 | FR-19 | Pick a Player resolves Question/Challenge 50/50 and never assigns a person | P0 |
-| FR-20 | Hot Seat is manually activated; the group chooses the participant | P0 |
+| FR-20 | Hot Seat is randomly selected as a main family; the group chooses the participant | P0 |
 | FR-21 | Hot Seat Pass is processed as Skip | P0 |
 | FR-22 | Complete increments only completed units by one | P0 |
 | FR-23 | Skip increments skipped and processed by one, not completed | P0 |
@@ -293,7 +295,7 @@ Do not add a session-statistics panel, scores, winners, or a Choose Another Topi
 | FR-31 | Back to Home clears completed session state | P0 |
 | FR-32 | Render loading, API error, empty, exhausted, and storage-error states | P0 |
 | FR-33 | About/How to Play do not mutate an active session | P1 |
-| FR-34 | Add visible manual Hot Seat control in Gameplay Idle | P0 |
+| FR-34 | Show Hot Seat as the fourth option in the automatic roulette; remove the manual-only control | P0 |
 | FR-35 | Do not expose any Supabase key in frontend source | P0 |
 
 ## 9. Non-functional requirements
@@ -342,8 +344,8 @@ The browser stores the active session, setup selection, current activity, comple
 1. Homepage presents only Friends and Family, and 10/20/Unlimited.
 2. About and How to Play are separate and do not create/change session state.
 3. New session starts only after valid topic/catalog data is available.
-4. Roulette contains only Question Zone, Pick Your Fate, and Random Event.
-5. Hot Seat is available by an explicit manual control and never appears as an automatic selection.
+4. Roulette contains exactly four main families: Question Zone, Pick Your Fate, Random Event, and Hot Seat.
+5. All four main families are selected uniformly among currently eligible families; with all four eligible, each has a 25% chance.
 6. Main family selection is uniform over eligible families; tests verify distribution with tolerance, not exact equality in a small sample.
 7. Each activity retrieves content only from its correct topic/group/type.
 8. Used items are not returned again in the same session/pool.
@@ -389,8 +391,9 @@ The browser stores the active session, setup selection, current activity, comple
 | Version | Date | Change |
 |---|---|---|
 | 1.2 | 20 Nov 2026 | Previous consolidated requirements baseline; archived unchanged. |
-| **1.3** | **21 Nov 2026** | Reconciled current prototype and latest decisions; Hot Seat manual; 3 automatic families; resolved Pass=Skip; corrected finite progression and exhaustion; finalized completion screen; aligned Supabase PostgreSQL and Vercel target architecture; separated prototype behavior from production requirements. |
+| **1.3** | **21 Nov 2026** | Previous consolidated baseline; Hot Seat manual; three automatic families; resolved Pass=Skip and finite progression.
+| **1.4** | **21 Nov 2026** | Owner-approved update: Hot Seat is the fourth automatic main family, selected uniformly among eligible families; removed manual-only activation and revised API, UI, exhaustion, and test requirements. |
 
 ---
 
-**PRD v1.3 status: Complete for Step 2.** Implementation is not claimed complete. Requirements are ready to be traced into architecture, API, session/gameplay design, and Step 3 tests.
+**PRD v1.4 status: Current product baseline.** The Hot Seat selection decision supersedes the corresponding v1.3 rule. Implementation and verification status are recorded separately in the Step 3 completion report.

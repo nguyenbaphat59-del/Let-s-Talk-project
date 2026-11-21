@@ -1,13 +1,13 @@
 # LET'S TALK — API Documentation
 
-**Version:** 1.0  
-**Status:** Approved contract for Step 3 implementation  
+**Version:** 1.1  
+**Status:** Approved API contract; implementation delivered in Step 3  
 **Base path:** `/api/v1`  
 **Transport:** HTTPS in production; JSON request/response  
 **Authentication:** None in current release  
 **Session storage:** Client-side Local Storage; API is stateless
 
-> These are the target API contracts. The existing ZIP does not contain an Express API yet. Do not mistake this document for an implementation or a live endpoint.
+> These contracts are implemented by `backend/`. The current source update passes the local Backend HTTP/unit tests, Frontend tests, and static validators recorded in `09_STEP3_BACKEND_COMPLETION_REPORT.md`. The project owner previously verified live Supabase connectivity and local browser catalog/gameplay integration. No production deployment is implied.
 
 ## 1. API conventions
 
@@ -72,7 +72,7 @@ activityFamily: question_zone | pick_your_fate | random_event | hot_seat
 fateChoice: truth | challenge | mystery
 randomEventCode: double_challenge | everyone_answers | surprise_question | pick_a_player
 contentType: question | challenge
-selectionTrigger: automatic | hot_seat_manual
+selectionTrigger: automatic
 ```
 
 Pool codes used in `usedContentIdsByPool`:
@@ -159,7 +159,7 @@ Errors: `400 INVALID_TOPIC`, `404 TOPIC_NOT_FOUND`, `503 CONTENT_SERVICE_UNAVAIL
 
 ### 3.4 `POST /api/v1/gameplay/next-activity`
 
-Purpose: retrieve the next activity selection. It supports automatic roulette or manual Hot Seat.
+Purpose: retrieve the next activity from the automatic roulette, including all four main families.
 
 Request:
 
@@ -181,16 +181,16 @@ Request:
 }
 ```
 
-For manual Hot Seat, set `trigger` to `hot_seat_manual`. The Frontend may send all pool keys; omitted unused keys are treated as empty arrays. Reject unknown pool keys.
+The only supported selection trigger is `automatic`. The Frontend may send all pool keys; omitted unused keys are treated as empty arrays. Reject unknown pool keys.
 
 Automatic selection rules:
 
-- Candidate families are Question Zone, Pick Your Fate, and Random Event only.
-- Hot Seat is excluded from automatic selection.
-- Each eligible candidate family has equal probability.
+- Candidate families are Question Zone, Pick Your Fate, Random Event, and Hot Seat.
+- Each eligible candidate family has equal probability. When all four are eligible, each has a 25% probability.
 - Question Zone is eligible with at least one unused QZ question.
 - Pick Your Fate is eligible if Truth or Challenge is available (the user can choose a valid direct option; Mystery additionally requires both pools).
 - Random Event is eligible if at least one sub-activity is eligible under Section 3.5.
+- Hot Seat is eligible with at least one unused question in the dedicated `hot_seat` pool.
 
 Success variants:
 
@@ -242,12 +242,12 @@ When one pool is exhausted, its direct choice has `enabled:false`; Mystery is en
 
 The `content` array contains two distinct items only for Double Challenge; all other event subtypes return one item. For Pick a Player, response also includes `selectedContentType` (`question` or `challenge`) and `participantInstruction` stating that the group chooses a person.
 
-**Manual Hot Seat**
+**Hot Seat automatic selection**
 ```json
 {
   "data": {
     "activityFamily": "hot_seat",
-    "trigger": "manual",
+    "trigger": "automatic",
     "content": { "id": "uuid", "contentType": "question", "text": "..." },
     "usedPool": "hot_seat",
     "participantInstruction": "The group chooses who takes the Hot Seat. The participant may pass."
@@ -256,7 +256,7 @@ The `content` array contains two distinct items only for Double Challenge; all o
 }
 ```
 
-If no automatic family is eligible but Hot Seat has remaining content, return `409 NO_ELIGIBLE_ACTIVITY` with details `{ "manualHotSeatAvailable": true }`; the UI offers manual Hot Seat or End Game. If all pools are exhausted, return `409 NO_ELIGIBLE_ACTIVITY` with `{ "manualHotSeatAvailable": false }`.
+When the Hot Seat pool is empty, Hot Seat is excluded from the candidate set. If no eligible family remains, return `409 NO_ELIGIBLE_ACTIVITY`; this means all four main activity paths are exhausted for the submitted session snapshot.
 
 Errors: `400 VALIDATION_ERROR`, `400 INVALID_USED_IDS`, `409 NO_ELIGIBLE_ACTIVITY`, `503 CONTENT_SERVICE_UNAVAILABLE`.
 
@@ -361,7 +361,7 @@ This makes normal session selection deterministic with respect to the client’s
 4. Persist returned prompt and new used IDs before rendering/advancing UI state.
 5. If response says Pick Your Fate, show choice UI; then call `resolve-fate`.
 6. If Random Event, render server-selected subtype and returned prompt(s).
-7. Hot Seat button calls `next-activity` with `trigger=hot_seat_manual`.
+7. Hot Seat is selected by the same `next-activity` automatic roulette as the other main families; the group chooses the participant after it appears.
 8. Next Question calls the QZ replacement endpoint; it does not advance counters.
 9. Complete/Skip/Pass update Local Storage only.
 

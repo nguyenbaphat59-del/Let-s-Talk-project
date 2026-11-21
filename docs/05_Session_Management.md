@@ -108,7 +108,7 @@ Persist returned text as part of the current activity so a refresh restores the 
 stateDiagram-v2
   [*] --> Ready: new session
   Ready --> AwaitingFate: Pick Your Fate returned
-  Ready --> ActivityActive: QZ / Random Event / manual Hot Seat returned
+  Ready --> ActivityActive: QZ / Random Event / Hot Seat returned
   AwaitingFate --> ActivityActive: resolve Truth / Challenge / Mystery
   AwaitingFate --> Ready: Skip Pick Your Fate
   ActivityActive --> Ready: Complete
@@ -116,7 +116,7 @@ stateDiagram-v2
   ActivityActive --> ActivityActive: QZ Next Question
   Ready --> Completed: completedUnits reaches target
   ActivityActive --> Completed: last activity completes target
-  Ready --> ContentExhausted: no automatic + no manual content
+  Ready --> ContentExhausted: no eligible family among all four automatic families
   ActivityActive --> ContentExhausted: no further content after activity processing
   Ready --> Exited: confirm Exit Game
   ActivityActive --> Exited: confirm Exit Game
@@ -215,4 +215,4 @@ The Game Completion page remains intentionally minimal and does not display sess
 
 Local Storage is user-controlled. Validate IDs and structure before API calls, but do not claim anti-cheat or tamper-proof session tracking. Deliberate rollback of an earlier used-ID snapshot can cause reuse because there is no account or server-side session history in this release. This is a documented product trade-off, not a database defect.
 
-**Session Management status: Complete for Step 2; implementation and migration tests are Step 3.**
+**Session Management status: Implemented in Step 3 using schema version 2. Offline restoration, progress-accounting, usage-pool, and invalid-snapshot tests are recorded in `09_STEP3_BACKEND_COMPLETION_REPORT.md`.**
