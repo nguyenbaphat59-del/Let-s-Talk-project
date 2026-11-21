@@ -326,7 +326,7 @@ Dữ liệu thay đổi theo lựa chọn của người dùng (chủ đề, Tru
 | About — Mobile | 100 → 100 | 1.5 s → 1.3 s | 100 | 100 | 100 |
 | How to Play — Mobile | 99 → 100 | 1.6 s → 1.3 s | 100 | 100 | 100 |
 
-Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *failed* sang *passed*. FCP giảm khoảng 0.2–0.3 s trên mọi trang. Hạn chế còn lại: LCP mobile của trang Home vẫn khoảng 7.9 s vì phần tử LCP là `lets-talk-logo.png` dung lượng 1 MB. Muốn Performance mobile vượt 90 thì cần thêm một bản WebP đã nén. Báo cáo HTML đầy đủ ở [`docs/optimization/lighthouse/reports/`](docs/optimization/lighthouse/reports/), phân tích ở [`docs/optimization/lighthouse/README.md`](docs/optimization/lighthouse/README.md) §10. [Chèn screenshot Lighthouse sau tối ưu chạy trên bản deploy.]
+Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *failed* sang *passed*. FCP giảm khoảng 0.2–0.3 s trên mọi trang. Hạn chế còn lại: LCP mobile của trang Home vẫn khoảng 7.9 s vì phần tử LCP là `lets-talk-logo.png` dung lượng 1 MB. Muốn Performance mobile vượt 90 thì cần thêm một bản WebP đã nén. Báo cáo HTML đầy đủ ở [`docs/optimization/lighthouse/reports/`](docs/optimization/lighthouse/reports/), phân tích ở [`docs/optimization/lighthouse/README.md`](docs/optimization/lighthouse/README.md) §10. Bằng chứng sau tối ưu là các báo cáo Lighthouse HTML đầy đủ (mở được bằng trình duyệt) trong thư mục trên.
 
 ### (b) Error and user-behavior monitoring
 
