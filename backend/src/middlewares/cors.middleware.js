@@ -1,19 +1,22 @@
 
 import cors from "cors";
 
-export function createCorsMiddleware({ allowedOrigins = [] } = {}) {
+export function createCorsMiddleware({
+  nodeEnv,
+  allowedOrigins = []
+}) {
   const allowlist = new Set(allowedOrigins);
 
   return cors({
     origin(origin, callback) {
-      // Allow requests without an Origin header.
-      // Examples: server-to-server requests and command-line tools.
+      // Allow requests without an Origin header,
+      // such as server-to-server requests and health checks.
       if (!origin) {
         return callback(null, true);
       }
 
-      // Allow requests only from explicitly configured origins.
-      // This applies to both development and production.
+      // Allow only explicitly configured origins,
+      // including in production.
       if (allowlist.has(origin)) {
         return callback(null, true);
       }
@@ -29,9 +32,7 @@ export function createCorsMiddleware({ allowedOrigins = [] } = {}) {
       "X-Request-Id"
     ],
 
-    exposedHeaders: [
-      "X-Request-Id"
-    ],
+    exposedHeaders: ["X-Request-Id"],
 
     credentials: false,
 
