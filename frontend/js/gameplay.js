@@ -1,38 +1,35 @@
-/* Let's Talk — Universe + Theater gameplay controller.
-   Uses the existing LTStorage / LTSession architecture and local question bank. */
+/* LET'S TALK — Gameplay controller connected to the stateless Backend API */
 (() => {
   'use strict';
-  const $ = id => document.getElementById(id);
+
+  const $ = (id) => document.getElementById(id);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const els = {
-    body: document.body, intro: $('cinematic-intro'), skipIntro: $('skip-intro-btn'),
-    introParticles: $('intro-particles'), canvas: $('stage-particles'),
-    stage: $('game-stage'), idle: $('state-idle'), reveal: $('state-reveal'),
+    intro: $('cinematic-intro'), skipIntro: $('skip-intro-btn'),
+    canvas: $('stage-particles'), stage: $('game-stage'),
+    idle: $('state-idle'), reveal: $('state-reveal'),
     activity: $('state-activity'), fate: $('state-fate'),
     topic: $('mode-topic'), topicIcon: $('mode-topic-icon'),
     progressLeft: $('progress-status-left'), progressRight: $('progress-status-right'),
     progressTrack: $('progress-track'), progressFill: $('progress-bar-fill'),
-    start: $('start-turn-btn'), revealTitle: $('reveal-title'),
-    revealDescription: $('reveal-description'), roulette: $('activity-roulette'),
-    activityKicker: $('activity-kicker'), activityRound: $('activity-round'),
-    content: $('activity-content'), actions: $('activity-actions'),
-    feedback: $('game-feedback'), end: $('end-game-btn'), exit: $('exit-game-btn'),
+    start: $('start-turn-btn'),
+    revealTitle: $('reveal-title'), revealDescription: $('reveal-description'),
+    roulette: $('activity-roulette'), activityKicker: $('activity-kicker'),
+    activityRound: $('activity-round'), content: $('activity-content'),
+    actions: $('activity-actions'), feedback: $('game-feedback'),
+    end: $('end-game-btn'), exit: $('exit-game-btn'),
     exitModal: $('exit-modal'), endModal: $('end-modal'),
     continue: $('continue-game-btn'), confirmExit: $('confirm-exit-btn'),
     keepPlaying: $('keep-playing-btn'), confirmEnd: $('confirm-end-btn'),
-    fateSkip: $('fate-skip-btn'),
-    rulesModal: $('rules-modal'),
-    openRules: $('open-rules-btn'),
-    closeRules: $('close-rules-btn'),
+    fateSkip: $('fate-skip-btn'), rulesModal: $('rules-modal'),
+    openRules: $('open-rules-btn'), closeRules: $('close-rules-btn'),
     rulesDone: $('rules-done-btn')
   };
-  if (!els.stage || !window.LTSession) return;
+
+  if (!els.stage || !window.LTSession || !window.LTAPI) return;
 
   let session = null;
-  let activityBank = null;
   let busy = false;
-  let currentQuestion = null;
-  let currentActivity = null;
   let currentModal = null;
   let previousFocus = null;
   let canvasFrame = 0;
@@ -42,39 +39,27 @@
   let introFinished = false;
 
   const topicMeta = window.LTSession.TOPICS;
-  const wait = ms => new Promise(resolve => window.setTimeout(resolve, reducedMotion ? 0 : ms));
-  const pick = list => list[Math.floor(Math.random() * list.length)];
-  const shuffle = list => window.LTSession.shuffleArray(list);
-  function pickUnused(items) {
-    const used = new Set(session.usedActivityContentIds || []);
-    const available = items.filter(item => !used.has(item.id));
-    const selected = pick(available.length ? available : items);
-    if (!session.usedActivityContentIds) session.usedActivityContentIds = [];
-    if (selected?.id && !session.usedActivityContentIds.includes(selected.id)) {
-      session.usedActivityContentIds.push(selected.id);
-      session.updatedAt = new Date().toISOString();
-      window.LTStorage.write(window.LTStorage.keys.activeSession, session);
-    }
-    return selected;
-  }
-  const escapeHTML = value => String(value).replace(/[&<>"']/g, ch => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 0 : ms));
+  const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[ch]);
 
-  function feedback(message = '') { els.feedback.textContent = message; }
-  function showState(state) {
-    [els.idle, els.reveal, els.activity, els.fate].forEach(el => {
-      el.hidden = el !== state;
-    });
-    els.stage.dataset.state = state.id;
+  function feedback(message = '') {
+    if (els.feedback) els.feedback.textContent = message;
   }
+
+  function showState(state) {
+    [els.idle, els.reveal, els.activity, els.fate].forEach((element) => {
+      if (element) element.hidden = element !== state;
+    });
+    if (els.stage) els.stage.dataset.state = state.id;
+  }
+
   function setBusy(value) {
     busy = value;
-    const dynamicActions = [
-      ...document.querySelectorAll(
-        '#activity-complete-btn, #activity-skip-btn, #activity-shuffle-btn'
-      )
-    ];
+    const dynamicActions = [...document.querySelectorAll(
+      '#activity-complete-btn, #activity-skip-btn, #activity-shuffle-btn'
+    )];
     const modalActions = [
       els.continue, els.confirmExit, els.keepPlaying, els.confirmEnd,
       els.closeRules, els.rulesDone
@@ -82,469 +67,514 @@
     [
       els.start, els.end, els.exit, els.fateSkip,
       ...els.fate.querySelectorAll('[data-fate]'),
-      ...dynamicActions,
-      ...modalActions
-    ].filter(Boolean).forEach(btn => {
-      btn.disabled = value;
-      btn.setAttribute('aria-disabled', String(value));
+      ...dynamicActions, ...modalActions
+    ].filter(Boolean).forEach((button) => {
+      const unavailableFateChoice = button.matches('[data-fate]') &&
+        button.getAttribute('data-choice-available') === 'false';
+      button.disabled = value || unavailableFateChoice;
+      button.setAttribute('aria-disabled', String(button.disabled));
     });
   }
+
   function updateHeader() {
-    const topic = topicMeta[session.topic];
-    document.body.dataset.topic = session.topic;
+    const topic = topicMeta[session.topicCode];
+    if (!topic) throw new Error('The saved game has an unsupported topic.');
+    document.body.dataset.topic = session.topicCode;
     els.topicIcon.textContent = topic.icon;
     els.topic.querySelector('b').textContent = topic.label;
     updateProgress();
   }
+
   function updateProgress() {
-    const total = session.totalQuestions;
-    const completed = session.completedQuestionCount || 0;
-    const skipped = session.skippedQuestionCount || 0;
-    const processed = completed + skipped;
-    const pct = total ? Math.round(completed / total * 100) : 0;
-    els.progressLeft.textContent = total ? `${processed} / ${total} TURNS` : `${processed} TURNS`;
-    els.progressRight.textContent = total ? `${pct}% COMPLETED` : 'UNLIMITED';
-    els.progressFill.style.width = total ? `${pct}%` : '0%';
-    els.progressTrack.setAttribute('aria-valuenow', String(pct));
-    els.progressTrack.setAttribute('aria-valuetext', `${completed} completed, ${skipped} skipped`);
-  }
-  async function loadActivities() {
-    if (activityBank) return activityBank;
-    const response = await fetch('data/activities.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('The activity library could not be loaded.');
-    activityBank = await response.json();
-    return activityBank;
-  }
+    const target = session.progressionTarget;
+    const completed = session.completedUnits;
+    const skipped = session.skippedUnits;
+    const processed = session.processedTurns;
+    const percentage = target ? Math.min(100, Math.round(completed / target * 100)) : 0;
 
-/* ==========================================================
-   CINEMATIC INTRO CONTROLLER — FIXED TIMELINE
-   Homepage -> Gameplay
-========================================================== */
-
-function clearIntroTimers() {
-  introTimers.forEach(timer => window.clearTimeout(timer));
-  introTimers = [];
-
-  if (introHideTimer !== null) {
-    window.clearTimeout(introHideTimer);
-    introHideTimer = null;
-  }
-}
-
-function setIntroVisible(visible) {
-  if (!els.intro) return;
-
-  clearIntroTimers();
-  introFinished = false;
-
-  if (!visible) {
-    finishIntro();
-    return;
+    els.progressLeft.textContent = target
+      ? `COMPLETED ${completed} / ${target}`
+      : `${completed} COMPLETED · ${skipped} SKIPPED`;
+    els.progressRight.textContent = target
+      ? `${skipped} SKIPPED · ${processed} PROCESSED`
+      : 'UNLIMITED';
+    els.progressFill.style.width = target ? `${percentage}%` : '0%';
+    els.progressTrack.setAttribute('aria-valuenow', String(percentage));
+    els.progressTrack.setAttribute('aria-valuetext',
+      `${completed} completed, ${skipped} skipped, ${processed} processed`);
   }
 
-  // Reset every animation state before replaying.
-  els.intro.classList.remove(
-    'is-active',
-    'is-leaving',
-    'is-bursting',
-    'is-ready',
-    'is-sweeping'
-  );
-
-  // Force the browser to recognize the reset.
-  void els.intro.offsetWidth;
-
-  els.intro.hidden = false;
-  els.intro.setAttribute('aria-hidden', 'false');
-
-  document.body.classList.add('is-intro-playing');
-
-  // Start the cinematic.
-  els.intro.classList.add('is-active');
-
-  // Respect the user's accessibility preference.
-  if (reducedMotion) {
-    finishIntro();
-    return;
+  function clearIntroTimers() {
+    introTimers.forEach((timer) => window.clearTimeout(timer));
+    introTimers = [];
+    if (introHideTimer !== null) {
+      window.clearTimeout(introHideTimer);
+      introHideTimer = null;
+    }
   }
 
-  introTimers.push(
-    window.setTimeout(() => {
-      if (introFinished) return;
+  function finishIntro() {
+    if (!els.intro || introFinished) return;
+    introFinished = true;
+    clearIntroTimers();
+    els.intro.setAttribute('aria-hidden', 'true');
+    els.intro.classList.add('is-leaving');
 
-      els.intro.classList.add('is-bursting');
-    }, 3150)
-  );
+    if (reducedMotion) {
+      els.intro.hidden = true;
+      els.intro.classList.remove('is-active', 'is-leaving', 'is-bursting', 'is-ready', 'is-sweeping');
+      document.body.classList.remove('is-intro-playing');
+      return;
+    }
 
-  /*
-    PHASE 4 — 4.55s
-    Show the conversation message.
-    This starts only after the main slogan has disappeared.
-  */
-  introTimers.push(
-    window.setTimeout(() => {
-      if (introFinished) return;
-
-      els.intro.classList.add('is-ready');
-    }, 4550)
-  );
-
-  /*
-    PHASE 5 — 6.35s
-    Light sweep opens the gameplay universe.
-  */
-  introTimers.push(
-    window.setTimeout(() => {
-      if (introFinished) return;
-
-      els.intro.classList.add('is-sweeping');
-    }, 6350)
-  );
-
-  /*
-    PHASE 6 — 7.35s
-    Begin the final handoff to gameplay.
-  */
-  introTimers.push(
-    window.setTimeout(() => {
-      finishIntro();
-    }, 7350)
-  );
-}
-
-function finishIntro() {
-  if (!els.intro || introFinished) return;
-
-  introFinished = true;
-
-  clearIntroTimers();
-
-  els.intro.setAttribute('aria-hidden', 'true');
-
-  // Start the final fade-out.
-  els.intro.classList.add('is-leaving');
-
-  if (reducedMotion) {
-    els.intro.hidden = true;
-
-    els.intro.classList.remove(
-      'is-active',
-      'is-leaving',
-      'is-bursting',
-      'is-ready',
-      'is-sweeping'
-    );
-
-    document.body.classList.remove('is-intro-playing');
-    return;
+    introHideTimer = window.setTimeout(() => {
+      els.intro.hidden = true;
+      els.intro.classList.remove('is-active', 'is-leaving', 'is-bursting', 'is-ready', 'is-sweeping');
+      document.body.classList.remove('is-intro-playing');
+      introHideTimer = null;
+    }, 1000);
   }
 
-  // Remove the intro only after its fade-out is complete.
-  introHideTimer = window.setTimeout(() => {
-    els.intro.hidden = true;
+  function setIntroVisible(visible) {
+    if (!els.intro) return;
+    clearIntroTimers();
+    introFinished = false;
+    if (!visible) return finishIntro();
 
-    els.intro.classList.remove(
-      'is-active',
-      'is-leaving',
-      'is-bursting',
-      'is-ready',
-      'is-sweeping'
-    );
+    els.intro.classList.remove('is-active', 'is-leaving', 'is-bursting', 'is-ready', 'is-sweeping');
+    void els.intro.offsetWidth;
+    els.intro.hidden = false;
+    els.intro.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('is-intro-playing');
+    els.intro.classList.add('is-active');
 
-    document.body.classList.remove('is-intro-playing');
-
-    introHideTimer = null;
-  }, 1000);
-}
+    if (reducedMotion) return finishIntro();
+    introTimers.push(window.setTimeout(() => !introFinished && els.intro.classList.add('is-bursting'), 3150));
+    introTimers.push(window.setTimeout(() => !introFinished && els.intro.classList.add('is-ready'), 4550));
+    introTimers.push(window.setTimeout(() => !introFinished && els.intro.classList.add('is-sweeping'), 6350));
+    introTimers.push(window.setTimeout(finishIntro, 7350));
+  }
 
   function createBurst() {
     if (reducedMotion) return;
     const fragment = document.createDocumentFragment();
-    for (let i=0;i<24;i++) {
-      const dot=document.createElement('i');
-      dot.className='universe-burst';
-      dot.style.setProperty('--angle', `${Math.random()*360}deg`);
-      dot.style.setProperty('--distance', `${55+Math.random()*150}px`);
+    for (let index = 0; index < 24; index += 1) {
+      const dot = document.createElement('i');
+      dot.className = 'universe-burst';
+      dot.style.setProperty('--angle', `${Math.random() * 360}deg`);
+      dot.style.setProperty('--distance', `${55 + Math.random() * 150}px`);
       fragment.appendChild(dot);
     }
     els.stage.appendChild(fragment);
-    setTimeout(() => els.stage.querySelectorAll('.universe-burst').forEach(n=>n.remove()), 900);
+    window.setTimeout(() => els.stage.querySelectorAll('.universe-burst').forEach((node) => node.remove()), 900);
   }
-  async function startTurn(forcedType = null) {
-    if (busy) return;
-    setBusy(true);
-    feedback('');
+
+  async function revealSelection(family) {
+    const rouletteKey = {
+      question_zone: 'question_zone',
+      pick_your_fate: 'pick_your_fate',
+      random_event: 'random_event',
+      hot_seat: 'hot_seat'
+    }[family];
+    const labels = {
+      question_zone: 'Question Zone',
+      pick_your_fate: 'Pick Your Fate',
+      random_event: 'Random Event',
+      hot_seat: 'Hot Seat'
+    };
+    const items = [...els.roulette.querySelectorAll('.roulette-item')];
+
     showState(els.reveal);
     createBurst();
+    els.revealTitle.textContent = 'The Universe is choosing...';
+    els.revealDescription.textContent = 'A little surprise is on its way.';
+    items.forEach((item) => item.classList.remove('is-selected', 'is-spinning'));
 
-    try {
-      const types = ['question', 'fate', 'event', 'hotseat'];
-      const labels = {
-        question: 'Question Zone',
-        fate: 'Pick Your Fate',
-        event: 'Random Event',
-        hotseat: 'Hot Seat'
+    if (!reducedMotion && items.length) {
+      const duration = 2400;
+      const started = performance.now();
+      let tick = 0;
+      while (performance.now() - started < duration) {
+        const progress = Math.min(1, (performance.now() - started) / duration);
+        items.forEach((item, index) => item.classList.toggle('is-spinning', index === tick % items.length));
+        tick += 1;
+        await wait(70 + Math.pow(progress, 2.1) * 260);
+      }
+    } else {
+      await wait(120);
+    }
+
+    items.forEach((item) => {
+      item.classList.remove('is-spinning');
+      item.classList.toggle('is-selected', item.dataset.roulette === rouletteKey);
+    });
+    els.revealTitle.textContent = labels[family] || 'Activity revealed';
+    els.revealDescription.textContent = 'Your next activity has been revealed.';
+    createBurst();
+    await wait(450);
+  }
+
+  function setActions({ nextQuestion = false, skipLabel = 'Skip' } = {}) {
+    els.actions.innerHTML = `
+      ${nextQuestion ? '<button class="btn btn-ghost" id="activity-shuffle-btn" type="button">⤨ <span>Next Question</span></button>' : ''}
+      <button class="btn btn-primary" id="activity-complete-btn" type="button">✓ <span>Complete</span></button>
+      <button class="btn btn-ghost activity-skip" id="activity-skip-btn" type="button">${escapeHTML(skipLabel)}</button>`;
+    $('activity-complete-btn').addEventListener('click', () => advanceTurn(true));
+    $('activity-skip-btn').addEventListener('click', () => advanceTurn(false));
+    if (nextQuestion) $('activity-shuffle-btn').addEventListener('click', nextQuestionZone);
+  }
+
+  function renderFateChoices() {
+    const choices = session.currentActivity.choices || {};
+    els.fate.querySelectorAll('[data-fate]').forEach((button) => {
+      const choice = choices[button.dataset.fate];
+      const unavailable = !choice?.enabled;
+      button.dataset.choiceAvailable = String(!unavailable);
+      button.disabled = unavailable;
+      button.setAttribute('aria-disabled', String(unavailable));
+      if (choice?.reason) button.title = choice.reason;
+      else button.removeAttribute('title');
+    });
+    showState(els.fate);
+  }
+
+  function renderActivity(activity = session.currentActivity) {
+    if (!activity || !activity.content) throw new Error('The selected activity could not be restored.');
+    showState(els.activity);
+
+    const target = session.progressionTarget;
+    els.activityRound.textContent = target
+      ? `COMPLETED ${session.completedUnits} / ${target}`
+      : `TURN ${session.currentTurn}`;
+
+    let kicker = '';
+    let title = '';
+    let subtitle = '';
+    let body = '';
+    let actions = {};
+
+    if (activity.activityFamily === 'question_zone') {
+      kicker = 'QUESTION ZONE';
+      title = activity.content.text;
+      subtitle = 'Take your time. Everyone is listening.';
+      actions.nextQuestion = true;
+    } else if (activity.activityFamily === 'pick_your_fate') {
+      const type = activity.resolvedChoice;
+      kicker = type === 'truth' ? 'TRUTH REVEALED' : 'CHALLENGE REVEALED';
+      title = activity.content.text;
+      subtitle = type === 'truth'
+        ? 'Share your answer honestly with the group.'
+        : 'Give it a try. Keep it fun and comfortable.';
+    } else if (activity.activityFamily === 'random_event') {
+      const eventLabels = {
+        double_challenge: 'DOUBLE CHALLENGE',
+        everyone_answers: 'EVERYONE ANSWERS',
+        surprise_question: 'SURPRISE QUESTION',
+        pick_a_player: 'PICK A PLAYER'
       };
-      const activity = forcedType || pick(types);
-      const items = [...els.roulette.querySelectorAll('.roulette-item')];
+      kicker = eventLabels[activity.eventCode] || 'RANDOM EVENT';
+      const items = Array.isArray(activity.content) ? activity.content : [activity.content];
+      if (activity.eventCode === 'double_challenge') {
+        body = `<div class="double-challenges">${items.map((item, index) =>
+          `<p><b>CHALLENGE ${index + 1}</b>${escapeHTML(item.text)}</p>`
+        ).join('')}</div>`;
+        title = 'Complete both challenges together.';
+        subtitle = 'This counts as one activity.';
+      } else {
+        title = items[0].text;
+        subtitle = activity.eventCode === 'pick_a_player'
+          ? `The group decides who participates. ${activity.participantInstruction || ''}`
+          : (activity.eventCode === 'everyone_answers'
+            ? 'Everyone in the group takes a turn answering.'
+            : 'Share your answer with the group.');
+      }
+    } else if (activity.activityFamily === 'hot_seat') {
+      kicker = 'HOT SEAT';
+      title = activity.content.text;
+      subtitle = activity.participantInstruction || 'The group chooses who takes the Hot Seat. The participant may pass.';
+      body = '<div class="spotlight-person"><span>✦</span><small>THE HOT SEAT</small></div>';
+      actions.skipLabel = 'Pass';
+    } else {
+      throw new Error('The Backend returned an unsupported activity type.');
+    }
 
-      els.revealTitle.textContent = 'The Universe is choosing...';
-      els.revealDescription.textContent = 'A little surprise is on its way.';
-      items.forEach(item => item.classList.remove('is-selected', 'is-spinning'));
+    els.activityKicker.textContent = kicker;
+    els.content.innerHTML = `${body}<h2 class="activity-prompt">${escapeHTML(title)}</h2><p class="activity-subtext">${escapeHTML(subtitle)}</p>`;
+    setActions(actions);
+  }
 
-      if (!reducedMotion) {
-        const duration = 2850;
-        const started = performance.now();
-        let tick = Math.floor(Math.random() * items.length);
-        while (performance.now() - started < duration) {
-          const elapsed = performance.now() - started;
-          const progress = Math.min(1, elapsed / duration);
-          const index = tick % items.length;
-          items.forEach((item, i) => item.classList.toggle('is-spinning', i === index));
-          tick += 1;
-          const delay = 75 + Math.pow(progress, 2.2) * 300;
-          await wait(delay);
+  async function startTurn() {
+    if (busy || !session) return;
+    setBusy(true);
+    feedback('');
+    try {
+      session = await window.LTSession.startNextActivity();
+      if (session.currentState === 'awaiting_fate') {
+        await revealSelection('pick_your_fate');
+        renderFateChoices();
+      } else {
+        await revealSelection(session.currentActivity.activityFamily);
+        renderActivity();
+      }
+    } catch (error) {
+      console.error("[Let's Talk] Could not start the next activity:", error);
+      if (error.code === 'NO_ELIGIBLE_ACTIVITY') {
+        try {
+          window.LTSession.finishContentExhausted();
+          window.location.href = 'game-complete.html';
+          return;
+        } catch (finishError) {
+          feedback(finishError.message || 'The session could not be closed after content exhaustion.');
         }
       } else {
-        await wait(120);
+        feedback(error.message || 'The activity could not be loaded. Please try again.');
       }
-
-      items.forEach(item => {
-        item.classList.remove('is-spinning');
-        item.classList.toggle('is-selected', item.dataset.roulette === activity);
-      });
-      els.revealTitle.textContent = labels[activity];
-      els.revealDescription.textContent = 'Your next activity has been revealed.';
-      createBurst();
-      await wait(reducedMotion ? 0 : 650);
-
-      currentActivity = activity;
-      if (activity === 'fate') showState(els.fate);
-      else await renderActivity(activity);
-    } catch (error) {
-      console.error('Could not start activity:', error);
-      showState(els.idle);
-      feedback(error.message || 'The activity could not be loaded. Please try again.');
     } finally {
       setBusy(false);
     }
   }
-  async function getCurrentQuestion() {
-    currentQuestion = await window.LTSession.getQuestion(session);
-    if (!currentQuestion) throw new Error('The current question is unavailable.');
-    return currentQuestion;
-  }
-  function setActions({shuffleQuestion = false, extra = ''} = {}) {
-    els.actions.innerHTML = `
-      ${shuffleQuestion ? '<button class="btn btn-ghost" id="activity-shuffle-btn" type="button">⤨ <span>Next Question</span></button>' : ''}
-      ${extra}
-      <button class="btn btn-primary" id="activity-complete-btn" type="button">✓ <span>Complete</span></button>
-      <button class="btn btn-ghost activity-skip" id="activity-skip-btn" type="button">Skip</button>`;
-    $('activity-complete-btn').addEventListener('click', () => advanceTurn(true));
-    $('activity-skip-btn').addEventListener('click', () => advanceTurn(false));
-    if (shuffleQuestion) $('activity-shuffle-btn').addEventListener('click', shuffleQuestion);
-  }
-  async function renderActivity(type, content = null) {
-    showState(els.activity);
-    const round = session.currentQuestionIndex + 1;
-    const total = session.totalQuestions ? ` / ${session.totalQuestions}` : '';
-    els.activityRound.textContent = `TURN ${round}${total}`;
-    let title = '', kicker = '', body = '', sub = '', opts = {};
-    if (type === 'question' || type === 'truth' || type === 'surprise') {
-      const q = await getCurrentQuestion();
-      kicker = type === 'question' ? 'QUESTION ZONE' : type === 'truth' ? 'TRUTH REVEALED' : 'SURPRISE QUESTION';
-      title = q.content;
-      sub = type === 'question' ? 'Take your time. Everyone is listening.' : 'Share your answer with the group.';
-      opts.shuffleQuestion = true;
-    } else if (type === 'challenge') {
-      const item = content || pickUnused(activityBank.challenges);
-      kicker = 'CHALLENGE REVEALED'; title = item.content; sub = 'Give it a try. Keep it fun and comfortable.';
-    } else if (type === 'hotseat') {
-      kicker = 'HOT SEAT'; title = 'You are in the spotlight.'; 
-      sub = 'Choose someone else in the group to take the Hot Seat. Everyone else takes turns asking questions. You do not need to type anything into the website.';
-      body = '<div class="spotlight-person"><span>✦</span><small>THE HOT SEAT</small></div>';
-    } else if (type === 'event') {
-      const event = content || pickUnused(activityBank.events);
-      kicker = event.title; title = event.content; sub = `WHO PARTICIPATES · ${event.participant}`;
-      if (event.type === 'double') {
-        const map = new Map(activityBank.challenges.map(c=>[c.id,c]));
-        body = `<div class="double-challenges">${event.challengeIds.map((id,i)=>`<p><b>CHALLENGE ${i+1}</b>${escapeHTML(map.get(id)?.content || 'Complete a group challenge.')}</p>`).join('')}</div>`;
-      }
-    }
-    els.activityKicker.textContent = kicker;
-    els.content.innerHTML = `${body}<h2 class="activity-prompt">${escapeHTML(title)}</h2><p class="activity-subtext">${escapeHTML(sub)}</p>`;
-    setActions(opts);
-  }
+
   async function selectFate(choice) {
     if (busy) return;
     setBusy(true);
-    createBurst();
     try {
-      const bank = await loadActivities();
-      let type = choice;
-      if (choice === 'mystery') type = Math.random() < .5 ? 'truth' : 'challenge';
-      currentActivity = type;
-      await wait(420);
-      await renderActivity(type, type === 'challenge' ? pickUnused(bank.challenges) : null);
+      session = await window.LTSession.resolveFate(choice);
+      createBurst();
+      await wait(360);
+      renderActivity();
     } catch (error) {
-      console.error('Could not resolve selected fate:', error);
-      showState(els.fate);
-      feedback(error.message || 'This choice could not be loaded. Please choose again.');
+      feedback(error.message || 'This choice is no longer available. Please choose another option.');
+      if (error.code === 'CONTENT_POOL_EXHAUSTED') {
+        try {
+          const refreshed = await window.LTAPI.getCatalog(session.topicCode);
+          const pools = refreshed.pools || {};
+          const currentChoices = session.currentActivity.choices || {};
+          ['truth', 'challenge', 'mystery'].forEach((key) => {
+            if (!currentChoices[key]) return;
+            const enabled = key === 'truth'
+              ? pools.truth?.available > session.usedContentIdsByPool.truth.length
+              : key === 'challenge'
+                ? pools.challenge?.available > session.usedContentIdsByPool.challenge.length
+                : pools.truth?.available > session.usedContentIdsByPool.truth.length &&
+                  pools.challenge?.available > session.usedContentIdsByPool.challenge.length;
+            const fateButton = els.fate.querySelector(`[data-fate="${key}"]`);
+            fateButton.dataset.choiceAvailable = String(Boolean(enabled));
+            fateButton.disabled = !enabled;
+            fateButton.setAttribute('aria-disabled', String(!enabled));
+          });
+        } catch { /* Keep the last valid choice state. */ }
+      }
     } finally {
       setBusy(false);
     }
   }
-  async function shuffleQuestion() {
+
+  async function nextQuestionZone() {
     if (busy) return;
     setBusy(true);
     try {
-      const result = await window.LTSession.replaceCurrentWithShuffle(session);
-      session = result.session;
-      if (result.exhausted || !result.question) {
-        feedback('No unused questions remain in this session.');
-      } else {
-        currentQuestion = result.question;
-        await renderActivity(currentActivity);
-      }
-    } catch (error) { feedback(error.message); }
-    finally { setBusy(false); }
+      session = await window.LTSession.nextQuestionZone();
+      renderActivity();
+      feedback('A new unused Question Zone prompt is ready. Your turn progress has not changed.');
+    } catch (error) {
+      feedback(error.message || 'A new question could not be loaded.');
+    } finally {
+      setBusy(false);
+    }
   }
+
   async function advanceTurn(completed) {
     if (busy || !session) return;
-
-    // Lock synchronously before any async work. This makes Complete/Skip
-    // idempotent against double-clicks and rapid touch events.
     setBusy(true);
-
-    // Work on a copy so a failed transition cannot leave the in-memory
-    // session half-advanced.
-    const previousSession = session;
-    const workingSession = JSON.parse(JSON.stringify(session));
-
     try {
-      const result = await window.LTSession.advance(workingSession, { completed });
-
+      const result = window.LTSession.completeActivity(completed);
       if (result.finished) {
         window.location.href = 'game-complete.html';
         return;
       }
-
-      if (!result.session || !result.question) {
-        throw new Error('The next turn is not ready yet. Please try again.');
-      }
-
       session = result.session;
-      currentQuestion = result.question;
-      currentActivity = null;
       updateProgress();
-      feedback(
-        completed
-          ? 'Activity completed. Pass the device to the next person.'
-          : 'Activity skipped. Pass the device to the next person.'
-      );
-
-      // Small visual handoff between turns.
+      feedback(completed
+        ? 'Activity completed. Pass the device to the next person.'
+        : 'Activity skipped. Pass the device to the next person.');
       els.stage.classList.remove('turn-handoff');
       void els.stage.offsetWidth;
       els.stage.classList.add('turn-handoff');
       showState(els.idle);
+      els.start.disabled = false;
       els.start.focus();
     } catch (error) {
-      // Restore the last known-good state in memory and browser storage.
-      session = previousSession;
-      try {
-        window.LTStorage.write(
-          window.LTStorage.keys.activeSession,
-          previousSession
-        );
-      } catch (restoreError) {
-        console.error('Session rollback failed:', restoreError);
-      }
-      console.error('Could not advance turn:', error);
-      feedback(error.message || 'The turn could not be advanced. Please try again.');
+      console.error("[Let's Talk] Activity progress could not be saved:", error);
+      feedback(error.message || 'Your progress could not be saved. Please try again.');
     } finally {
       setBusy(false);
     }
   }
+
   function openModal(modal) {
-    previousFocus = document.activeElement; currentModal = modal;
+    if (!modal) return;
+    previousFocus = document.activeElement;
+    currentModal = modal;
     modal.hidden = false;
     modal.querySelector('button')?.focus();
   }
+
   function closeModal() {
     if (!currentModal) return;
-    currentModal.hidden = true; currentModal = null; previousFocus?.focus();
+    currentModal.hidden = true;
+    currentModal = null;
+    previousFocus?.focus();
   }
+
   function confirmExit() {
-    window.LTSession.finishExit();
-    window.location.href = 'index.html';
-  }
-  function confirmEnd() {
-    if (!session) return;
-    window.LTSession.endEarly(session);
-    window.location.href = 'game-complete.html';
-  }
-  function setupCanvas() {
-    const canvas=els.canvas, ctx=canvas?.getContext('2d');
-    if (!ctx || reducedMotion) return;
-    const resize=()=>{
-      const r=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,1.5);
-      canvas.width=Math.max(1,Math.floor(r.width*dpr)); canvas.height=Math.max(1,Math.floor(r.height*dpr));
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      particles=Array.from({length:matchMedia('(max-width:600px)').matches?12:28},()=>({x:Math.random()*r.width,y:Math.random()*r.height,s:.5+Math.random()*1.4,a:.15+Math.random()*.4,v:.08+Math.random()*.2}));
-    };
-    const draw=()=>{
-      const r=canvas.getBoundingClientRect(); ctx.clearRect(0,0,r.width,r.height);
-      particles.forEach(p=>{p.y-=p.v;if(p.y<0){p.y=r.height;p.x=Math.random()*r.width;}ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fillStyle=`rgba(193,160,255,${p.a})`;ctx.shadowBlur=8;ctx.shadowColor='#a77aff';ctx.fill();});
-      canvasFrame=requestAnimationFrame(draw);
-    };
-    resize(); window.addEventListener('resize',resize);
-    document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(canvasFrame);else canvasFrame=requestAnimationFrame(draw);});
-    canvasFrame=requestAnimationFrame(draw);
-  }
-  async function initialize() {
     try {
-      session = await window.LTSession.restoreActive();
-      if (!session) { window.location.replace('index.html#game-setup'); return; }
-      await loadActivities();
-      updateHeader();
-      await getCurrentQuestion();
-      setupCanvas();
-      const playIntro = sessionStorage.getItem('letsTalk.playIntro') === '1';
-      sessionStorage.removeItem('letsTalk.playIntro');
-      if (playIntro) setIntroVisible(true);
-      else { els.intro.hidden = true; els.intro.setAttribute('aria-hidden','true'); }
-      showState(els.idle);
+      window.LTSession.finishExit();
+      window.location.href = 'index.html';
     } catch (error) {
-      console.error("Gameplay initialization failed:", error);
-      feedback(error.message || 'Unable to start the game.');
-      setBusy(true);
+      feedback(error.message || 'The game could not be cleared safely.');
+      closeModal();
     }
   }
 
-  els.start.addEventListener('click', () => startTurn());
-  els.fate.querySelectorAll('[data-fate]').forEach(btn => btn.addEventListener('click',()=>selectFate(btn.dataset.fate)));
-  els.fateSkip.addEventListener('click',()=>advanceTurn(false));
-  els.exit.addEventListener('click',()=>openModal(els.exitModal));
-  els.end.addEventListener('click',()=>openModal(els.endModal));
-  els.continue.addEventListener('click',closeModal);
-  els.keepPlaying.addEventListener('click',closeModal);
-  els.confirmExit.addEventListener('click',confirmExit);
-  els.confirmEnd.addEventListener('click',confirmEnd);
-  els.skipIntro?.addEventListener('click',finishIntro);
+  function confirmEnd() {
+    if (!session) return;
+    try {
+      window.LTSession.endEarly();
+      window.location.href = 'game-complete.html';
+    } catch (error) {
+      feedback(error.message || 'The game could not be ended safely.');
+      closeModal();
+    }
+  }
+
+  function setupCanvas() {
+    const canvas = els.canvas;
+    const context = canvas?.getContext('2d');
+    if (!context || reducedMotion) return;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      particles = Array.from(
+        { length: window.matchMedia('(max-width:600px)').matches ? 12 : 28 },
+        () => ({
+          x: Math.random() * rect.width,
+          y: Math.random() * rect.height,
+          size: 0.5 + Math.random() * 1.4,
+          alpha: 0.15 + Math.random() * 0.4,
+          velocity: 0.08 + Math.random() * 0.2
+        })
+      );
+    };
+
+    const draw = () => {
+      const rect = canvas.getBoundingClientRect();
+      context.clearRect(0, 0, rect.width, rect.height);
+      particles.forEach((particle) => {
+        particle.y -= particle.velocity;
+        if (particle.y < 0) {
+          particle.y = rect.height;
+          particle.x = Math.random() * rect.width;
+        }
+        context.beginPath();
+        context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        context.fillStyle = `rgba(193,160,255,${particle.alpha})`;
+        context.shadowBlur = 8;
+        context.shadowColor = '#a77aff';
+        context.fill();
+      });
+      canvasFrame = window.requestAnimationFrame(draw);
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) window.cancelAnimationFrame(canvasFrame);
+      else canvasFrame = window.requestAnimationFrame(draw);
+    });
+    canvasFrame = window.requestAnimationFrame(draw);
+  }
+
+  async function initialize() {
+    try {
+      session = await window.LTSession.restoreActive();
+      if (!session) {
+        window.location.replace('index.html#game-setup');
+        return;
+      }
+      updateHeader();
+      setupCanvas();
+
+      const playIntro = sessionStorage.getItem('letsTalk.playIntro') === '1';
+      sessionStorage.removeItem('letsTalk.playIntro');
+      if (playIntro) setIntroVisible(true);
+      else {
+        els.intro.hidden = true;
+        els.intro.setAttribute('aria-hidden', 'true');
+      }
+
+      if (session.currentState === 'awaiting_fate') renderFateChoices();
+      else if (session.currentState === 'activity_active') renderActivity();
+      else showState(els.idle);
+    } catch (error) {
+      console.error("[Let's Talk] Gameplay initialization failed:", error);
+      if (['LEGACY_SESSION', 'INVALID_SAVED_SESSION'].includes(error.code)) {
+        sessionStorage.setItem(
+          'letsTalk.recoveryNotice',
+          `${error.message} Your previous saved data has not been changed.`
+        );
+        window.location.replace('index.html#game-setup');
+        return;
+      }
+      feedback(error.message || 'Unable to restore this game. Return to Home and start a new session.');
+      setBusy(false);
+    }
+  }
+
+  els.start.addEventListener('click', startTurn);
+  els.fate.querySelectorAll('[data-fate]').forEach((button) => {
+    button.addEventListener('click', () => selectFate(button.dataset.fate));
+  });
+  els.fateSkip.addEventListener('click', () => {
+    try {
+      window.LTSession.completeFateSkip();
+      session = window.LTSession.getActive();
+      updateProgress();
+      showState(els.idle);
+      feedback('Pick Your Fate was skipped.');
+    } catch (error) {
+      feedback(error.message || 'The activity could not be skipped.');
+    }
+  });
+  els.exit.addEventListener('click', () => openModal(els.exitModal));
+  els.end.addEventListener('click', () => openModal(els.endModal));
+  els.continue.addEventListener('click', closeModal);
+  els.keepPlaying.addEventListener('click', closeModal);
+  els.confirmExit.addEventListener('click', confirmExit);
+  els.confirmEnd.addEventListener('click', confirmEnd);
+  els.skipIntro?.addEventListener('click', finishIntro);
   els.openRules?.addEventListener('click', () => els.rulesModal && openModal(els.rulesModal));
   els.closeRules?.addEventListener('click', closeModal);
   els.rulesDone?.addEventListener('click', closeModal);
-  els.rulesModal?.addEventListener('click', event => {
+  els.rulesModal?.addEventListener('click', (event) => {
     if (event.target === els.rulesModal) closeModal();
   });
-  document.addEventListener('keydown',event=>{
-    if(event.key==='Escape' && currentModal) closeModal();
-    if(event.key==='Tab' && currentModal){
-      const items=[...currentModal.querySelectorAll('button:not(:disabled)')];
-      if(items.length && event.shiftKey && document.activeElement===items[0]){event.preventDefault();items.at(-1).focus();}
-      else if(items.length && !event.shiftKey && document.activeElement===items.at(-1)){event.preventDefault();items[0].focus();}
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && currentModal) closeModal();
+    if (event.key === 'Tab' && currentModal) {
+      const items = [...currentModal.querySelectorAll('button:not(:disabled)')];
+      if (items.length && event.shiftKey && document.activeElement === items[0]) {
+        event.preventDefault();
+        items.at(-1).focus();
+      } else if (items.length && !event.shiftKey && document.activeElement === items.at(-1)) {
+        event.preventDefault();
+        items[0].focus();
+      }
     }
   });
+
   initialize();
 })();
