@@ -1,0 +1,31 @@
+/*
+  Nguồn Tailwind CSS v4 (M2-3, #41).
+  Build: npm run build:css  ->  frontend/css/app.css (file build, được commit).
+  Token lấy từ docs/DESIGN-SYSTEM.md §2–3. Không dùng CDN.
+*/
+@import "tailwindcss" source(none);
+
+@source "../**/*.html";
+@source "../js/**/*.js";
+
+@theme {
+  /* Màu: tên rút gọn từ token --bg, --purple... trong DESIGN-SYSTEM */
+  --color-bg: #10072f;
+  --color-bg-2: #170b43;
+  --color-surface: rgb(25 12 67 / 0.72);
+  --color-surface-strong: rgb(25 12 67 / 0.88);
+  --color-surface-soft: rgb(44 30 84 / 0.58);
+  --color-purple: #7b35e8;
+  --color-violet: #a94bff;
+  --color-lavender: #d4bbff;
+  --color-pink: #f044b8;
+  --color-pink-soft: #ffaeda;
+  --color-blue: #6d8bff;
+  --color-ink: #ffffff;
+  --color-muted: #d4c6ef;
+  --color-muted-2: #aa9bc9;
+
+  /* Font: Inter cho giao diện, Sora cho tiêu đề */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
