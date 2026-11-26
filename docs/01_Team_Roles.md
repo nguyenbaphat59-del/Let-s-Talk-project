@@ -17,7 +17,7 @@
 | M1 | Nguyễn Thành Long | [`NguyenThanhLong-dev`](https://github.com/NguyenThanhLong-dev) | **Team Leader / Project Manager & Documentation** | Tài liệu đặc tả (PRD, kiến trúc, test plan); lập kế hoạch và milestone; quản lý repo, branch, issue và review PR; viết README (Report Template); điều phối peer review; dựng video demo |
 | M2 | Võ Duy Anh | [`tuananhvo588-design`](https://github.com/tuananhvo588-design) | **Frontend Developer (UI/UX)** | Wireframe; xây dựng 5 trang HTML/CSS; responsive mobile/tablet/desktop; tương tác JS (setup, modal, animation, gameplay UI); áp dụng các góp ý UI/UX |
 | M3 | Nguyễn Bá Phát | [`nguyenbaphat59-del`](https://github.com/nguyenbaphat59-del) | **Backend & Database Developer** | Thiết kế schema/ERD Supabase PostgreSQL; seed 880 nội dung; Express REST API `/api/v1`; tích hợp Frontend ↔ API; deploy Backend (Render) |
-| M4 | Trần Văn Huy | (chưa có — đang tạo) | **QA, Optimization & Monitoring** | Unit/integration test; Lighthouse audit và tối ưu; Google Analytics 4 và Sentry; kiểm thử đa thiết bị |
+| M4 | Trần Văn Huy | [`VanHuyTran0oooo`](https://github.com/VanHuyTran0oooo) | **QA, Optimization & Monitoring** | Unit/integration test; Lighthouse audit và tối ưu; Google Analytics 4 và Sentry; kiểm thử đa thiết bị |
 
 Ghi chú: các tài liệu kỹ thuật cũ dùng nhãn “Member 1 / Member 3” (ví dụ `09_STEP3_BACKEND_COMPLETION_REPORT.md` ghi *Member 3 — Backend Development*). Bảng trên giữ nguyên quy ước số thứ tự đó: M3 là Backend.
 
