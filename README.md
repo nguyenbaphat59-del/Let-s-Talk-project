@@ -355,7 +355,7 @@ Chi tiết và cách kiểm chứng: [`docs/11_Monitoring_and_Analytics.md`](doc
 
 ### (a) Feedback cho nhóm khác
 
-Toàn bộ bảng review (Usability, Aesthetics, User-Friendliness) và nội dung trao đổi nằm trong [`docs/peer-review/reviews-given.md`](docs/peer-review/reviews-given.md).
+Toàn bộ bảng review (Usability, Aesthetics, User-Friendliness) và nội dung trao đổi nằm trong thư mục [`docs/peer-review/reviews-given/`](docs/peer-review/reviews-given/), gồm [`focuspace.md`](docs/peer-review/reviews-given/focuspace.md) và [`pawpass.md`](docs/peer-review/reviews-given/pawpass.md).
 
 ### (b) Xử lý feedback nhận được
 

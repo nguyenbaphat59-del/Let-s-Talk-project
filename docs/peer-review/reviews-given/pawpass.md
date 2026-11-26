@@ -1,10 +1,4 @@
-FocuSpace:
-Điểm mạnh: nút hành động rõ, đồng hồ Pomodoro luôn hiển thị, mỗi phòng một bảng màu.
-Góp ý:
-Trên điện thoại dựng dọc, trang bị xoay 90° mà không có lời nhắc.
-3 nút biểu tượng trong phòng chỉ hiện tên khi rê chuột, nên trên điện thoại không thấy tên.
-Trang Thống kê nên có biểu đồ mẫu khi chưa đăng nhập.
-Thẻ Thư viện ghi kích thước kiểu 26×26, thông tin không cần cho người dùng.
+# Review gửi PawPass
 PawPass:
 Điểm mạnh: form báo lỗi ngay tại từng ô, chủ đề “hộ chiếu” nhất quán, form Liên hệ có bộ đếm ký tự.
 Góp ý:

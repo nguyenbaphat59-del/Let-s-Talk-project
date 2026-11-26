@@ -51,7 +51,7 @@
 
 - **Tuần:** Tuần 3 ([DD/MM] – [DD/MM])
 - **Công việc đã làm:**
-  - Điều phối review 2 nhóm khác, trực tiếp review nhóm #1 cùng M2 (`docs/peer-review/reviews-given.md`)
+  - Điều phối review 2 nhóm khác, trực tiếp review nhóm #1  (`docs/peer-review/reviews-given/focuspace.md`)
   - Tổng hợp feedback nhận được (`docs/peer-review/received-feedback.md`)
   - Viết README theo Report Template, dựng video demo
 - **Khó khăn gặp phải:** 
