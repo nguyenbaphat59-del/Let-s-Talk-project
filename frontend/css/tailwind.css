@@ -1,9 +1,12 @@
 /*
   Nguồn Tailwind CSS v4 (M2-3, #41).
   Build: npm run build:css  ->  frontend/css/app.css (file build, được commit).
-  Token lấy từ docs/DESIGN-SYSTEM.md §2–3. Không dùng CDN.
+  Token lấy từ docs/DESIGN-SYSTEM.md và frontend/css/site.css. Không dùng CDN.
 */
-@import "tailwindcss" source(none);
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @source "../**/*.html";
 @source "../js/**/*.js";
@@ -25,7 +28,18 @@
   --color-muted: #d4c6ef;
   --color-muted-2: #aa9bc9;
 
+  /* Bo góc: khớp --radius-lg / --radius-xl trong site.css */
+  --radius-lg: 19px;
+  --radius-xl: 25px;
+
+  /* Mốc responsive của site: mobile <600, tablet 600-1023, desktop >=1024 */
+  --breakpoint-sm: 600px;
+
   /* Font: Inter cho giao diện, Sora cho tiêu đề */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
+
+
+/* Desktop thấp: khớp @media (min-width:1024px) and (max-height:820px) trong site.css */
+@custom-variant short-desktop (@media (min-width: 1024px) and (max-height: 820px));
