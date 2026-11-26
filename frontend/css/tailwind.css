@@ -1,0 +1,45 @@
+/*
+  Nguồn Tailwind CSS v4 (M2-3, #41).
+  Build: npm run build:css  ->  frontend/css/app.css (file build, được commit).
+  Token lấy từ docs/DESIGN-SYSTEM.md và frontend/css/site.css. Không dùng CDN.
+*/
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../**/*.html";
+@source "../js/**/*.js";
+
+@theme {
+  /* Màu: tên rút gọn từ token --bg, --purple... trong DESIGN-SYSTEM */
+  --color-bg: #10072f;
+  --color-bg-2: #170b43;
+  --color-surface: rgb(25 12 67 / 0.72);
+  --color-surface-strong: rgb(25 12 67 / 0.88);
+  --color-surface-soft: rgb(44 30 84 / 0.58);
+  --color-purple: #7b35e8;
+  --color-violet: #a94bff;
+  --color-lavender: #d4bbff;
+  --color-pink: #f044b8;
+  --color-pink-soft: #ffaeda;
+  --color-blue: #6d8bff;
+  --color-ink: #ffffff;
+  --color-muted: #d4c6ef;
+  --color-muted-2: #aa9bc9;
+
+  /* Bo góc: khớp --radius-lg / --radius-xl trong site.css */
+  --radius-lg: 19px;
+  --radius-xl: 25px;
+
+  /* Mốc responsive của site: mobile <600, tablet 600-1023, desktop >=1024 */
+  --breakpoint-sm: 600px;
+
+  /* Font: Inter cho giao diện, Sora cho tiêu đề */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+
+/* Desktop thấp: khớp @media (min-width:1024px) and (max-height:820px) trong site.css */
+@custom-variant short-desktop (@media (min-width: 1024px) and (max-height: 820px));

@@ -37,7 +37,7 @@ LET'S TALK là web app party game giúp bạn bè và gia đình bớt nhìn đi
 
 | Layer | Công nghệ |
 |---|---|
-| Frontend | HTML5, CSS3 (design system riêng: CSS custom properties, glassmorphism, keyframe animations), Vanilla JavaScript (ES2020, không framework), Local Storage |
+| Frontend |  HTML5, CSS3 (design system riêng: CSS custom properties, glassmorphism, keyframe animations), Tailwind CSS v4 (utility class, đang chuyển dần từng trang), Vanilla JavaScript
 | Backend | Node.js 20+, Express 5, `helmet`, `express-rate-limit`, `cors`, `@supabase/supabase-js` |
 | Database | PostgreSQL trên Supabase (5 bảng, Row Level Security, runtime read-only) |
 | Deploy | Backend: Render · Frontend: Vercel |
@@ -192,7 +192,15 @@ docs(optimization): record Lighthouse fixes and before/after re-run
 
 ### (b) Sử dụng Tailwind CSS
 
-**Không sử dụng Tailwind CSS.** Giao diện đã được giảng viên duyệt ở Prototype 2 được xây bằng CSS thuần, có hệ thống design token riêng (`:root` custom properties cho màu, bán kính, shadow, chiều cao header/footer), component class (`.btn`, `.glass-panel`, `.topic-card`, …) và hơn 40 media query cho các breakpoint 390 / 600 / 768 / 1024 px. Nhóm quyết định không chuyển sang Tailwind ở giai đoạn cuối để tránh làm thay đổi giao diện đã duyệt. Design system được mô tả trong [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md).
+**Có sử dụng Tailwind CSS v4, đang chuyển dần từng trang.** Tailwind được cài bằng gói npm (`tailwindcss`, `@tailwindcss/cli`, devDependency), **không dùng CDN**. File nguồn [`frontend/css/tailwind.css`](frontend/css/tailwind.css) khai báo token màu, font, bán kính và breakpoint lấy từ [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md) và `site.css`. Lệnh `npm run build:css` build ra [`frontend/css/app.css`](frontend/css/app.css) (đã minify). `app.css` được commit sẵn nên Vercel không cần bước build; mỗi khi thêm hoặc đổi class trong HTML/JS phải chạy lại lệnh build và commit `app.css`. Nhóm không nạp preflight (CSS reset) của Tailwind vì `site.css` đã có reset riêng; như vậy các trang chưa chuyển không bị đổi giao diện. Ở phần đã chuyển, rule CSS viết tay tương ứng trong `site.css` được xoá và thay bằng utility class.
+
+| Trang | Phần đã dùng utility class | Theo dõi |
+| --- | --- | --- |
+| Game Complete | Khối nút hành động và dòng chú thích: grid, gap, margin, độ rộng, responsive (`max-sm:`, `short-desktop:`) | [#41](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/issues/41) |
+| Home, Gameplay | Chưa chuyển (kế hoạch) | — |
+| About, How to Play | Chưa chuyển (kế hoạch) | — |
+
+Glassmorphism, keyframe animation và component dùng chung (`.btn`, `.glass-panel`, …) vẫn viết bằng CSS trong `site.css` và `gameplay.css`.
 
 ### (c) Các tính năng tương tác
 
