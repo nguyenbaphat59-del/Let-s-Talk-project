@@ -1,7 +1,7 @@
 /* LET'S TALK — Frontend error monitoring (Sentry) and API failure logging.
  *
  * Loaded before storage.js/api.js on every page. Responsibilities:
- *  1. Load the Sentry Loader Script when LT_CONFIG.sentryDsn is set.
+ *  1. Load the self-hosted Sentry Browser SDK when LT_CONFIG.sentryDsn is set.
  *  2. Buffer uncaught errors / unhandled promise rejections that happen before
  *     the Sentry SDK has finished loading, then send them once it is ready.
  *  3. Wrap the API client (window.LTAPI) so every failed API call is logged with
@@ -82,13 +82,17 @@
     console.warn('[LET\'S TALK] LT_CONFIG.sentryDsn is not a valid Sentry DSN; monitoring is disabled.');
   }
   if (dsnInfo) {
-    window.sentryOnLoad = function sentryOnLoad() {
+    const initSentry = function initSentry() {
+      if (!window.Sentry || typeof window.Sentry.init !== 'function') {
+        console.warn('[LET\'S TALK] Sentry SDK did not load; errors stay in the browser console.');
+        return;
+      }
       window.Sentry.init({
         dsn: config.sentryDsn,
         environment: config.environment || 'production',
         release: config.release,
         sendDefaultPii: false,
-        // Gameplay text is user-facing content, not personal data, but keep URLs only.
+        // Drop noisy console breadcrumbs; keep errors.
         beforeBreadcrumb(breadcrumb) {
           if (breadcrumb.category === 'console' && breadcrumb.level !== 'error') return null;
           return breadcrumb;
@@ -98,10 +102,15 @@
       sentryReady = true;
       buffer.splice(0).forEach(([kind, payload]) => send(kind, payload));
     };
+    // Self-hosted Sentry Browser SDK (see tools/sentry-bundle/README.md). The
+    // Sentry Loader Script (js.sentry-cdn.com/<key>.min.js) was replaced because
+    // the project's loader stopped working ("The Sentry loader you are trying to
+    // use isn't working anymore") and CDN hosts are often blocked by ad blockers.
     const script = document.createElement('script');
-    script.src = `https://js.sentry-cdn.com/${dsnInfo.publicKey}.min.js`;
-    script.crossOrigin = 'anonymous';
-    script.setAttribute('data-lazy', 'no');
+    script.src = 'js/vendor/sentry.min.js';
+    script.async = true;
+    script.onload = initSentry;
+    script.onerror = () => console.warn('[LET\'S TALK] Sentry SDK could not be downloaded.');
     document.head.appendChild(script);
   }
 
