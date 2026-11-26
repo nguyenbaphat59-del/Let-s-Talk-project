@@ -34,8 +34,8 @@ This feedback confirmed that the changes addressed the main concerns raised duri
 |---|---|---|---|---|
 | 1 | The user interface of Prototype 1 is too simple and not engaging. | Lecturer (Prototype 1 review) | ✅ Implemented | Prototype 2 redesigned the visual layer (glass panels, gradients, mascot artwork, animations). Commit `738ed76` |
 | 2 | The gameplay is too simple and not exciting enough. | Lecturer (Prototype 1 review) | ✅ Implemented | Four automatic activity families (Question Zone, Pick Your Fate, Random Event, Hot Seat), a cinematic intro and a roulette reveal (PRD v1.4). Commits `738ed76`, `a6bc8c3` |
-| 3 | [Feedback from team …] | [Team name] | [✅ Implemented / ❌ Not implemented] | [Commit link or reason] |
-| 4 | [Feedback from team …] | [Team name] | | |
+
+**Feedback from other teams:** on 26/11/2026 the team asked FocuSpace (in FocuSpace#164) and Thai Tu Fashion (in thai_tu_fashion#51) to review Let's Talk. As of 26/11/2026 no feedback has been received. Items will be added here verbatim, with a link, decision and PR, when they arrive.
 
 ### Decision rules agreed by the team
 

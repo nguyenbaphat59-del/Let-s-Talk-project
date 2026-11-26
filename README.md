@@ -12,7 +12,7 @@
 | Website (Frontend) | https://let-s-talk-project-frontend.vercel.app |
 | Backend API | https://let-s-talk-backend-lk1u.onrender.com/api/v1/health |
 | Video Demo | https://youtu.be/CBGHQs0oH-E |
-| Ngày nộp | [22/11/2026] |
+| Ngày nộp | 29/11/2026 (theo biên bản kickoff 26/11/2026; chờ giảng viên xác nhận) |
 
 ### Thành viên nhóm
 
@@ -127,26 +127,27 @@ Chi tiết: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 
 ### (b) Wireframe
 
-- **Công cụ:** Figma — [link Figma]
-- **Các trang đã thiết kế:**
-  - [ ] Homepage + Game Setup
-  - [ ] About
-  - [ ] How to Play
-  - [ ] Gameplay (idle, roulette, activity, các modal)
-  - [ ] Game Complete
-- **Ảnh xuất:** `docs/wireframes/` (checklist và quy ước đặt tên trong [`docs/wireframes/README.md`](docs/wireframes/README.md)).
+- **Công cụ:** Google Stitch (không dùng Figma) — dự án: https://stitch.google.com/projects/17284348942162000882
+- **Các trang đã thiết kế** (desktop + mobile):
+  - [x] Homepage + Game Setup
+  - [x] About
+  - [x] How to Play
+  - [x] Gameplay (màn câu hỏi và màn idle; chưa có intro, roulette, các modal)
+  - [x] Game Complete
+- **Ảnh xuất:** `docs/wireframes/` — cách thực hiện, ngày tháng và giới hạn được ghi trung thực trong [`docs/wireframes/README.md`](docs/wireframes/README.md).
 
 ### (c) Project Plan
 
-| Milestone | Deadline | Trạng thái |
+| Milestone | Thời gian thực tế | Trạng thái |
 |---|---|---|
-| Wireframe + Prototype 1 → 2 (giảng viên duyệt) | Tuần 1 | Đúng hạn |
-| Setup GitHub + database schema | Tuần 1 | Đúng hạn |
-| Giao diện cơ bản (5 trang, responsive) | Tuần 1–2 | Đúng hạn |
-| Tích hợp database + API + trang động | Tuần 2 | Trễ hạn |
-| Tối ưu & monitoring | Tuần 3 | Hoàn thành code; chờ điền GA ID / Sentry DSN |
-| Peer review | Tuần 3 — [20/11] | Đã hoàn thành |
-| Nộp bài | [22/11/2026] | Đã nộp |
+| Thiết kế Google Stitch + Prototype 1 → 2 (giảng viên duyệt) | Đầu 11/2026 → 20/11/2026 | Hoàn thành — Prototype 2 vào repo commit `738ed76` (20/11/2026) |
+| Setup GitHub + database schema | 20/11/2026 – 21/11/2026 | Hoàn thành — `11469aa`, `1b904d8`, `database/schema.sql` |
+| Giao diện cơ bản (5 trang, responsive) | 20/11/2026 | Hoàn thành — `738ed76` |
+| Tích hợp database + API + trang động | 21/11/2026 | Hoàn thành — PR #3 (`a6bc8c3`), deploy Render (`a064c96`) |
+| Tối ưu & monitoring | 21/11/2026 – 26/11/2026 | Hoàn thành — GA4 + Sentry Frontend (PR #28, #38), logo WebP (PR #44) |
+| Peer review chéo (FocuSpace, Thai Tu Fashion) | 26/11/2026 – 28/11/2026 | Đang thực hiện — đã gửi FocuSpace#164 và thai_tu_fashion#51 ngày 26/11/2026, chờ phản hồi |
+| Đóng băng code | 28/11/2026, 20:00 | Chưa đến |
+| Nộp bài | 29/11/2026 | Chưa nộp |
 
 Scope, deliverables, phân công chi tiết theo issue và rủi ro: [`docs/02_Project_Plan.md`](docs/02_Project_Plan.md).
 
@@ -366,7 +367,12 @@ Chi tiết và cách kiểm chứng: [`docs/11_Monitoring_and_Analytics.md`](doc
 
 ### (a) Feedback cho nhóm khác
 
-Toàn bộ bảng review (Usability, Aesthetics, User-Friendliness) và nội dung trao đổi nằm trong thư mục [`docs/peer-review/reviews-given/`](docs/peer-review/reviews-given/), gồm [`focuspace.md`](docs/peer-review/reviews-given/focuspace.md) và [`pawpass.md`](docs/peer-review/reviews-given/pawpass.md).
+Nhóm review 2 nhóm theo 3 tiêu chí (Usability, Aesthetics, User-Friendliness); bài review đăng thành issue trên repo của nhóm đó và được lưu lại trong [`docs/peer-review/reviews-given/`](docs/peer-review/reviews-given/):
+
+| Nhóm được review | Issue đã đăng | Người review | File trong repo | Phản hồi |
+|---|---|---|---|---|
+| FocuSpace (Nhóm 2) | [FocuSpace#164](https://github.com/CaoLePhucThinh2203/FocuSpace/issues/164) — 26/11/2026 | M1 Nguyễn Thành Long | [`focuspace.md`](docs/peer-review/reviews-given/focuspace.md) | Chưa có |
+| Thai Tu Fashion (Nhóm 5) | [thai_tu_fashion#51](https://github.com/huynhsy986-droid/thai_tu_fashion/issues/51) — 26/11/2026 | M4 Trần Văn Huy | [`thai-tu-fashion.md`](docs/peer-review/reviews-given/thai-tu-fashion.md) | Chưa có |
 
 ### (b) Xử lý feedback nhận được
 
@@ -374,7 +380,8 @@ Toàn bộ bảng review (Usability, Aesthetics, User-Friendliness) và nội du
 |---|---|---|---|
 | Giao diện Prototype 1 quá đơn giản, chưa hấp dẫn | Giảng viên | ✅ Đã thực hiện | Prototype 2 làm lại toàn bộ lớp hình ảnh (glass panel, gradient, mascot, animation) — `738ed76` |
 | Gameplay đơn điệu, chưa đủ hứng thú | Giảng viên | ✅ Đã thực hiện | 4 nhóm hoạt động ngẫu nhiên, intro, roulette (PRD v1.4) — `738ed76`, `a6bc8c3` |
-| [Feedback từ nhóm …] | [Nhóm] | [✅/❌] | [commit / lý do] |
+
+Góp ý từ nhóm khác: nhóm đã nhờ FocuSpace (trong #164) và Thai Tu Fashion (trong #51) review lại Let's Talk ngày 26/11/2026; tính đến 26/11/2026 chưa nhận được góp ý nào. Khi có, góp ý sẽ được chép nguyên văn kèm link, quyết định và PR.
 
 Nhật ký đầy đủ và nguyên tắc ra quyết định: [`docs/peer-review/received-feedback.md`](docs/peer-review/received-feedback.md).
 
