@@ -1,13 +1,11 @@
 # LET'S TALK — Phân công vai trò và trách nhiệm (Task 1a)
 
-> Biên bản họp phân vai của nhóm. Ô `[...]` còn lại là ngày họp, nhóm cần điền.
-
 ## 1. Thông tin buổi họp
 
 | Mục | Nội dung |
 |---|---|
-| Hình thức | Họp nhóm (trực tiếp / online) |
-| Ngày họp | [DD/MM/YYYY] |
+| Hình thức | Họp nhóm Discord |
+| Ngày họp | 26/11/2026 |
 | Thành phần | Đủ 4/4 thành viên |
 | Mục tiêu | Thống nhất vai trò, phạm vi trách nhiệm, quy trình làm việc trên GitHub và lịch milestone |
 | Kết quả | Thống nhất 4 vai trò dưới đây, kèm quy trình trong `CONTRIBUTING.md` và kế hoạch trong `docs/02_Project_Plan.md` |
