@@ -333,9 +333,9 @@ Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *f
 **Google Analytics**
 
 - [x] Đã tích hợp GA4 (`frontend/js/analytics.js`, tải sau `load`, tắt trên localhost)
-- **Measurement ID:** [G-XXXXXXXXXX] (điền vào `frontend/js/config.js`) · Web data stream ID: `1638866491`
+- **Measurement ID:** `G-187Q24EEMY` (khai báo trong `frontend/js/config.js`) · Web data stream ID: `1638866491`
 - **Tích hợp:** `page_view` tự động, cộng với 17 sự kiện gameplay (`game_start`, `activity_drawn` theo `activity_family`, `fate_choice`, `activity_complete`/`activity_skip`, `game_complete`, `api_error`, …) lấy từ ID nút và kết quả API, không sửa logic game và không gửi dữ liệu cá nhân.
-- **Screenshot dashboard:** [GA Realtime / DebugView → `docs/optimization/monitoring/`]
+- **Screenshot dashboard:** GA4 → Báo cáo → Thời gian thực, thẻ "Số lượng sự kiện theo Tên sự kiện" (26/11/2026, sau một lượt chơi thử): [`ga-realtime-events.png`](docs/optimization/monitoring/ga-realtime-events.png) với `activity_drawn` (22), `turn_start` (22), `activity_complete` (20), `select_topic` (7), `fate_choice` (6) và `page_view` (8).
 
 **Sentry**
 
@@ -345,7 +345,10 @@ Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *f
   - Frontend: uncaught exception, unhandled promise rejection (kể cả lỗi xảy ra trước khi SDK tải xong), lỗi API (mất mạng, 5xx, response không đọc được, mã 4xx bất thường) kèm `endpoint`, `status`, `code` và `requestId`
   - Backend: mọi lỗi 500 và `ApiError` ≥ 500 (ví dụ Supabase không truy cập được), gắn tag `request_id`, `http.method`, `http.path`
   - Log: mỗi request ghi một dòng JSON (`time, level, requestId, method, path, status, durationMs`). Cùng một `requestId` xuất hiện ở response, Sentry và Render logs nên có thể truy vết một lỗi từ đầu đến cuối.
-- **Screenshot dashboard / error log:** [Sentry issue → `docs/optimization/monitoring/`]
+- **Screenshot dashboard / error log:**
+  - Frontend: lỗi thử bắn trên bản Vercel (cửa sổ ẩn danh, 26/11/2026) từ Chrome DevTools ở chế độ giả lập thiết bị nên Sentry ghi nhận trình duyệt "Mobile Safari/iOS". [Danh sách Issues](docs/optimization/monitoring/sentry-frontend-issue-list.png) · [Chi tiết issue `LETSTALKFRONTEND-1` (`environment: production`, đã che địa chỉ IP)](docs/optimization/monitoring/sentry-frontend-issue-detail.png)
+  - Backend: log Render xác nhận giám sát Sentry đã bật (log ngày 01/11/2026): [`render-sentry-enabled.png`](docs/optimization/monitoring/render-sentry-enabled.png). Chưa có ảnh một lỗi 5xx backend đã hiện trong Sentry.
+  - Hạn chế: tiện ích chặn quảng cáo của trình duyệt chặn yêu cầu gửi lỗi tới Sentry (và GA) với `ERR_BLOCKED_BY_CLIENT`, nên người dùng có tiện ích này không gửi được lỗi. Chưa cấu hình `tunnel` của Sentry.
 
 Chi tiết và cách kiểm chứng: [`docs/11_Monitoring_and_Analytics.md`](docs/11_Monitoring_and_Analytics.md).
 
