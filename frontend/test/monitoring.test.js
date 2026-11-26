@@ -55,12 +55,12 @@ test('monitoring is disabled without a DSN and never loads the Sentry script', (
   assert.equal(browser.appended.length, 0);
 });
 
-test('monitoring loads the Sentry Loader Script derived from the DSN public key', () => {
+test('monitoring loads the self-hosted Sentry SDK when a DSN is configured', () => {
   const browser = createBrowser({ config: { sentryDsn: 'https://0123456789abcdef0123456789abcdef@o42.ingest.us.sentry.io/99' } });
   browser.run('monitoring');
   assert.equal(browser.window.LTMonitor.enabled, true);
-  assert.equal(browser.appended[0].src, 'https://js.sentry-cdn.com/0123456789abcdef0123456789abcdef.min.js');
-  assert.equal(typeof browser.window.sentryOnLoad, 'function');
+  assert.equal(browser.appended[0].src, 'js/vendor/sentry.min.js');
+  assert.equal(typeof browser.appended[0].onload, 'function');
 });
 
 test('an invalid DSN disables monitoring with a console warning', () => {
@@ -102,7 +102,7 @@ test('expected gameplay conditions are not reported as errors', async () => {
   assert.equal(browser.consoleLines.filter(([level]) => level === 'warn').length, 1);
 });
 
-test('errors raised before Sentry is ready are buffered and sent after sentryOnLoad', async () => {
+test('errors raised before Sentry is ready are buffered and sent once the SDK has loaded', async () => {
   const browser = createBrowser({
     config: { sentryDsn: 'https://0123456789abcdef0123456789abcdef@o42.ingest.sentry.io/99' },
     fetchImpl: async () => { throw new TypeError('Failed to fetch'); }
@@ -116,7 +116,7 @@ test('errors raised before Sentry is ready are buffered and sent after sentryOnL
     withScope: (fn) => fn({ setTag() {}, setContext() {}, setLevel() {} }),
     captureException: (error) => captured.push(error)
   };
-  browser.window.sentryOnLoad();
+  browser.appended[0].onload();
   assert.equal(captured.length, 1);
   assert.equal(captured[0].code, 'NETWORK_ERROR');
 });
