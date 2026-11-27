@@ -356,7 +356,7 @@ Dữ liệu thay đổi theo lựa chọn của người dùng (chủ đề, Tru
 | Ảnh không khai báo `width`/`height` | Thêm kích thước gốc `1200×957` cho logo; CSS vẫn quyết định kích thước hiển thị nên layout không đổi |
 | LCP request discovery (thiếu `fetchpriority=high`) | `<link rel="preload" as="image" fetchpriority="high">` cho ảnh LCP |
 | Script analytics/monitoring có thể làm chậm tải | `gtag.js` chỉ tải sau sự kiện `load`; Sentry SDK tự host tải `async`, không chặn hiển thị; mọi script dùng `defer` |
-| Improve image delivery (~1 MB logo PNG) | **Chưa xử lý.** Nhóm quyết định không thay đổi file ảnh trong đợt này (xem hạn chế bên dưới) |
+| Improve image delivery (~1 MB logo PNG) | Logo chuyển WebP (123 KB cho bản 800 px, PNG giữ làm fallback trong `<picture>`) — [PR #44](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/pull/44) |
 
 **Sau khi tối ưu** (đo lại cùng phương pháp, Lighthouse 13 headless, `bash tools/lighthouse-audit.sh`):
 
@@ -367,7 +367,7 @@ Dữ liệu thay đổi theo lựa chọn của người dùng (chủ đề, Tru
 | About — Mobile | 100 → 100 | 1.5 s → 1.3 s | 100 | 100 | 100 |
 | How to Play — Mobile | 99 → 100 | 1.6 s → 1.3 s | 100 | 100 | 100 |
 
-Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *failed* sang *passed*. FCP giảm khoảng 0.2–0.3 s trên mọi trang. Hạn chế còn lại: LCP mobile của trang Home vẫn khoảng 7.9 s vì phần tử LCP là `lets-talk-logo.png` dung lượng 1 MB. Muốn Performance mobile vượt 90 thì cần thêm một bản WebP đã nén. Báo cáo HTML đầy đủ ở [`docs/optimization/lighthouse/reports/`](docs/optimization/lighthouse/reports/), phân tích ở [`docs/optimization/lighthouse/README.md`](docs/optimization/lighthouse/README.md) §10. Bằng chứng sau tối ưu là các báo cáo Lighthouse HTML đầy đủ (mở được bằng trình duyệt) trong thư mục trên.
+Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *failed* sang *passed*. FCP giảm khoảng 0.2–0.3 s trên mọi trang. LCP mobile của trang Home khoảng 7.9 s là số đo **trước** khi nén logo (phần tử LCP khi đó là `lets-talk-logo.png` dung lượng 1 MB). Logo đã chuyển sang WebP 800 px (123 KB) ở [PR #44](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/pull/44); số đo Lighthouse sau thay đổi này sẽ được cập nhật ở M4-3 (#64). Báo cáo HTML đầy đủ ở [`docs/optimization/lighthouse/reports/`](docs/optimization/lighthouse/reports/), phân tích ở [`docs/optimization/lighthouse/README.md`](docs/optimization/lighthouse/README.md) §10. Bằng chứng sau tối ưu là các báo cáo Lighthouse HTML đầy đủ (mở được bằng trình duyệt) trong thư mục trên.
 
 ### (b) Error and user-behavior monitoring
 
@@ -388,7 +388,7 @@ Ba audit (unsized images, LCP discovery, render-blocking fonts) chuyển từ *f
   - Log: mỗi request ghi một dòng JSON (`time, level, requestId, method, path, status, durationMs`). Cùng một `requestId` xuất hiện ở response, Sentry và Render logs nên có thể truy vết một lỗi từ đầu đến cuối.
 - **Screenshot dashboard / error log:**
   - Frontend: lỗi thử bắn trên bản Vercel (cửa sổ ẩn danh, 26/11/2026) từ Chrome DevTools ở chế độ giả lập thiết bị nên Sentry ghi nhận trình duyệt "Mobile Safari/iOS". [Danh sách Issues](docs/optimization/monitoring/sentry-frontend-issue-list.png) · [Chi tiết issue `LETSTALKFRONTEND-1` (`environment: production`, đã che địa chỉ IP)](docs/optimization/monitoring/sentry-frontend-issue-detail.png)
-  - Backend: log Render xác nhận giám sát Sentry đã bật (log ngày 01/11/2026): [`render-sentry-enabled.png`](docs/optimization/monitoring/render-sentry-enabled.png). Chưa có ảnh một lỗi 5xx backend đã hiện trong Sentry.
+  - Backend: log Render xác nhận giám sát Sentry đã bật (chụp lại ngày 27/11/2026: dòng `[MONITORING] Sentry error monitoring enabled.` lúc khoảng 17:37 giờ Việt Nam, khi backend khởi động lại; ảnh cũ không đọc được ngày nên đã thay): [`render-sentry-enabled.png`](docs/optimization/monitoring/render-sentry-enabled.png). Chưa có ảnh một lỗi 5xx backend đã hiện trong Sentry.
   - Hạn chế: tiện ích chặn quảng cáo của trình duyệt chặn yêu cầu gửi lỗi tới Sentry (và GA) với `ERR_BLOCKED_BY_CLIENT`, nên người dùng có tiện ích này không gửi được lỗi. Chưa cấu hình `tunnel` của Sentry.
 
 Chi tiết và cách kiểm chứng: [`docs/11_Monitoring_and_Analytics.md`](docs/11_Monitoring_and_Analytics.md).
