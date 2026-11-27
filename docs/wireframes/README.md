@@ -11,7 +11,7 @@
 | Thiết kế ban đầu | Dự án Stitch "Let's Talk Party Game": các lần yêu cầu đầu tiên khoảng đầu tháng 11/2026 (thành viên xác nhận 05/11/2026; Stitch hiển thị "3w ago" tại ngày 26/11/2026) |
 | Bản tinh chỉnh (nguồn các ảnh ở đây) | Dự án Stitch "Let's Talk Game Prototype": lần chỉnh sửa gần nhất khoảng 20/11/2026 |
 | Ngày xuất ảnh | 26/11/2026 |
-| Ngày review & chốt | 08/11/2026 |
+| Review và chốt | Ngày 06/11/2026 nhóm duyệt thiết kế Stitch và gửi giảng viên; giảng viên nhận xét từ 06/11 đến 07/11/2026; ngày 08/11/2026 nhóm gửi giao diện đã lập trình và giảng viên nhận xét hiệu ứng ổn. Biên bản lập bổ sung ngày 27/11/2026 (không có biên bản gốc): [`docs/meetings/2026-11-06-design-review.md`](../meetings/2026-11-06-design-review.md) |
 
 ## Giải thích trung thực về cách thực hiện
 
@@ -38,4 +38,4 @@
 
 1. Chọn từng màn hình trong dự án Stitch → menu *More* → *Download* (file zip chứa `screen.png`), hoặc chụp màn hình.
 2. Đặt tên theo bảng trên rồi copy vào `docs/wireframes/`.
-3. Commit: `docs(wireframes): add Google Stitch UI designs
+3. Commit: `docs(wireframes): add Google Stitch UI designs`
