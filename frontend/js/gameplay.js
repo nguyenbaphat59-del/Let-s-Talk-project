@@ -48,6 +48,27 @@
     if (els.feedback) els.feedback.textContent = message;
   }
 
+  // Visible loading state while waiting for the Backend (issue #47).
+  // The free Render instance can need up to a minute to wake up, so a
+  // second message explains a slow first request instead of a frozen screen.
+  const SLOW_LOADING_MS = 6000;
+  let loadingTimer = null;
+
+  function startLoading(message) {
+    window.clearTimeout(loadingTimer);
+    feedback(message);
+    if (els.start) els.start.setAttribute('aria-busy', 'true');
+    loadingTimer = window.setTimeout(() => {
+      feedback('Still loading… The server may be waking up, this can take up to a minute on first use.');
+    }, SLOW_LOADING_MS);
+  }
+
+  function stopLoading() {
+    window.clearTimeout(loadingTimer);
+    loadingTimer = null;
+    if (els.start) els.start.removeAttribute('aria-busy');
+  }
+
   function showState(state) {
     [els.idle, els.reveal, els.activity, els.fate].forEach((element) => {
       if (element) element.hidden = element !== state;
@@ -306,9 +327,11 @@
   async function startTurn() {
     if (busy || !session) return;
     setBusy(true);
-    feedback('');
+    startLoading('Loading the next activity…');
     try {
       session = await window.LTSession.startNextActivity();
+      stopLoading();
+      feedback('');
       if (session.currentState === 'awaiting_fate') {
         await revealSelection('pick_your_fate');
         renderFateChoices();
@@ -317,6 +340,7 @@
         renderActivity();
       }
     } catch (error) {
+      stopLoading();
       console.error("[Let's Talk] Could not start the next activity:", error);
       if (error.code === 'NO_ELIGIBLE_ACTIVITY') {
         try {
@@ -330,6 +354,7 @@
         feedback(error.message || 'The activity could not be loaded. Please try again.');
       }
     } finally {
+      stopLoading();
       setBusy(false);
     }
   }
@@ -337,12 +362,16 @@
   async function selectFate(choice) {
     if (busy) return;
     setBusy(true);
+    startLoading('Revealing your fate…');
     try {
       session = await window.LTSession.resolveFate(choice);
+      stopLoading();
+      feedback('');
       createBurst();
       await wait(360);
       renderActivity();
     } catch (error) {
+      stopLoading();
       feedback(error.message || 'This choice is no longer available. Please choose another option.');
       if (error.code === 'CONTENT_POOL_EXHAUSTED') {
         try {
@@ -365,6 +394,7 @@
         } catch { /* Keep the last valid choice state. */ }
       }
     } finally {
+      stopLoading();
       setBusy(false);
     }
   }
@@ -372,13 +402,17 @@
   async function nextQuestionZone() {
     if (busy) return;
     setBusy(true);
+    startLoading('Loading a new question…');
     try {
       session = await window.LTSession.nextQuestionZone();
+      stopLoading();
       renderActivity();
       feedback('A new unused Question Zone prompt is ready. Your turn progress has not changed.');
     } catch (error) {
+      stopLoading();
       feedback(error.message || 'A new question could not be loaded.');
     } finally {
+      stopLoading();
       setBusy(false);
     }
   }
