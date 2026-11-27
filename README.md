@@ -62,6 +62,19 @@ LET'S TALK là web app party game giúp bạn bè và gia đình bớt nhìn đi
 *Ảnh chụp từ bản chạy local (`npm run dev:frontend`). Nội dung câu hỏi lấy từ seed production `database/seeds/002_production_content.sql`.*
 
 ---
+## Test nhanh
+
+Dành cho người đánh giá muốn thử toàn bộ luồng chơi trong vài phút:
+
+1. Mở https://let-s-talk-project-frontend.vercel.app. Backend chạy trên Render gói miễn phí nên lần đầu có thể mất 30–60 giây để thức dậy; nút **Start Playing** chỉ mở khi trang đã kiểm tra xong kết nối.
+2. Chọn chủ đề (Friends hoặc Family) và độ dài phiên (10 / 20 / Unlimited), rồi bấm **Start Playing**.
+3. Ở màn hình "Ready to Connect?", bấm **START TURN**. Hệ thống chọn ngẫu nhiên một trong bốn hoạt động (Question Zone, Pick Your Fate, Random Event, Hot Seat); làm theo hướng dẫn rồi bấm **Complete** hoặc **Pass**. Lặp lại vài lượt.
+4. Bấm **End Game** để sang trang Game Complete, rồi thử **Play Again** hoặc **Back to Home**.
+5. Thử trên điện thoại, hoặc Chrome DevTools ở chế độ thiết bị 390 px.
+
+Lưu ý: Custom Deck (bộ câu hỏi tự tạo) chưa có trên bản live.
+
+---
 
 ## Hướng Dẫn Cài Đặt và Chạy Ứng Dụng
 
@@ -145,7 +158,7 @@ Chi tiết: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 | Giao diện cơ bản (5 trang, responsive) | 20/11/2026 | Hoàn thành — `738ed76` |
 | Tích hợp database + API + trang động | 21/11/2026 | Hoàn thành — PR #3 (`a6bc8c3`), deploy Render (`a064c96`) |
 | Tối ưu & monitoring | 21/11/2026 – 26/11/2026 | Hoàn thành — GA4 + Sentry Frontend (PR #28, #38), logo WebP (PR #44) |
-| Peer review chéo (FocuSpace, Thai Tu Fashion) | 26/11/2026 – 28/11/2026 | Đang thực hiện — đã gửi FocuSpace#164 và thai_tu_fashion#51 ngày 26/11/2026, chờ phản hồi |
+| Peer review chéo (FocuSpace, Thai Tu Fashion) | 26/11/2026 – 28/11/2026 | Đang thực hiện — đã gửi FocuSpace#164 và thai_tu_fashion#51 ngày 26/11/2026; Thai Tu Fashion đã phản hồi ở issue #47 (xem Task 5(b)) |
 | Đóng băng code | 28/11/2026, 20:00 | Chưa đến |
 | Nộp bài | 29/11/2026 | Chưa nộp |
 
@@ -218,7 +231,7 @@ Glassmorphism, keyframe animation và component dùng chung (`.btn`, `.glass-pan
 | Khôi phục phiên | Tải lại trang vẫn giữ nguyên lượt hiện tại (Local Storage v2, có kiểm tra dữ liệu bị sửa) | `session.js`, `storage.js` | M3 |
 | Thông báo lỗi | Lỗi mạng, hết nội dung và phiên hỏng đều có thông báo dễ hiểu | `gameplay.js`, `homepage.js` | M2, M3 |
 
-**Kiểm thử:** `frontend/test/session.test.js` và `api.test.js` (session, chống lặp, khôi phục, xử lý lỗi), cùng kiểm thử thủ công trên 3 kích thước màn hình. Một lượt chơi đầu-cuối (setup → intro → 4 loại hoạt động → End Game → Complete) được chạy tự động bằng Playwright và không có lỗi console.
+**Kiểm thử:** `frontend/test/session.test.js` và `api.test.js` (session, chống lặp, khôi phục, xử lý lỗi), cùng kiểm thử thủ công trên 3 kích thước màn hình. Chưa có bộ kiểm thử tự động đầu-cuối (end-to-end); luồng setup → intro → 4 loại hoạt động → End Game → Complete được kiểm thử thủ công, kết quả do M4 tổng hợp (đang hoàn thiện).
 
 | Intro | Rules modal | End Game modal |
 |---|---|---|
@@ -380,8 +393,12 @@ Nhóm review 2 nhóm theo 3 tiêu chí (Usability, Aesthetics, User-Friendliness
 |---|---|---|---|
 | Giao diện Prototype 1 quá đơn giản, chưa hấp dẫn | Giảng viên | ✅ Đã thực hiện | Prototype 2 làm lại toàn bộ lớp hình ảnh (glass panel, gradient, mascot, animation) — `738ed76` |
 | Gameplay đơn điệu, chưa đủ hứng thú | Giảng viên | ✅ Đã thực hiện | 4 nhóm hoạt động ngẫu nhiên, intro, roulette (PRD v1.4) — `738ed76`, `a6bc8c3` |
+| "Chuyển trạng thái giữa các lượt chơi chưa có phản hồi tải trang rõ ràng" | Thai Tu Fashion (#47) | ✅ Đã thực hiện | Gameplay hiện thông báo đang tải và giải thích khi máy chủ phản hồi chậm — PR #69 (`2c25d61`), M3 đã kiểm tra với độ trễ 8000 ms |
+| "Một số khu vực trên màn hình nhỏ còn hơi chật"; ưu tiên 1: bố cục trên di động | Thai Tu Fashion (#47) | ⏸ Hoãn | Chưa kịp trước hạn nộp 29/11/2026; việc còn lại (vùng bấm ~44 px, cỡ chữ tối thiểu ≤599 px, kiểm tra 360/390 px) ghi trong `docs/peer-review/received-feedback.md`; #47 giữ mở |
+| Đã ghi rõ Custom Deck chưa có trên bản live; bảng đối chiếu wireframe ↔ live sẽ làm cùng M2-2 |
+| Ưu tiên 2: README hướng dẫn test nhanh | Thai Tu Fashion (#47) | ✅ Đã thực hiện | Thêm mục "Test nhanh" ở đầu README |
 
-Góp ý từ nhóm khác: nhóm đã nhờ FocuSpace (trong #164) và Thai Tu Fashion (trong #51) review lại Let's Talk ngày 26/11/2026; tính đến 26/11/2026 chưa nhận được góp ý nào. Khi có, góp ý sẽ được chép nguyên văn kèm link, quyết định và PR.
+Góp ý từ nhóm khác: ngày 26/11/2026 nhóm đã nhờ FocuSpace (trong #164) và Thai Tu Fashion (trong #51) review lại Let's Talk. Nhóm Thai Tu Fashion đã gửi góp ý trong issue [#47](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/issues/47) (khoảng 21:30 ngày 26/11/2026); nội dung nguyên văn, quyết định và PR tương ứng nằm trong nhật ký bên dưới. 
 
 Nhật ký đầy đủ và nguyên tắc ra quyết định: [`docs/peer-review/received-feedback.md`](docs/peer-review/received-feedback.md).
 
