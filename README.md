@@ -158,7 +158,7 @@ Chi tiết: [`docs/01_Team_Roles.md`](docs/01_Team_Roles.md).
 | Giao diện cơ bản (5 trang, responsive) | 20/11/2026 | Hoàn thành — `738ed76` |
 | Tích hợp database + API + trang động | 21/11/2026 | Hoàn thành — PR #3 (`a6bc8c3`), deploy Render (`a064c96`) |
 | Tối ưu & monitoring | 21/11/2026 – 26/11/2026 | Hoàn thành — GA4 + Sentry Frontend (PR #28, #38), logo WebP (PR #44) |
-| Peer review chéo (FocuSpace, Thai Tu Fashion) | 26/11/2026 – 28/11/2026 | Đang thực hiện — đã gửi FocuSpace#164 và thai_tu_fashion#51 ngày 26/11/2026, Đang thực hiện — đã gửi FocuSpace#164 và thai_tu_fashion#51 ngày 26/11/2026; Thai Tu Fashion đã phản hồi ở issue #47 (xem mục Task 5(b)), |
+| Peer review chéo (FocuSpace, Thai Tu Fashion) | 26/11/2026 – 28/11/2026 | Đang thực hiện — đã gửi FocuSpace#164 và thai_tu_fashion#51 ngày 26/11/2026; Thai Tu Fashion đã phản hồi ở issue #47 (xem Task 5(b)) |
 | Đóng băng code | 28/11/2026, 20:00 | Chưa đến |
 | Nộp bài | 29/11/2026 | Chưa nộp |
 
@@ -394,8 +394,8 @@ Nhóm review 2 nhóm theo 3 tiêu chí (Usability, Aesthetics, User-Friendliness
 | Giao diện Prototype 1 quá đơn giản, chưa hấp dẫn | Giảng viên | ✅ Đã thực hiện | Prototype 2 làm lại toàn bộ lớp hình ảnh (glass panel, gradient, mascot, animation) — `738ed76` |
 | Gameplay đơn điệu, chưa đủ hứng thú | Giảng viên | ✅ Đã thực hiện | 4 nhóm hoạt động ngẫu nhiên, intro, roulette (PRD v1.4) — `738ed76`, `a6bc8c3` |
 | "Chuyển trạng thái giữa các lượt chơi chưa có phản hồi tải trang rõ ràng" | Thai Tu Fashion (#47) | ✅ Đã thực hiện | Gameplay hiện thông báo đang tải và giải thích khi máy chủ phản hồi chậm — PR #69 (`2c25d61`), M3 đã kiểm tra với độ trễ 8000 ms |
-| "Một số khu vực trên màn hình nhỏ còn hơi chật"; ưu tiên 1: bố cục trên di động | Thai Tu Fashion (#47) | 🟨 Đang làm | Tăng vùng bấm và cỡ chữ trên màn hình nhỏ; sẽ ghi PR khi merge |
-| "Đối chiếu thêm giữa repo và bản chạy live" | Thai Tu Fashion (#47) | 🟨 Làm một phần | README ghi rõ phần chưa có trên bản live (Custom Deck đang phát triển), đã sửa câu khẳng định Playwright không có căn cứ ở mục 2(c); bảng đối chiếu wireframe ↔ live sẽ thêm ở mục 2(a) |
+| "Một số khu vực trên màn hình nhỏ còn hơi chật"; ưu tiên 1: bố cục trên di động | Thai Tu Fashion (#47) | ⏸ Hoãn | Chưa kịp trước hạn nộp 29/11/2026; việc còn lại (vùng bấm ~44 px, cỡ chữ tối thiểu ≤599 px, kiểm tra 360/390 px) ghi trong `docs/peer-review/received-feedback.md`; #47 giữ mở |
+| Đã ghi rõ Custom Deck chưa có trên bản live; bảng đối chiếu wireframe ↔ live sẽ làm cùng M2-2 |
 | Ưu tiên 2: README hướng dẫn test nhanh | Thai Tu Fashion (#47) | ✅ Đã thực hiện | Thêm mục "Test nhanh" ở đầu README |
 
 Góp ý từ nhóm khác: ngày 26/11/2026 nhóm đã nhờ FocuSpace (trong #164) và Thai Tu Fashion (trong #51) review lại Let's Talk. Nhóm Thai Tu Fashion đã gửi góp ý trong issue [#47](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/issues/47) (khoảng 21:30 ngày 26/11/2026); nội dung nguyên văn, quyết định và PR tương ứng nằm trong nhật ký bên dưới. 
