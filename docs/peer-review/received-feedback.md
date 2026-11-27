@@ -1,44 +1,73 @@
-# Lecturer Feedback and Improvement Process
+# Góp ý của giảng viên và quá trình cải tiến
 
-## 1. Initial Feedback – Prototype 1
+## 1. Góp ý ban đầu – Prototype 1
 
-During the first prototype review, the lecturer acknowledged that the team had a good direction and a clear concept for the website. However, the visual interface and gameplay experience were considered too simple and not engaging enough.
+Trong buổi review Prototype 1, giảng viên ghi nhận nhóm có định hướng tốt và ý tưởng website rõ ràng. Tuy nhiên, giao diện và trải nghiệm chơi được đánh giá là còn quá đơn giản, chưa đủ hấp dẫn.
 
-The main feedback focused on two areas:
+Góp ý chính tập trung vào hai mảng:
 
-- **User Interface:** The visual design needed more attention to create a more attractive and engaging experience.
-- **Gameplay Experience:** The gameplay was too basic and lacked excitement, which could make users feel bored during the game.
+- **Giao diện người dùng:** Thiết kế hình ảnh cần được chăm chút hơn để tạo trải nghiệm đẹp mắt và cuốn hút hơn.
+- **Trải nghiệm chơi:** Gameplay còn quá cơ bản và thiếu hứng khởi, có thể khiến người chơi thấy nhàm chán.
 
-## 2. Improvements – Prototype 2
+## 2. Cải tiến – Prototype 2
 
-Based on the lecturer's feedback, the team revised the prototype with a stronger focus on visual design and gameplay interaction.
+Dựa trên góp ý của giảng viên, nhóm chỉnh sửa prototype với trọng tâm là thiết kế hình ảnh và tương tác trong gameplay.
 
-The improvements included:
+Các cải tiến gồm:
 
-- Improving the overall visual design, layout, and color scheme.
-- Adding animations and visual effects to make interactions more engaging.
-- Improving the question selection and gameplay flow.
-- Creating a more enjoyable and interactive experience for players.
+- Cải thiện thiết kế tổng thể, bố cục và bảng màu.
+- Thêm hoạt ảnh và hiệu ứng hình ảnh để tương tác hấp dẫn hơn.
+- Cải thiện cách chọn câu hỏi và luồng chơi.
+- Tạo trải nghiệm thú vị và tương tác hơn cho người chơi.
 
-## 3. Re-evaluation
+## 3. Đánh giá lại
 
-After presenting the second prototype, the lecturer considered the revised direction acceptable.
+Sau khi trình bày Prototype 2, giảng viên cho rằng định hướng sau chỉnh sửa là chấp nhận được.
 
-This feedback confirmed that the changes addressed the main concerns raised during the first review. The team therefore continued developing the project based on the approved prototype direction.
+Góp ý này xác nhận các thay đổi đã giải quyết những vấn đề chính được nêu ở lần review đầu. Vì vậy nhóm tiếp tục phát triển dự án dựa trên định hướng prototype đã được chấp thuận.
 
-## 4. Feedback Log (Task 5b — Report Template format)
+## 4. Nhật ký góp ý (Task 5b — định dạng Report Template)
 
-> Add every feedback item received from the lecturer and from the reviewing teams. Implemented items should link the commit/PR and include before/after screenshots (`docs/peer-review/screenshots/`). Items that are not implemented must state the reason.
+> Ghi lại mọi góp ý nhận được từ giảng viên và các nhóm review. Mục đã thực hiện cần liên kết commit/PR và có ảnh trước/sau (`docs/peer-review/screenshots/`). Mục không thực hiện phải nêu lý do.
 
-| # | Feedback | Source | Decision | Reason / Commit |
+| # | Góp ý | Nguồn | Quyết định | Lý do / Commit / PR |
 |---|---|---|---|---|
-| 1 | The user interface of Prototype 1 is too simple and not engaging. | Lecturer (Prototype 1 review) | ✅ Implemented | Prototype 2 redesigned the visual layer (glass panels, gradients, mascot artwork, animations). Commit `738ed76` |
-| 2 | The gameplay is too simple and not exciting enough. | Lecturer (Prototype 1 review) | ✅ Implemented | Four automatic activity families (Question Zone, Pick Your Fate, Random Event, Hot Seat), a cinematic intro and a roulette reveal (PRD v1.4). Commits `738ed76`, `a6bc8c3` |
+| 1 | Giao diện của Prototype 1 quá đơn giản và chưa cuốn hút. | Giảng viên (review Prototype 1) | ✅ Đã thực hiện | Prototype 2 thiết kế lại lớp hình ảnh (kính mờ, gradient, hình mascot, hoạt ảnh). Commit `738ed76` |
+| 2 | Gameplay quá đơn giản, chưa đủ hứng khởi. | Giảng viên (review Prototype 1) | ✅ Đã thực hiện | Bốn nhóm hoạt động tự động (Question Zone, Pick Your Fate, Random Event, Hot Seat), đoạn intro điện ảnh và hiệu ứng roulette (PRD v1.4). Commit `738ed76`, `a6bc8c3` |
+| 3 | "chuyển trạng thái giữa các lượt chơi chưa có phản hồi tải trang rõ ràng" (#47, mục 2) | Nhóm Thai Tu Fashion (#47) | ✅ Đã thực hiện | Gameplay hiện thông báo đang tải kèm `aria-busy` khi bấm START TURN, chọn Fate và tải câu hỏi tiếp theo; sau 6 giây giải thích rằng máy chủ có thể đang thức dậy. PR #69 (merge commit `2c25d61`, commit `07271f4`), do M3 review và kiểm tra với throttling độ trễ 8000 ms |
+| 4 | "Một số khu vực trên màn hình nhỏ còn hơi chật" và ưu tiên 1: bố cục trên thiết bị di động (#47, mục 2 và 3) | Nhóm Thai Tu Fashion (#47) | 🟨 Đang làm | Tăng vùng bấm và cỡ chữ tối thiểu trên màn hình nhỏ; sẽ ghi link PR vào đây khi merge |
+| 5 | "Đối chiếu thêm giữa repo và bản chạy live" (#47, mục 2) | Nhóm Thai Tu Fashion (#47) | 🟨 Làm một phần | README đã ghi rõ phần chưa có trên bản live (Custom Deck còn đang phát triển) và sửa câu khẳng định Playwright không có căn cứ ở README mục 2(c). Bảng đối chiếu wireframe ↔ bản live sẽ bổ sung ở README mục 2(a) |
+| 6 | Ưu tiên 2: "Cập nhật README hướng dẫn sử dụng ngắn gọn để người đánh giá dễ test nhanh" (#47, mục 3) | Nhóm Thai Tu Fashion (#47) | ✅ Đã thực hiện | Thêm mục "Test nhanh" vào README |
 
-**Feedback from other teams:** on 26/11/2026 the team asked FocuSpace (in FocuSpace#164) and Thai Tu Fashion (in thai_tu_fashion#51) to review Let's Talk. As of 26/11/2026 no feedback has been received. Items will be added here verbatim, with a link, decision and PR, when they arrive.
+**Góp ý từ nhóm khác:** ngày 26/11/2026 nhóm đã nhờ FocuSpace (trong FocuSpace#164) và Thai Tu Fashion (trong thai_tu_fashion#51) review Let's Talk. Nhóm Thai Tu Fashion đã phản hồi bằng issue [#47](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/issues/47) ngày 26/11/2026 (khoảng 21:30). FocuSpace chưa phản hồi tính đến 09:55 ngày 27/11/2026.
 
-### Decision rules agreed by the team
+### Nguyên văn góp ý: issue #47
 
-- Feedback that improves usability or accessibility without changing the approved gameplay rules is implemented first.
-- Feedback that conflicts with the PRD (e.g. adding accounts, scores or online multiplayer, which PRD §1.3 rules out) is not implemented, and the reason is recorded above.
-- Each implemented item gets its own issue, branch (`fix/peer-feedback-<n>`) and PR that references the issue.
+Tiêu đề: `[UI/UX & Demo Review] Nhận xét từ Nguyễn Trần Minh Nguyên (nhóm ThaiTuFashion)`. Tác giả: `nguyen06-vn`. Quyết định và PR tương ứng nằm ở các dòng 3–6 của bảng trên.
+
+```text
+Chào nhóm Let-s-Talk-project
+
+Mình là Nguyễn Trần Minh Nguyên (nhóm ThaiTuFashion), sau khi xem repository và chạy thử bản deploy trên Vercel (`https://let-s-talk-project-frontend.vercel.app`), xin gửi đến nhóm một số nhận xét:
+
+ 1. Điểm mạnh
+-Ý tưởng và ngữ cảnh rõ ràng:Web party game trực tuyến cho bạn bè và gia đình dễ hiểu, đúng mục đích sử dụng.
+- Tổ chức repository & quy trình làm việc bài bản: Có tách rõ các thư mục (backend,database, docs, frontend, tools,github), có env.example, tài liệu thiết kế/wireframes trong docs, lịch sử commit/branch và PR rõ ràng.
+- Thêm 1 ý thực tế khi test web, ví dụ: Giao diện trang chủ trực quan, các nút điều hướng chính dễ nhận diện.
+
+2. Điểm cần cải thiện
+- Điền lỗi UI/UX hoặc trải nghiệm thực tế bạn gặp khi bấm thử, ví dụ: Một số khu vực trên màn hình nhỏ còn hơi chật ,chuyển trạng thái giữa các lượt chơi chưa có phản hồi tải trang rõ ràng.
+- Đối chiếu thêm giữa repo và bản chạy live, ví dụ: Một số nội dung tính năng ghi trong tài liệu hoặc commit chưa thấy hiển thị đầy đủ trên bản live.
+
+ 3. Đề xuất ưu tiên
+- Ưu tiên 1: Sửa các lỗi ảnh hưởng trực tiếp tới luồng chơi chính hoặc bố cục trên thiết bị di động.
+- Ưu tiên 2: Cập nhật README  hướng dẫn sử dụng ngắn gọn để người đánh giá dễ test nhanh toàn bộ luồng game.
+
+Cảm ơn nhóm đã chia sẻ bài làm, chúc nhóm hoàn thiện bản demo thật mượt!
+```
+
+### Quy tắc xử lý góp ý đã thống nhất trong nhóm
+
+- Góp ý cải thiện khả năng sử dụng hoặc tiếp cận mà không đổi luật chơi đã duyệt thì được thực hiện trước.
+- Góp ý mâu thuẫn với PRD (ví dụ thêm tài khoản, điểm số hoặc chơi trực tuyến nhiều người, những thứ PRD §1.3 đã loại trừ) thì không thực hiện, và lý do được ghi ở bảng trên.
+- Mỗi mục được thực hiện có issue, nhánh riêng (ví dụ `fix/47-gameplay-loading`) và PR tham chiếu tới issue.
