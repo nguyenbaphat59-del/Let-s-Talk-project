@@ -250,7 +250,7 @@ Glassmorphism, keyframe animation và component dùng chung (`.btn`, `.glass-pan
 | Khôi phục phiên | Tải lại trang vẫn giữ nguyên lượt hiện tại (Local Storage v2, có kiểm tra dữ liệu bị sửa) | `session.js`, `storage.js` | M3 |
 | Thông báo lỗi | Lỗi mạng, hết nội dung và phiên hỏng đều có thông báo dễ hiểu | `gameplay.js`, `homepage.js` | M2, M3 |
 
-**Kiểm thử:** `frontend/test/session.test.js` và `api.test.js` (session, chống lặp, khôi phục, xử lý lỗi), cùng kiểm thử thủ công trên 3 kích thước màn hình. Chưa có bộ kiểm thử tự động đầu-cuối (end-to-end); luồng setup → intro → 4 loại hoạt động → End Game → Complete được kiểm thử thủ công, kết quả do M4 tổng hợp (đang hoàn thiện).
+**Kiểm thử:** `frontend/test/session.test.js` và `api.test.js` (session, chống lặp, khôi phục, xử lý lỗi), cùng kiểm thử thủ công trên bản production: 19 ca, 17 đạt, 1 đạt một phần, 1 không đạt (chi tiết, ảnh và các phát hiện trong [`docs/12_Test_Report.md`](docs/12_Test_Report.md)). Chưa có bộ kiểm thử tự động đầu-cuối (end-to-end); luồng setup → intro → 4 loại hoạt động → End Game → Complete được kiểm thử thủ công ở màn hình desktop, chưa kiểm trên điện thoại trong báo cáo này.
 
 | Intro | Rules modal | End Game modal |
 |---|---|---|
