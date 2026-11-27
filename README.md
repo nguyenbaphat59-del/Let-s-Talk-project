@@ -414,7 +414,7 @@ Nhóm review 2 nhóm theo 3 tiêu chí (Usability, Aesthetics, User-Friendliness
 | Gameplay đơn điệu, chưa đủ hứng thú | Giảng viên | ✅ Đã thực hiện | 4 nhóm hoạt động ngẫu nhiên, intro, roulette (PRD v1.4) — `738ed76`, `a6bc8c3` |
 | "Chuyển trạng thái giữa các lượt chơi chưa có phản hồi tải trang rõ ràng" | Thai Tu Fashion (#47) | ✅ Đã thực hiện | Gameplay hiện thông báo đang tải và giải thích khi máy chủ phản hồi chậm — PR #69 (`2c25d61`), M3 đã kiểm tra với độ trễ 8000 ms |
 | "Một số khu vực trên màn hình nhỏ còn hơi chật"; ưu tiên 1: bố cục trên di động | Thai Tu Fashion (#47) | ⏸ Hoãn | Chưa kịp trước hạn nộp 29/11/2026; việc còn lại (vùng bấm ~44 px, cỡ chữ tối thiểu ≤599 px, kiểm tra 360/390 px) ghi trong `docs/peer-review/received-feedback.md`; #47 giữ mở |
-| Đã ghi rõ Custom Deck chưa có trên bản live; bảng đối chiếu wireframe ↔ live sẽ làm cùng M2-2 |
+| "Đối chiếu thêm giữa repo và bản chạy live" | Thai Tu Fashion (#47) | ✅ Đã thực hiện | README ghi rõ Custom Deck chưa có trên bản live (PR #70); bảng đối chiếu wireframe ↔ giao diện thật ở README 2(a), biên bản `docs/meetings/2026-11-06-design-review.md` (PR #72) |
 | Ưu tiên 2: README hướng dẫn test nhanh | Thai Tu Fashion (#47) | ✅ Đã thực hiện | Thêm mục "Test nhanh" ở đầu README |
 
 Góp ý từ nhóm khác: ngày 26/11/2026 nhóm đã nhờ FocuSpace (trong #164) và Thai Tu Fashion (trong #51) review lại Let's Talk. Nhóm Thai Tu Fashion đã gửi góp ý trong issue [#47](https://github.com/nguyenbaphat59-del/Let-s-Talk-project/issues/47) (khoảng 21:30 ngày 26/11/2026); nội dung nguyên văn, quyết định và PR tương ứng nằm trong nhật ký bên dưới. 
